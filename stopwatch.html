@@ -63,6 +63,13 @@
     .preset-pill { background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
     .preset-pill:hover { border-color: var(--primary); color: var(--text); }
     .laps-box { max-height: 200px; overflow-y: auto; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 14px; font-family: var(--font-mono); font-size: 13px; text-align: left; }
+    .guide-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 24px; margin: 24px 0; }
+    .guide-section h2 { font-size: 1.35rem; margin: 0 0 10px; }
+    .guide-section h3 { font-size: 1.05rem; margin: 20px 0 6px; }
+    .guide-section p, .guide-section li { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+    .guide-section ul { padding-left: 22px; margin: 8px 0; }
+    .guide-section a { color: var(--primary); text-decoration: underline; }
+
     .lap-item { display: flex; justify-content: space-between; padding: 6px 12px; border-radius: 6px; }
     .lap-item:nth-child(even) { background: var(--bg); }
     footer { text-align: center; padding: 28px 0 12px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--card-border); margin-top: 24px; }
@@ -82,7 +89,7 @@
         <button class="theme-toggle-btn" id="theme-toggle">☀️ Theme</button>
       </div>
       <h1>Free Online Stopwatch & Countdown Timer</h1>
-      <p class="subtitle">Hardware-synchronized atomic millisecond timing and focus intervals.</p>
+      <p class="subtitle">Measure elapsed time, record lap splits, and run a countdown timer for study, workouts, cooking, and focused work.</p>
     </header>
 
     <aside class="ad-banner-container">
@@ -130,11 +137,34 @@
       <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile</div>
     </aside>
 
+    <section class="guide-section" aria-labelledby="stopwatch-guide-title">
+      <h2 id="stopwatch-guide-title">How to Use the Online Stopwatch and Countdown Timer</h2>
+      <p>Use this free browser-based timer to measure elapsed time or count down from a selected duration. The controls run on your device, so you can use the timer without creating an account.</p>
+      <h3>Use the stopwatch</h3>
+      <ul>
+        <li>Select <strong>Start</strong> to begin measuring elapsed time.</li>
+        <li>Select <strong>Lap</strong> while the stopwatch is running to save a split time.</li>
+        <li>Select <strong>Pause</strong> to stop temporarily, or <strong>Reset</strong> to clear the elapsed time and lap list.</li>
+      </ul>
+      <h3>Use the countdown timer</h3>
+      <ul>
+        <li>Open the <strong>Countdown Timer</strong> tab and choose a preset such as 1, 5, 15, or 25 minutes.</li>
+        <li>Select <strong>Start</strong> to begin, <strong>Pause</strong> to stop temporarily, or <strong>+1 Min</strong> to add time.</li>
+        <li>Select <strong>Reset</strong> to return to the selected duration. When the countdown reaches zero, the browser may play a short sound if audio is available and permitted.</li>
+      </ul>
+      <h3>Frequently asked questions</h3>
+      <p><strong>Can I use this timer for studying?</strong><br>Yes. Choose the 25-minute preset for a Pomodoro-style focus session, or select a duration that suits your task.</p>
+      <p><strong>Does the timer need an account?</strong><br>No account is required. The stopwatch and countdown controls work directly in the page.</p>
+      <p><strong>Will the timer keep perfect time if I leave the tab?</strong><br>Browser scheduling and device settings can affect how often the display refreshes, especially in background tabs. For critical timing, use a dedicated timing device.</p>
+      <p>Need another utility? Try the <a href="word-counter.html">word and character counter</a>, the <a href="case-converter.html">text case converter</a>, or the <a href="universal-time.html">UTC world clock</a>.</p>
+    </section>
+
     <footer>
       <div class="footer-links">
         <a href="index.html">Home Hub</a>
         <a href="word-counter.html">Word Counter</a>
         <a href="case-converter.html">Case Converter</a>
+        <a href="universal-time.html">UTC Clock & Timer</a>
         <a href="stopwatch.html">Stopwatch & Timer</a>
       </div>
       <p>© 2026 OmniTool Global. All rights reserved.</p>

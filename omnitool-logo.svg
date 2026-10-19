@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="OmniTool Global logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111b35"/>
+      <stop offset="1" stop-color="#07111f"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67e8f9"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="27" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="30" fill="none" stroke="url(#cyan)" stroke-width="5"/>
+  <ellipse cx="64" cy="64" rx="13" ry="30" fill="none" stroke="#67e8f9" stroke-width="3.5"/>
+  <path d="M35 64h58M42 47h44M42 81h44" fill="none" stroke="#67e8f9" stroke-width="3.5" stroke-linecap="round"/>
+  <ellipse cx="64" cy="64" rx="48" ry="19" transform="rotate(-34 64 64)" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="99" cy="37" r="6" fill="#a5f3fc"/>
+</svg>

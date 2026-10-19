@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="omnitool-logo.svg">
+  <link rel="apple-touch-icon" href="omnitool-logo.svg">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self';">
   <title>Free Online Text Tools & UTC Clock | OmniTool Global</title>
   <meta name="description" content="Use free online tools to count words and characters, convert text case, check UTC time, and time tasks with a stopwatch. Fast, simple, and mobile-friendly.">
@@ -180,15 +182,19 @@
     .brand-icon {
       width: 32px;
       height: 32px;
+      flex: 0 0 32px;
       border-radius: 9px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 800;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      display: block;
+      overflow: hidden;
+      background: transparent;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.22);
+    }
+
+    .brand-icon img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .nav-actions {
@@ -558,7 +564,7 @@
   <aside class="sticky-secure-nav">
     <div class="sticky-nav-inner">
       <a href="index.html" class="brand-pill">
-        <span class="brand-icon">⚡</span>
+        <span class="brand-icon"><img src="omnitool-logo.svg" alt="OmniTool Global logo" width="32" height="32"></span>
         <span>OmniTool Global</span>
       </a>
       <div class="nav-actions">

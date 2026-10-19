@@ -1,0 +1,6 @@
+{
+  "name": "OmniTool Global – Word Counter, Case Converter & Stopwatch",
+  "description": "Free online all-in-one productivity suite: multi-language live word counter, universal text case converter, and high-precision stopwatch with countdown timer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

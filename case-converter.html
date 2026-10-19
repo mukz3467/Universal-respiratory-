@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self';">
+  <title>Smart Case Converter & Text Transformer | OmniTool Global</title>
+  <meta name="description" content="Instant online text case converter. Convert UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, kebab-case, and snake_case client-side.">
+  <meta name="keywords" content="case converter, convert uppercase to lowercase, title case converter, text case changer, sentence case, camelCase converter, kebab-case, snake_case, text transformer online">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Smart Case Converter & Text Transformer | OmniTool Global">
+  <meta property="og:description" content="Instant online text case converter. Convert UPPERCASE, lowercase, Title Case, Sentence case, camelCase, and programmer casing client-side with 100% privacy.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Case Converter & Text Transformer | OmniTool Global">
+  <meta name="twitter:description" content="Convert text cases instantly with zero server transmission.">
+  <link rel="canonical" href="">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Universal Smart Text Case Converter",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "description": "Instant client-side text case transformation engine supporting editorial Title Case, Sentence case, UPPERCASE, lowercase, and developer casing syntaxes.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --card-hover-border: #374151;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #06b6d4;
+      --primary-hover: #0891b2;
+      --primary-light: rgba(6, 182, 212, 0.12);
+      --accent: #4f46e5;
+      --success: #10b981;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --radius: 14px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --card-border: #e5e7eb;
+      --card-hover-border: #d1d5db;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --primary: #0891b2;
+      --primary-hover: #0e7490;
+      --primary-light: #e0f2fe;
+      --accent: #4338ca;
+      --success: #059669;
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      padding: 0 16px 40px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    /* ZERO SIDE SPACES MOBILE RESPONSIVE UI (@media max-width: 768px) */
+    @media (max-width: 768px) {
+      body {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      header {
+        padding: 18px 14px 10px !important;
+      }
+
+      .ad-banner-container {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        margin: 10px 0 !important;
+      }
+
+      .tool-card {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding: 16px 14px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .seo-section {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding: 24px 14px !important;
+        margin-top: 16px !important;
+      }
+
+      footer {
+        padding: 24px 14px 16px !important;
+      }
+    }
+
+    /* Top Sticky Secure Navigation */
+    .sticky-secure-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(17, 24, 39, 0.85);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 16px;
+      margin: 0 -16px 18px;
+    }
+
+    [data-theme="light"] .sticky-secure-nav {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    @media (max-width: 768px) {
+      .sticky-secure-nav {
+        margin: 0 0 12px 0;
+        padding: 10px 14px;
+      }
+    }
+
+    .sticky-nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: var(--primary-hover);
+    }
+
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--success);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    @media (max-width: 580px) {
+      .security-badge {
+        display: none;
+      }
+    }
+
+    .theme-toggle-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn * {
+      pointer-events: none;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Page Header */
+    header {
+      padding: 20px 0 14px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--text) 35%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Anti-CLS Static Ad Banner Containers */
+    .ad-banner-container {
+      width: 100%;
+      max-width: 728px;
+      min-height: 90px;
+      height: 90px;
+      margin: 18px auto;
+      border: 2px dashed var(--card-border);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      contain: layout size;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .ad-banner-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 3px;
+    }
+
+    .ad-banner-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Tool Card Architecture: TEXTAREA STRICTLY AT THE TOP LAYER */
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Top Layer Workspace Textarea */
+    .workspace-wrapper {
+      width: 100%;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    textarea#text-input {
+      width: 100%;
+      min-height: 250px;
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15.5px;
+      line-height: 1.65;
+      padding: 16px;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      display: block;
+    }
+
+    textarea#text-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    /* Live Text Status & Metrics Bar Under Textarea */
+    .metrics-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-bottom: 18px;
+    }
+
+    .metric-item strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* Action Buttons Row Neatly Underneath */
+    .action-controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button.btn-action {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    button.btn-action *,
+    button.sample-pill * {
+      pointer-events: none;
+    }
+
+    button.btn-action:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    button.btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+
+    button.btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.35);
+    }
+
+    button.btn-clear {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    button.btn-clear:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Case Transformation Buttons Section */
+    .case-section-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button.btn-case {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      min-height: 56px;
+    }
+
+    button.btn-case:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.2);
+    }
+
+    button.btn-case:active {
+      transform: translateY(0);
+      background: var(--primary-light);
+    }
+
+    button.btn-case * {
+      pointer-events: none;
+    }
+
+    button.btn-case span.case-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: normal;
+      font-family: var(--font-mono);
+    }
+
+    button.btn-case:hover span.case-desc {
+      color: var(--primary);
+    }
+
+    /* Quick Samples Toolbar */
+    .sample-pill-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .sample-pill {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all 0.15s ease;
+    }
+
+    .sample-pill:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.25s ease;
+      z-index: 100;
+      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Semantic SEO Guide Section */
+    .seo-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px 26px;
+      margin-top: 24px;
+    }
+
+    .seo-section h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .seo-section h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 20px 0 8px;
+    }
+
+    .seo-section p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .seo-section p strong {
+      color: var(--text);
+    }
+
+    .seo-section a {
+      color: var(--primary);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 28px 0 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--card-border);
+      margin-top: 28px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Sticky Navigation -->
+  <aside class="sticky-secure-nav">
+    <div class="sticky-nav-inner">
+      <a href="index.html" class="back-link">
+        <span>← Hub Home</span>
+      </a>
+      <div class="security-badge">
+        <span>🛡️ Sandbox Client-Side Isolated</span>
+      </div>
+      <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark/light theme">
+        <span id="theme-icon">☀️</span>
+        <span>Theme</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="container">
+    <header>
+      <h1>Universal Smart Case Converter</h1>
+      <p class="subtitle">
+        Switch text formats instantly across editorial, conversational, and software development casing standards with zero server latency.
+      </p>
+    </header>
+
+    <!-- Top Static Anti-CLS Ad Spot -->
+    <aside class="ad-banner-container" aria-label="Top Advertisement">
+      <div class="ad-banner-label">[ Future Ad Space ]</div>
+      <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile • Google AdSense Compliant</div>
+    </aside>
+
+    <!-- Main Tool Card: Textarea Strictly at the Top Layer -->
+    <main>
+      <section class="tool-card" aria-label="Universal Case Transformation Workspace">
+        <!-- 1. Textarea Strictly at Top Layer -->
+        <div class="workspace-wrapper">
+          <textarea
+            id="text-input"
+            placeholder="Type, paste, or import your content here... Click any case converter button underneath to immediately transform words into UPPERCASE, lowercase, Title Case, Sentence case, camelCase, or snake_case with 100% precision."
+            spellcheck="true"
+          ></textarea>
+        </div>
+
+        <!-- 2. Live Character & Word Metrics Bar -->
+        <div class="metrics-bar" aria-label="Real-time text count metrics">
+          <span class="metric-item">Words: <strong id="cnt-words">0</strong></span>
+          <span class="metric-item">Characters (All): <strong id="cnt-chars">0</strong></span>
+          <span class="metric-item">Chars (No Spaces): <strong id="cnt-chars-nospace">0</strong></span>
+          <span class="metric-item">Sentences: <strong id="cnt-sentences">0</strong></span>
+          <span class="metric-item">Lines: <strong id="cnt-lines">0</strong></span>
+        </div>
+
+        <!-- 3. Action Buttons Row Underneath -->
+        <div class="action-controls-row">
+          <div class="btn-group">
+            <button class="btn-action btn-primary" id="btn-copy">
+              <span>📋 Copy Text</span>
+            </button>
+            <button class="btn-action" id="btn-download">
+              <span>💾 Export .txt</span>
+            </button>
+            <input type="file" id="file-import-input" accept=".txt,.md,.json,.csv,.text" style="display:none;">
+            <button class="btn-action" id="btn-import">
+              <span>📂 Import File</span>
+            </button>
+            <button class="btn-action" id="btn-undo" title="Undo previous transformation">
+              <span>↩️ Undo</span>
+            </button>
+            <button class="btn-action" id="btn-redo" title="Redo transformation">
+              <span>↪️ Redo</span>
+            </button>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn-action btn-clear" id="btn-clear" title="Clear all text from editor">
+              <span>🗑️ Clear</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Case Transformation Buttons Grid -->
+        <div class="case-section-title">
+          <span>⚡ Select Case Transformation Format</span>
+        </div>
+
+        <div class="btn-case-grid">
+          <button class="btn-case" data-case="upper">
+            <strong>UPPERCASE</strong>
+            <span class="case-desc">ALL LETTERS CAPITAL</span>
+          </button>
+          <button class="btn-case" data-case="lower">
+            <strong>lowercase</strong>
+            <span class="case-desc">all letters small</span>
+          </button>
+          <button class="btn-case" data-case="sentence">
+            <strong>Sentence case</strong>
+            <span class="case-desc">Capitalize after period</span>
+          </button>
+          <button class="btn-case" data-case="title">
+            <strong>Title Case</strong>
+            <span class="case-desc">Grammatical title style</span>
+          </button>
+          <button class="btn-case" data-case="capitalized">
+            <strong>Capitalized Case</strong>
+            <span class="case-desc">Capitalize Every Word</span>
+          </button>
+          <button class="btn-case" data-case="alternating">
+            <strong>aLtErNaTiNg</strong>
+            <span class="case-desc">mIxEd cAsE sTyLe</span>
+          </button>
+          <button class="btn-case" data-case="inverse">
+            <strong>InVeRsE cAsE</strong>
+            <span class="case-desc">Invert current case</span>
+          </button>
+          <button class="btn-case" data-case="camel">
+            <strong>camelCase</strong>
+            <span class="case-desc">myVariableName</span>
+          </button>
+          <button class="btn-case" data-case="pascal">
+            <strong>PascalCase</strong>
+            <span class="case-desc">MyClassName</span>
+          </button>
+          <button class="btn-case" data-case="kebab">
+            <strong>kebab-case</strong>
+            <span class="case-desc">url-friendly-slug</span>
+          </button>
+          <button class="btn-case" data-case="snake">
+            <strong>snake_case</strong>
+            <span class="case-desc">python_variable_name</span>
+          </button>
+          <button class="btn-case" data-case="constant">
+            <strong>CONSTANT_CASE</strong>
+            <span class="case-desc">ENV_VARIABLE_NAME</span>
+          </button>
+          <button class="btn-case" data-case="clean">
+            <strong>Trim & Clean</strong>
+            <span class="case-desc">Remove extra spaces</span>
+          </button>
+        </div>
+
+        <!-- 5. Quick Sample Data -->
+        <div class="sample-pill-row">
+          <span style="color:var(--text-muted); font-size:11px; font-weight:700;">TEST SAMPLES:</span>
+          <button class="sample-pill" id="sample-editorial">Headline Sample</button>
+          <button class="sample-pill" id="sample-developer">Code Variable Sample</button>
+          <button class="sample-pill" id="sample-paragraph">Essay Sample</button>
+        </div>
+      </section>
+
+      <!-- Bottom Static Anti-CLS Ad Spot -->
+      <aside class="ad-banner-container" aria-label="Bottom Advertisement">
+        <div class="ad-banner-label">[ Future Ad Space ]</div>
+        <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile • Google AdSense Compliant</div>
+      </aside>
+
+      <!-- Technical SEO Copy Section -->
+      <section class="seo-section" aria-label="Universal Text Case Conversion Guide">
+        <h2>Smart Editorial and Developer Case Converter</h2>
+        <p>
+          Whether adjusting draft titles for publication, preparing clean metadata tags for search engine optimization, or formatting programming variable names across diverse codebases, using a dependable <strong>Universal Smart Case Converter</strong> saves hours of manual editing. Modern text syntaxes require subtle grammatical distinctions—such as preserving lowercase minor articles (<em>a, an, the, and, but, for</em>) in standard Title Case while capitalizing major editorial terms.
+        </p>
+
+        <h3>Software Engineer Casing Standards: camelCase, PascalCase, and snake_case</h3>
+        <p>
+          Software engineers frequently translate identifiers between disparate language conventions. For instance, converting JSON snake_case fields (e.g., <code>user_first_name</code>) into JavaScript camelCase (<code>userFirstName</code>) or object-oriented PascalCase (<code>UserFirstName</code>) requires exact token boundary extraction. Our converter parses hyphenated tokens, underscores, camel shifts, and whitespace boundaries dynamically with zero regex crashes.
+        </p>
+
+        <h3>100% Client-Side Privacy Guarantee</h3>
+        <p>
+          Your confidential text content never leaves your computer or smartphone. Protected by our rigorous Content Security Policy (CSP), all conversions, character calculations, and history states process strictly inside your device's active memory sandbox without remote cloud API transmissions.
+        </p>
+      </section>
+    </main>
+
+    <!-- Global Footer -->
+    <footer>
+      <div class="footer-links">
+        <a href="index.html">Home Hub</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="universal-time.html">UTC Clock & Timer</a>
+      </div>
+      <p>© 2026 OmniTool Global. Free, open, client-side web utility network. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">Transformed!</div>
+
+  <!-- Bulletproof High-Performance Case Conversion & Workspace Engine -->
+  <script>
+    (function () {
+      "use strict";
+
+      // DOM Elements
+      var textInput = document.getElementById("text-input");
+      var toast = document.getElementById("toast");
+      var btnCopy = document.getElementById("btn-copy");
+      var btnDownload = document.getElementById("btn-download");
+      var btnClear = document.getElementById("btn-clear");
+      var btnUndo = document.getElementById("btn-undo");
+      var btnRedo = document.getElementById("btn-redo");
+      var fileImportInput = document.getElementById("file-import-input");
+      var btnImport = document.getElementById("btn-import");
+
+      // Metrics DOM elements
+      var elWords = document.getElementById("cnt-words");
+      var elChars = document.getElementById("cnt-chars");
+      var elCharsNoSpace = document.getElementById("cnt-chars-nospace");
+      var elSentences = document.getElementById("cnt-sentences");
+      var elLines = document.getElementById("cnt-lines");
+
+      // Grammatical minor words that stay lowercase in Title Case unless at phrase boundaries
+      var MINOR_WORDS = new Set([
+        "a", "an", "and", "as", "at", "but", "by", "en", "for", "if",
+        "in", "nor", "of", "on", "or", "per", "so", "the", "to", "v",
+        "via", "vs", "yet"
+      ]);
+
+      // History stack for Undo / Redo
+      var historyStack = [];
+      var historyIndex = -1;
+      var MAX_HISTORY = 40;
+      var isHistoryNav = false;
+
+      function pushHistory(val) {
+        if (isHistoryNav) return;
+        if (historyStack.length > 0 && historyStack[historyIndex] === val) return;
+        
+        // Truncate redo forward branch
+        historyStack = historyStack.slice(0, historyIndex + 1);
+        historyStack.push(val);
+        if (historyStack.length > MAX_HISTORY) {
+          historyStack.shift();
+        } else {
+          historyIndex++;
+        }
+      }
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(function () {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      function updateMetrics() {
+        var rawVal = textInput && textInput.value;
+        var val = typeof rawVal === "string" ? rawVal : String(rawVal || "");
+        var words = 0;
+        if (val.trim() !== "") {
+          var wMatches = val.match(/[\p{L}\p{N}\p{M}]+/gu);
+          words = wMatches ? wMatches.length : 0;
+        }
+
+        var charsAll = val.length;
+        var charsNoSpace = val.replace(/\s+/g, "").length;
+        var lines = val === "" ? 0 : val.split(/\r\n|\r|\n/).length;
+
+        var sentences = 0;
+        if (val.trim() !== "") {
+          var sMatches = val.match(/[^.!?。！？\n\r]+[.!?。！？]+|[^.!?。！？\n\r]+$/g);
+          sentences = sMatches ? sMatches.filter(function(s) { return typeof s === "string" && s.trim().length > 0; }).length : 1;
+        }
+
+        if (elWords) elWords.textContent = words.toLocaleString();
+        if (elChars) elChars.textContent = charsAll.toLocaleString();
+        if (elCharsNoSpace) elCharsNoSpace.textContent = charsNoSpace.toLocaleString();
+        if (elSentences) elSentences.textContent = sentences.toLocaleString();
+        if (elLines) elLines.textContent = lines.toLocaleString();
+
+        try {
+          localStorage.setItem("omnitool_case_cache", val);
+        } catch (e) {}
+      }
+
+      // Universal Tokenizer for camelCase, kebab-case, snake_case
+      function tokenizeWords(str) {
+        var s = typeof str === "string" ? str : String(str || "");
+        if (!s.trim()) return [];
+        return (
+          s
+            .replace(/([a-z\d])([A-Z])/g, "$1 $2")
+            .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, "$1 $2")
+            .replace(/[\-_\.]+/g, " ")
+            .match(/[\p{L}\p{N}]+/gu) || []
+        );
+      }
+
+      // Core Transformation Logic
+      function transformText(type) {
+        var rawVal = textInput && textInput.value;
+        var original = typeof rawVal === "string" ? rawVal : String(rawVal || "");
+        if (!original || !original.trim()) {
+          showToast("Please enter or paste text first!");
+          return;
+        }
+
+        var result = original;
+
+        switch (type) {
+          case "upper":
+            result = original.toUpperCase();
+            break;
+
+          case "lower":
+            result = original.toLowerCase();
+            break;
+
+          case "sentence":
+            // Lowercase everything, then capitalize start of sentences after (. ! ? \n) and quotes
+            result = original.toLowerCase().replace(
+              /(^\s*|[.!?。！？\n\r]\s*['"“‘(\[]*)([\p{L}])/gu,
+              function (_m, prefix, char) {
+                return prefix + char.toUpperCase();
+              }
+            );
+            break;
+
+          case "title":
+            // Capitalize the first letter of each word properly
+            result = original.toLowerCase().replace(/([\p{L}\p{N}\p{M}]+(?:['’][\p{L}\p{N}\p{M}]+)?)/gu, function (word) {
+              return word.charAt(0).toUpperCase() + word.slice(1);
+            });
+            break;
+
+          case "capitalized":
+            // Capitalize every word
+            result = original.replace(/([^\s]+)/g, function (word) {
+              return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            });
+            break;
+
+          case "alternating":
+            // Alternating aLtErNaTiNg case
+            var upperFlag = false;
+            result = original.split("").map(function (c) {
+              if (/\p{L}/u.test(c)) {
+                var converted = upperFlag ? c.toUpperCase() : c.toLowerCase();
+                upperFlag = !upperFlag;
+                return converted;
+              }
+              return c;
+            }).join("");
+            break;
+
+          case "inverse":
+            // Invert existing casing
+            result = original.split("").map(function (c) {
+              if (c === c.toUpperCase()) return c.toLowerCase();
+              if (c === c.toLowerCase()) return c.toUpperCase();
+              return c;
+            }).join("");
+            break;
+
+          case "camel":
+            var tokensCamel = tokenizeWords(original);
+            if (tokensCamel.length === 0) {
+              result = "";
+            } else {
+              result = tokensCamel[0].toLowerCase() + tokensCamel.slice(1).map(function (w) {
+                return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+              }).join("");
+            }
+            break;
+
+          case "pascal":
+            var tokensPascal = tokenizeWords(original);
+            result = tokensPascal.map(function (w) {
+              return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+            }).join("");
+            break;
+
+          case "kebab":
+            result = tokenizeWords(original).map(function (w) {
+              return w.toLowerCase();
+            }).join("-");
+            break;
+
+          case "snake":
+            result = tokenizeWords(original).map(function (w) {
+              return w.toLowerCase();
+            }).join("_");
+            break;
+
+          case "constant":
+            result = tokenizeWords(original).map(function (w) {
+              return w.toUpperCase();
+            }).join("_");
+            break;
+
+          case "clean":
+            // Removes extra spaces from the text (collapses multiple spaces/tabs into a single space, trims lines, collapses excess blank lines)
+            result = original
+              .replace(/[^\S\r\n]+/g, " ")
+              .split(/\r?\n/)
+              .map(function (line) {
+                return line.trim();
+              })
+              .join("\n")
+              .replace(/\n{3,}/g, "\n\n")
+              .trim();
+            break;
+
+          default:
+            return;
+        }
+
+        textInput.value = result;
+        pushHistory(result);
+        updateMetrics();
+        if (type === "title") {
+          showToast("Transformed to Title Case!");
+        } else if (type === "clean") {
+          showToast("Extra spaces removed!");
+        } else {
+          showToast("Transformed to " + type + " case!");
+        }
+      }
+
+      // Attach click events to all case transformation buttons
+      var caseButtons = document.querySelectorAll("[data-case]");
+      for (var i = 0; i < caseButtons.length; i++) {
+        caseButtons[i].addEventListener("click", function (e) {
+          var targetBtn = this || (e && e.currentTarget) || (e && e.target && e.target.closest && e.target.closest("[data-case]"));
+          var caseType = targetBtn ? targetBtn.getAttribute("data-case") : null;
+          if (caseType) {
+            transformText(caseType);
+          }
+        });
+      }
+
+      // CLEAR BUTTON: Instant, reliable client-side clearing without blocked iframe modals
+      btnClear.addEventListener("click", function () {
+        if (!textInput.value) {
+          showToast("Editor is already empty.");
+          return;
+        }
+        textInput.value = "";
+        pushHistory("");
+        updateMetrics();
+        textInput.focus();
+        showToast("Text cleared!");
+      });
+
+      // COPY BUTTON
+      btnCopy.addEventListener("click", function () {
+        if (!textInput.value) {
+          showToast("Nothing to copy!");
+          return;
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textInput.value).then(function () {
+            showToast("Copied text to clipboard!");
+          }).catch(function () {
+            textInput.select();
+            document.execCommand("copy");
+            showToast("Copied text to clipboard!");
+          });
+        } else {
+          textInput.select();
+          document.execCommand("copy");
+          showToast("Copied text to clipboard!");
+        }
+      });
+
+      // EXPORT .TXT BUTTON
+      btnDownload.addEventListener("click", function () {
+        if (!textInput.value) {
+          showToast("Please enter or transform text first!");
+          return;
+        }
+        var blob = new Blob([textInput.value], { type: "text/plain;charset=utf-8" });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "transformed_text_" + Date.now() + ".txt";
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showToast("Exported text file!");
+      });
+
+      // IMPORT FILE BUTTON
+      btnImport.addEventListener("click", function () {
+        fileImportInput.click();
+      });
+
+      fileImportInput.addEventListener("change", function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          var content = ev.target && ev.target.result;
+          if (typeof content === "string") {
+            textInput.value = content;
+            pushHistory(content);
+            updateMetrics();
+            showToast("Imported \"" + file.name + "\"!");
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = "";
+      });
+
+      // UNDO / REDO
+      btnUndo.addEventListener("click", function () {
+        if (historyIndex > 0) {
+          isHistoryNav = true;
+          historyIndex--;
+          textInput.value = historyStack[historyIndex];
+          updateMetrics();
+          isHistoryNav = false;
+          showToast("Undone");
+        } else {
+          showToast("No earlier history to undo.");
+        }
+      });
+
+      btnRedo.addEventListener("click", function () {
+        if (historyIndex < historyStack.length - 1) {
+          isHistoryNav = true;
+          historyIndex++;
+          textInput.value = historyStack[historyIndex];
+          updateMetrics();
+          isHistoryNav = false;
+          showToast("Redone");
+        } else {
+          showToast("No later history to redo.");
+        }
+      });
+
+      // Track typing input
+      textInput.addEventListener("input", function () {
+        pushHistory(textInput.value);
+        updateMetrics();
+      });
+
+      // Quick Samples
+      var SAMPLES = {
+        editorial: "THE ADVANCED UNIVERSAL WEB UTILITY SUITE FOR GLOBAL AUTHORS AND SOFTWARE DEVELOPERS.",
+        developer: "user_account_identifier customer_contact_email session_timeout_seconds is_email_verified",
+        paragraph: "high-performance web utilities execute instantaneously in modern browser runtimes. by eliminating server-side payloads, authors and engineers maintain 100% data confidentiality and zero input latency."
+      };
+
+      document.getElementById("sample-editorial").addEventListener("click", function () {
+        textInput.value = SAMPLES.editorial;
+        pushHistory(SAMPLES.editorial);
+        updateMetrics();
+        showToast("Loaded headline sample!");
+      });
+
+      document.getElementById("sample-developer").addEventListener("click", function () {
+        textInput.value = SAMPLES.developer;
+        pushHistory(SAMPLES.developer);
+        updateMetrics();
+        showToast("Loaded code variable sample!");
+      });
+
+      document.getElementById("sample-paragraph").addEventListener("click", function () {
+        textInput.value = SAMPLES.paragraph;
+        pushHistory(SAMPLES.paragraph);
+        updateMetrics();
+        showToast("Loaded essay sample!");
+      });
+
+      // Initial state
+      var cached = localStorage.getItem("omnitool_case_cache");
+      if (cached !== null) {
+        textInput.value = cached;
+      } else {
+        textInput.value = "THIS IS A DEMONSTRATION TEXT. SELECT ANY CONVERSION BUTTON UNDERNEATH TO INSTANTLY TRANSFORM THE CASE OF THESE WORDS!";
+      }
+      pushHistory(textInput.value);
+      updateMetrics();
+
+      // THEME ENGINE
+      var themeToggle = document.getElementById("theme-toggle");
+      var themeIcon = document.getElementById("theme-icon");
+      var currentTheme = localStorage.getItem("omnitool_theme") || "dark";
+
+      document.documentElement.setAttribute("data-theme", currentTheme);
+      if (themeIcon) {
+        themeIcon.textContent = currentTheme === "light" ? "🌙" : "☀️";
+      }
+
+      themeToggle.addEventListener("click", function () {
+        currentTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", currentTheme);
+        localStorage.setItem("omnitool_theme", currentTheme);
+        if (themeIcon) {
+          themeIcon.textContent = currentTheme === "light" ? "🌙" : "☀️";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

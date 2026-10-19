@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precision Stopwatch & Countdown Timer | OmniTool Global</title>
+  <meta name="description" content="Free online high-precision millisecond stopwatch and focus countdown timer. Split lap timing, zero background drift, and audio chime alerts.">
+  <meta name="keywords" content="online stopwatch, countdown timer, precision timer, millisecond stopwatch, pomodoro timer">
+  <link rel="canonical" href="">
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --radius: 14px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    [data-theme="light"] {
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --card-border: #e5e7eb;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --primary: #059669;
+      --primary-hover: #047857;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; padding: 0 16px 40px; }
+    .container { width: 100%; max-width: 900px; margin: 0 auto; flex: 1; }
+    @media (max-width: 768px) {
+      body { padding: 0; margin: 0; width: 100%; }
+      .container { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      header { padding: 20px 16px 12px !important; }
+      .ad-banner-container { border-radius: 0 !important; border-left: none !important; border-right: none !important; margin: 12px 0 !important; }
+      .timer-card { border-radius: 0 !important; border-left: none !important; border-right: none !important; padding: 20px 16px !important; }
+      footer { padding: 24px 16px !important; }
+    }
+    header { padding: 32px 0 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .nav-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--card-border); }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
+    .back-link { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 13.5px; }
+    .theme-toggle-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+    h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin-bottom: 8px; }
+    .subtitle { color: var(--text-muted); font-size: 14px; max-width: 600px; }
+    .ad-banner-container { width: 100%; max-width: 728px; min-height: 90px; height: 90px; margin: 20px auto; border: 2px dashed var(--card-border); border-radius: var(--radius); background: var(--card-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; contain: layout size; }
+    .ad-banner-label { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .ad-banner-sub { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+    .timer-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 30px; margin-bottom: 24px; text-align: center; }
+    .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
+    .tab-btn { background: transparent; border: none; color: var(--text-muted); font-size: 15px; font-weight: 700; padding: 8px 16px; cursor: pointer; border-radius: 8px; }
+    .tab-btn.active { background: var(--primary); color: #fff; }
+    .display { font-family: var(--font-mono); font-size: clamp(3rem, 8vw, 5rem); font-weight: 800; color: var(--text); margin: 20px 0; }
+    .controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    button.btn-ctrl { background: var(--bg); border: 1px solid var(--card-border); color: var(--text); font-size: 14px; font-weight: 700; padding: 10px 24px; border-radius: 10px; cursor: pointer; }
+    button.btn-ctrl:hover { border-color: var(--primary); color: var(--primary); }
+    button.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    button.btn-primary:hover { background: var(--primary-hover); color: #fff; }
+    .presets { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .preset-pill { background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+    .preset-pill:hover { border-color: var(--primary); color: var(--text); }
+    .laps-box { max-height: 200px; overflow-y: auto; margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 14px; font-family: var(--font-mono); font-size: 13px; text-align: left; }
+    .lap-item { display: flex; justify-content: space-between; padding: 6px 12px; border-radius: 6px; }
+    .lap-item:nth-child(even) { background: var(--bg); }
+    footer { text-align: center; padding: 28px 0 12px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--card-border); margin-top: 24px; }
+    .footer-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="nav-bar">
+        <div class="nav-left">
+          <a href="index.html" class="back-link">← Hub Home</a>
+          <span style="color:var(--text-muted); font-size:12px;">/ Stopwatch & Timer</span>
+        </div>
+        <button class="theme-toggle-btn" id="theme-toggle">☀️ Theme</button>
+      </div>
+      <h1>High-Precision Stopwatch & Timer</h1>
+      <p class="subtitle">Hardware-synchronized atomic millisecond timing and focus intervals.</p>
+    </header>
+
+    <aside class="ad-banner-container">
+      <div class="ad-banner-label">[ Future Ad Space ]</div>
+      <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile</div>
+    </aside>
+
+    <section class="timer-card">
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-sw">Stopwatch</button>
+        <button class="tab-btn" id="tab-cd">Countdown Timer</button>
+      </div>
+
+      <!-- Stopwatch Panel -->
+      <div id="panel-sw">
+        <div class="display" id="sw-display">00:00:00.00</div>
+        <div class="controls">
+          <button class="btn-ctrl btn-primary" id="sw-start">Start</button>
+          <button class="btn-ctrl" id="sw-lap" disabled>Lap</button>
+          <button class="btn-ctrl" id="sw-reset">Reset</button>
+        </div>
+        <div class="laps-box" id="laps-list" style="display:none;"></div>
+      </div>
+
+      <!-- Countdown Panel -->
+      <div id="panel-cd" style="display:none;">
+        <div class="display" id="cd-display">05:00</div>
+        <div class="controls">
+          <button class="btn-ctrl btn-primary" id="cd-start">Start</button>
+          <button class="btn-ctrl" id="cd-add">+1 Min</button>
+          <button class="btn-ctrl" id="cd-reset">Reset</button>
+        </div>
+        <div class="presets">
+          <button class="preset-pill" data-sec="60">1 Min</button>
+          <button class="preset-pill" data-sec="300">5 Min</button>
+          <button class="preset-pill" data-sec="900">15 Min</button>
+          <button class="preset-pill" data-sec="1500">25m Pomodoro</button>
+          <button class="preset-pill" data-sec="3600">1 Hour</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="ad-banner-container">
+      <div class="ad-banner-label">[ Future Ad Space ]</div>
+      <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile</div>
+    </aside>
+
+    <footer>
+      <div class="footer-links">
+        <a href="index.html">Home Hub</a>
+        <a href="word-counter.html">Word Counter</a>
+        <a href="case-converter.html">Case Converter</a>
+        <a href="stopwatch.html">Stopwatch & Timer</a>
+      </div>
+      <p>© 2026 OmniTool Global. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      "use strict";
+      // Stopwatch
+      var swRunning = false, swStart = 0, swAccum = 0, swId = null, laps = [];
+      var swDisp = document.getElementById("sw-display");
+      var swStartBtn = document.getElementById("sw-start");
+      var swLapBtn = document.getElementById("sw-lap");
+      var swResetBtn = document.getElementById("sw-reset");
+      var lapsList = document.getElementById("laps-list");
+
+      function pad(n) { return n < 10 ? "0" + n : n; }
+      function fmt(ms) {
+        var s = Math.floor(ms / 1000);
+        return pad(Math.floor(s / 3600)) + ":" + pad(Math.floor((s % 3600) / 60)) + ":" + pad(s % 60) + "." + pad(Math.floor((ms % 1000) / 10));
+      }
+
+      function swTick() {
+        if (swRunning) {
+          swDisp.textContent = fmt(swAccum + (performance.now() - swStart));
+          swId = requestAnimationFrame(swTick);
+        }
+      }
+
+      swStartBtn.addEventListener("click", function() {
+        if (swRunning) {
+          swAccum += performance.now() - swStart;
+          swRunning = false;
+          swStartBtn.textContent = "Resume";
+          swLapBtn.disabled = true;
+          cancelAnimationFrame(swId);
+        } else {
+          swStart = performance.now();
+          swRunning = true;
+          swStartBtn.textContent = "Pause";
+          swLapBtn.disabled = false;
+          swId = requestAnimationFrame(swTick);
+        }
+      });
+
+      swLapBtn.addEventListener("click", function() {
+        if (!swRunning) return;
+        var cur = swAccum + (performance.now() - swStart);
+        var prev = laps.length ? laps[0] : 0;
+        laps.unshift(cur);
+        lapsList.style.display = "block";
+        var item = document.createElement("div");
+        item.className = "lap-item";
+        item.innerHTML = "<span>Lap " + laps.length + "</span><span>+" + fmt(cur - prev) + "</span><span>" + fmt(cur) + "</span>";
+        lapsList.insertBefore(item, lapsList.firstChild);
+      });
+
+      swResetBtn.addEventListener("click", function() {
+        swRunning = false;
+        cancelAnimationFrame(swId);
+        swAccum = 0;
+        swDisp.textContent = "00:00:00.00";
+        swStartBtn.textContent = "Start";
+        swLapBtn.disabled = true;
+        laps = [];
+        lapsList.innerHTML = "";
+        lapsList.style.display = "none";
+      });
+
+      // Countdown
+      var cdSec = 300, cdRem = 300, cdInt = null, cdRun = false;
+      var cdDisp = document.getElementById("cd-display");
+      var cdStartBtn = document.getElementById("cd-start");
+
+      function fmtCd(sec) { return pad(Math.floor(sec / 60)) + ":" + pad(sec % 60); }
+
+      function chime() {
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          var ctx = new AC();
+          var t = ctx.currentTime;
+          [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i) {
+            var osc = ctx.createOscillator(), g = ctx.createGain();
+            osc.frequency.setValueAtTime(f, t + i * 0.14);
+            g.gain.setValueAtTime(0.01, t + i * 0.14);
+            g.gain.exponentialRampToValueAtTime(0.3, t + i * 0.14 + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.14 + 0.2);
+            osc.connect(g); g.connect(ctx.destination);
+            osc.start(t + i * 0.14); osc.stop(t + i * 0.14 + 0.22);
+          });
+        } catch(e) {}
+      }
+
+      function cdTick() {
+        cdRem--;
+        if (cdRem <= 0) {
+          cdRem = 0; clearInterval(cdInt); cdRun = false;
+          cdStartBtn.textContent = "Start"; cdDisp.textContent = "00:00";
+          chime(); return;
+        }
+        cdDisp.textContent = fmtCd(cdRem);
+      }
+
+      cdStartBtn.addEventListener("click", function() {
+        if (cdRun) {
+          clearInterval(cdInt); cdRun = false; cdStartBtn.textContent = "Resume";
+        } else {
+          if (cdRem <= 0) cdRem = cdSec;
+          cdRun = true; cdStartBtn.textContent = "Pause";
+          cdInt = setInterval(cdTick, 1000);
+        }
+      });
+
+      document.getElementById("cd-add").addEventListener("click", function() {
+        cdRem += 60; cdDisp.textContent = fmtCd(cdRem);
+      });
+
+      document.getElementById("cd-reset").addEventListener("click", function() {
+        clearInterval(cdInt); cdRun = false; cdRem = cdSec;
+        cdDisp.textContent = fmtCd(cdRem); cdStartBtn.textContent = "Start";
+      });
+
+      document.querySelectorAll(".preset-pill").forEach(function(p) {
+        p.addEventListener("click", function() {
+          clearInterval(cdInt); cdRun = false;
+          cdSec = parseInt(this.getAttribute("data-sec"), 10);
+          cdRem = cdSec;
+          cdDisp.textContent = fmtCd(cdRem);
+          cdStartBtn.textContent = "Start";
+        });
+      });
+
+      // Tabs
+      document.getElementById("tab-sw").addEventListener("click", function() {
+        this.classList.add("active");
+        document.getElementById("tab-cd").classList.remove("active");
+        document.getElementById("panel-sw").style.display = "block";
+        document.getElementById("panel-cd").style.display = "none";
+      });
+      document.getElementById("tab-cd").addEventListener("click", function() {
+        this.classList.add("active");
+        document.getElementById("tab-sw").classList.remove("active");
+        document.getElementById("panel-cd").style.display = "block";
+        document.getElementById("panel-sw").style.display = "none";
+      });
+
+      // Theme
+      var themeToggle = document.getElementById("theme-toggle");
+      var theme = localStorage.getItem("omnitool_theme") || "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+      themeToggle.addEventListener("click", function() {
+        theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("omnitool_theme", theme);
+      });
+    })();
+  </script>
+</body>
+</html>

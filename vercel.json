@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "word-counter.html", "use": "@vercel/static" },
+    { "src": "case-converter.html", "use": "@vercel/static" },
+    { "src": "universal-time.html", "use": "@vercel/static" },
+    { "src": "stopwatch.html", "use": "@vercel/static" },
+    { "src": "robots.txt", "use": "@vercel/static" }
+  ]
+}

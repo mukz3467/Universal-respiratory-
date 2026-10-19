@@ -6,6 +6,7 @@
     { "src": "case-converter.html", "use": "@vercel/static" },
     { "src": "universal-time.html", "use": "@vercel/static" },
     { "src": "stopwatch.html", "use": "@vercel/static" },
-    { "src": "robots.txt", "use": "@vercel/static" }
+    { "src": "robots.txt", "use": "@vercel/static" },
+    { "src": "omnitool-logo.svg", "use": "@vercel/static" }
   ]
 }

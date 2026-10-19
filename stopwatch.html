@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="https://universal-respiratory.vercel.app/stopwatch.html">
   <meta property="og:url" content="https://universal-respiratory.vercel.app/stopwatch.html">
-  <title>Online Stopwatch with Lap Timer & Countdown | OmniTool Global</title>
-  <meta name="description" content="Use a free online stopwatch with lap timing, pause and resume controls, and a countdown timer. Ideal for workouts, study sessions, and focused work.">
+  <title>Online Stopwatch Timer & Full Screen Stopwatch | OmniTool Global</title>
+  <meta name="description" content="Use this free online stopwatch timer with full-screen mode, lap times, pause and resume controls, and a countdown timer for study, workouts, and everyday tasks.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Online Stopwatch with Lap Timer & Countdown | OmniTool Global">
-  <meta property="og:description" content="Use a free online stopwatch with lap timing, pause and resume controls, and a countdown timer. Ideal for workouts, study sessions, and focused work.">
+  <meta property="og:title" content="Online Stopwatch Timer & Full Screen Stopwatch | OmniTool Global">
+  <meta property="og:description" content="Use this free online stopwatch timer with full-screen mode, lap times, pause and resume controls, and a countdown timer for study, workouts, and everyday tasks.">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Online Stopwatch with Lap Timer & Countdown | OmniTool Global">
-  <meta name="twitter:description" content="Use a free online stopwatch with lap timing, pause and resume controls, and a countdown timer. Ideal for workouts, study sessions, and focused work.">
+  <meta name="twitter:title" content="Online Stopwatch Timer & Full Screen Stopwatch | OmniTool Global">
+  <meta name="twitter:description" content="Use this free online stopwatch timer with full-screen mode, lap times, pause and resume controls, and a countdown timer for study, workouts, and everyday tasks.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Online Stopwatch with Lap Timer and Countdown",
+    "name": "Online Stopwatch Timer with Full Screen Mode",
     "url": "https://universal-respiratory.vercel.app/stopwatch.html",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "All",
-    "description": "Use a free online stopwatch with lap timing, pause and resume controls, and a countdown timer. Ideal for workouts, study sessions, and focused work.",
+    "description": "Use this free online stopwatch timer with full-screen mode, lap times, pause and resume controls, and a countdown timer for study, workouts, and everyday tasks.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
@@ -108,8 +108,8 @@
         </div>
         <button class="theme-toggle-btn" id="theme-toggle">☀️ Theme</button>
       </div>
-      <h1>Free Online Stopwatch with Lap Timer & Countdown</h1>
-      <p class="subtitle">Measure elapsed time, record lap splits, and run a countdown timer for study, workouts, cooking, and focused work.</p>
+      <h1>Online Stopwatch Timer with Full Screen Mode</h1>
+      <p class="subtitle">Use a free online stopwatch timer in full-screen mode, record lap splits, or switch to the countdown timer for study, workouts, cooking, and focused work.</p>
     </header>
 
     <aside class="ad-banner-container">
@@ -130,6 +130,7 @@
           <button class="btn-ctrl btn-primary" id="sw-start">Start</button>
           <button class="btn-ctrl" id="sw-lap" disabled>Lap</button>
           <button class="btn-ctrl" id="sw-reset">Reset</button>
+          <button class="btn-ctrl" id="sw-fullscreen" type="button">Full Screen</button>
         </div>
         <div class="laps-box" id="laps-list" style="display:none;"></div>
       </div>
@@ -158,8 +159,14 @@
     </aside>
 
     <section class="guide-section" aria-labelledby="stopwatch-guide-title">
-      <h2 id="stopwatch-guide-title">How to Use the Online Stopwatch and Countdown Timer</h2>
-      <p>Use this free browser-based timer to measure elapsed time or count down from a selected duration. The controls run on your device, so you can use the timer without creating an account.</p>
+      <h2 id="stopwatch-guide-title">Online Stopwatch Timer: Full-Screen Mode and How to Use It</h2>
+      <p>Use this free online stopwatch timer to measure elapsed time, record lap splits, or count down from a selected duration. Switch to full-screen mode for a larger display. The controls run in your browser without requiring an account.</p>
+      <h3>Use the full-screen online stopwatch</h3>
+      <ul>
+        <li>Select <strong>Full Screen</strong> to expand the timer card when your browser supports fullscreen mode.</li>
+        <li>Select <strong>Exit Full Screen</strong> or use your browser’s exit control to return to the normal page view.</li>
+        <li>On some mobile browsers, fullscreen mode may be restricted by the browser or device.</li>
+      </ul>
       <h3>Use the stopwatch</h3>
       <ul>
         <li>Select <strong>Start</strong> to begin measuring elapsed time.</li>
@@ -241,6 +248,27 @@
         item.className = "lap-item";
         item.innerHTML = "<span>Lap " + laps.length + "</span><span>+" + fmt(cur - prev) + "</span><span>" + fmt(cur) + "</span>";
         lapsList.insertBefore(item, lapsList.firstChild);
+      });
+
+      var swFullscreenBtn = document.getElementById("sw-fullscreen");
+      var timerCard = document.querySelector(".timer-card");
+      swFullscreenBtn.addEventListener("click", function() {
+        if (!document.fullscreenElement) {
+          if (timerCard && timerCard.requestFullscreen) {
+            timerCard.requestFullscreen().then(function() {
+              swFullscreenBtn.textContent = "Exit Full Screen";
+            }).catch(function() {
+              swFullscreenBtn.textContent = "Full Screen";
+            });
+          } else {
+            swFullscreenBtn.textContent = "Full Screen unavailable";
+          }
+        } else if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      });
+      document.addEventListener("fullscreenchange", function() {
+        swFullscreenBtn.textContent = document.fullscreenElement ? "Exit Full Screen" : "Full Screen";
       });
 
       swResetBtn.addEventListener("click", function() {

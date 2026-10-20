@@ -32,6 +32,18 @@
     {
       "src": "sitemap.xml",
       "use": "@vercel/static"
+    },
+    {
+      "src": "text-utility-dashboard.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "universal-clock-dashboard.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "word-counter-dashboard.png",
+      "use": "@vercel/static"
     }
   ],
   "headers": [

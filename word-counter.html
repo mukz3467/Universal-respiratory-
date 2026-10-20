@@ -732,6 +732,23 @@
       color: var(--text-muted);
       font-size: 13px;
     }
+  
+    /* Social media bio and headline character counter */
+    .social-counter-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 24px; margin: 24px 0; }
+    .social-counter-card h2 { font-size: 1.4rem; margin-bottom: 8px; }
+    .social-counter-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 14px; }
+    .social-counter-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; margin: 16px 0 12px; }
+    .social-counter-controls label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .social-counter-controls select { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--card-border); border-radius: 8px; padding: 11px; font: inherit; }
+    #social-bio-text { width: 100%; min-height: 130px; padding: 14px; resize: vertical; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: var(--text); font: inherit; line-height: 1.6; }
+    #social-bio-text:focus, .social-counter-controls select:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .social-count-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+    #social-count-status { font-family: var(--font-mono); font-weight: 800; color: var(--primary); }
+    #social-count-remaining { font-size: 13px; color: var(--text-muted); }
+    #social-count-remaining.over-limit { color: #ef4444; font-weight: 800; }
+    .social-limit-note { font-size: 12px !important; margin-top: 12px; margin-bottom: 0 !important; }
+    @media (max-width: 560px) { .social-counter-controls { grid-template-columns: 1fr; } .social-counter-card { border-radius: 0; border-left: none; border-right: none; padding: 22px 14px; } }
+
   </style>
 </head>
 <body>
@@ -899,6 +916,33 @@
         <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile • Google AdSense & Media.net Compliant</div>
       </aside>
 
+
+      <section class="social-counter-card" aria-labelledby="social-counter-title">
+        <h2 id="social-counter-title">Social Media Bio Character Counter</h2>
+        <p>Check your Instagram bio, X (Twitter) bio, or LinkedIn headline length before you publish. Choose a platform, write or paste your text, and see the character count update instantly.</p>
+        <div class="social-counter-controls">
+          <div>
+            <label for="social-platform">Choose a profile field</label>
+            <select id="social-platform">
+              <option value="instagram">Instagram bio — 150 characters</option>
+              <option value="x">X (Twitter) bio — 160 characters</option>
+              <option value="linkedin">LinkedIn headline — 220 characters</option>
+            </select>
+          </div>
+          <div>
+            <label>Character limit</label>
+            <div id="social-platform-limit" aria-live="polite">150 characters</div>
+          </div>
+        </div>
+        <label for="social-bio-text" style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">Your bio or headline</label>
+        <textarea id="social-bio-text" maxlength="5000" placeholder="Write or paste your social media bio here..."></textarea>
+        <div class="social-count-row">
+          <span id="social-count-status" aria-live="polite">0 / 150 characters</span>
+          <span id="social-count-remaining">150 characters remaining</span>
+        </div>
+        <p class="social-limit-note">Limits can change and may vary by profile field or account type. Check the platform's own editor before publishing. This counter runs in your browser; it does not connect to your social accounts.</p>
+      </section>
+
       <!-- Powerful Elite On-Page SEO Section (350+ Words with Target Keywords, Image, and Outbound Equity) -->
       <section class="seo-section" aria-label="How to use the online word and character counter">
         <h2>Free Online Word Counter and Character Counter</h2>
@@ -965,6 +1009,30 @@
       var elReading = document.getElementById("metric-reading");
       var elSpeaking = document.getElementById("metric-speaking");
       var toast = document.getElementById("toast");
+
+      var socialPlatform = document.getElementById("social-platform");
+      var socialBioText = document.getElementById("social-bio-text");
+      var socialPlatformLimit = document.getElementById("social-platform-limit");
+      var socialCountStatus = document.getElementById("social-count-status");
+      var socialCountRemaining = document.getElementById("social-count-remaining");
+      var SOCIAL_LIMITS = { instagram: 150, x: 160, linkedin: 220 };
+
+      function refreshSocialBioCount() {
+        var limit = SOCIAL_LIMITS[socialPlatform.value] || 150;
+        var count = Array.from(socialBioText.value).length;
+        var remaining = limit - count;
+        socialPlatformLimit.textContent = limit + " characters";
+        socialCountStatus.textContent = count + " / " + limit + " characters";
+        socialCountRemaining.textContent = remaining >= 0
+          ? remaining + (remaining === 1 ? " character remaining" : " characters remaining")
+          : Math.abs(remaining) + (remaining === -1 ? " character over the limit" : " characters over the limit");
+        socialCountRemaining.classList.toggle("over-limit", remaining < 0);
+      }
+
+      socialPlatform.addEventListener("change", refreshSocialBioCount);
+      socialBioText.addEventListener("input", refreshSocialBioCount);
+      refreshSocialBioCount();
+
 
       // Format seconds into readable string
       function formatDuration(sec) {

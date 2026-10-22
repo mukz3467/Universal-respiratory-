@@ -1,49 +1,38 @@
-import { google } from 'googleapis';
+const SITE_URL = 'https://universal-respiratory.vercel.app';
 
-const credentials = JSON.parse(process.env.GOOGLE_CREDS);
-
-const auth = new google.auth.JWT({
-email: credentials.client_email,
-key: credentials.private_key.replace(/\n/g, '\n'),
-scopes: [
-'https://www.googleapis.com/auth/indexing'
-]
-});
-
-const indexing = google.indexing({
-version: 'v3',
-auth
-});
-
-const urlsToIndex = [
-'https://YOUR-DOMAIN.vercel.app/',
-'https://YOUR-DOMAIN.vercel.app/word-counter.html',
-'https://YOUR-DOMAIN.vercel.app/case-converter.html',
-'https://YOUR-DOMAIN.vercel.app/universal-time.html',
-'https://YOUR-DOMAIN.vercel.app/stopwatch.html'
+const urlsToCheck = [
+  '/',
+  '/word-counter.html',
+  '/case-converter.html',
+  '/universal-time.html',
+  '/stopwatch.html',
+  '/robots.txt',
+  '/sitemap.xml',
 ];
 
-async function sendIndexRequest() {
-for (const url of urlsToIndex) {
-try {
-const response = await indexing.urlNotifications.publish({
-requestBody: {
-url,
-type: 'URL_UPDATED'
+async function checkUrl(path) {
+  const url = new URL(path, SITE_URL).toString();
+  const response = await fetch(url, { redirect: 'follow' });
+  console.log(`${response.status} ${url}`);
+  if (!response.ok) {
+    throw new Error(`URL check failed with HTTP ${response.status}: ${url}`);
+  }
+  return { url, body: path === '/sitemap.xml' ? await response.text() : '' };
 }
+
+async function main() {
+  const results = await Promise.all(urlsToCheck.map(checkUrl));
+  const sitemap = results.find((item) => item.url.endsWith('/sitemap.xml'));
+  if (!sitemap?.body.includes('<urlset') && !sitemap?.body.includes('<sitemapindex')) {
+    throw new Error('sitemap.xml does not contain a valid sitemap root element.');
+  }
+
+  console.log('All site URLs and sitemap checks passed.');
+  console.log('This workflow checks crawl readiness only. Google controls crawling and indexing.');
+  console.log('Google Indexing API is restricted to eligible JobPosting and livestream pages; it is not for ordinary utility pages.');
+}
+
+main().catch((error) => {
+  console.error(error.message);
+  process.exit(1);
 });
-
-  console.log(`Successfully submitted: ${url}`);
-  console.log(response.data);
-
-} catch (error) {
-  console.error(
-    `Error for ${url}:`,
-    error.response?.data || error.message
-  );
-}
-
-}
-}
-
-sendIndexRequest();

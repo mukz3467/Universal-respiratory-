@@ -1,24 +1,120 @@
-name: Google Crawl Readiness Check
+name: Google Crawl Monitor and Sitemap Submit
 
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * *"
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: https://universal-respiratory.vercel.app
+  SITEMAP_URL: https://universal-respiratory.vercel.app/sitemap.xml
 
 jobs:
   crawl-readiness:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Check public pages and Googlebot access
+        shell: bash
+        run: |
+          set -euo pipefail
+          pages=("/" "/word-counter.html" "/case-converter.html" "/universal-time.html" "/stopwatch.html")
+          for path in "${pages[@]}"; do
+            url="${SITE_URL}${path}"
+            body="$(mktemp)"
+            code="$(curl --location --silent --show-error --output "$body" --write-out '%{http_code}' --max-time 30 "$url")"
+            echo "Browser request: HTTP $code $url"
+            if [[ "$code" != "200" ]]; then echo "::error::Page did not finish with HTTP 200: $url"; exit 1; fi
+            if grep -Eiq '<meta[^>]+name=["\x27]robots["\x27][^>]+content=["\x27][^"\x27]*noindex|<meta[^>]+content=["\x27][^"\x27]*noindex[^>]*name=["\x27]robots["\x27]' "$body"; then echo "::error::Robots meta tag appears to contain noindex: $url"; exit 1; fi
+            if ! grep -Eiq '<title[^>]*>[^<]+' "$body"; then echo "::error::No readable HTML title found: $url"; exit 1; fi
+            if ! grep -Eiq '<h1([[:space:]>])' "$body"; then echo "::error::No H1 heading found: $url"; exit 1; fi
+            bot_code="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 -A 'Googlebot' "$url")"
+            echo "Googlebot user-agent request: HTTP $bot_code $url"
+            if [[ "$bot_code" != "200" ]]; then echo "::error::Googlebot user-agent request did not finish with HTTP 200: $url"; exit 1; fi
+            rm -f "$body"
+          done
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      - name: Validate robots.txt and sitemap
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/robots.txt" -o /tmp/robots.txt
+          curl --location --silent --show-error --fail --max-time 30 "$SITEMAP_URL" -o /tmp/sitemap.xml
+          grep -Eqi '<urlset([[:space:]>])|<sitemapindex([[:space:]>])' /tmp/sitemap.xml || { echo "::error::Invalid sitemap root element"; exit 1; }
+          grep -Fq "Sitemap: $SITEMAP_URL" /tmp/robots.txt || { echo "::error::robots.txt does not reference sitemap"; exit 1; }
+          pages=("/" "/word-counter.html" "/case-converter.html" "/universal-time.html" "/stopwatch.html")
+          for path in "${pages[@]}"; do
+            expected="${SITE_URL}${path}"
+            grep -Fq "<loc>${expected}</loc>" /tmp/sitemap.xml || { echo "::error::Sitemap is missing ${expected}"; exit 1; }
+            echo "Sitemap includes: $expected"
+          done
 
-      - name: Check live pages, robots.txt, and sitemap.xml
-        run: node index-script.js
+      - name: Submit sitemap to Google Search Console
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${GOOGLE_SERVICE_ACCOUNT:-}" ]]; then
+            echo "::warning::GOOGLE_SERVICE_ACCOUNT secret is missing. Sitemap submission was skipped; public crawl checks still ran."
+            exit 0
+          fi
+          python -m pip install --quiet google-auth requests
+          python - <<'PY'
+          import base64, json, os, sys
+          from urllib.parse import quote
+          import requests
+          from google.oauth2 import service_account
+          from google.auth.transport.requests import Request
+
+          raw = os.environ["GOOGLE_SERVICE_ACCOUNT"].strip()
+          try:
+              info = json.loads(raw)
+          except json.JSONDecodeError:
+              try:
+                  info = json.loads(base64.b64decode(raw).decode("utf-8"))
+              except Exception:
+                  print("::error::GOOGLE_SERVICE_ACCOUNT is neither valid JSON nor base64-encoded JSON.")
+                  sys.exit(1)
+
+          if not isinstance(info, dict) or "client_email" not in info or "private_key" not in info:
+              print("::error::Service account JSON is missing client_email or private_key.")
+              sys.exit(1)
+          if isinstance(info.get("private_key"), str):
+              info["private_key"] = info["private_key"].replace("\\n", "\n")
+
+          try:
+              credentials = service_account.Credentials.from_service_account_info(info, scopes=["https://www.googleapis.com/auth/webmasters"])
+              credentials.refresh(Request())
+          except Exception as exc:
+              print(f"::error::Could not authenticate service account ({type(exc).__name__}). Check secret format; never print the key.")
+              sys.exit(1)
+
+          site_url = os.environ["SITE_URL"].rstrip("/") + "/"
+          sitemap_url = os.environ["SITEMAP_URL"]
+          endpoint = "https://www.googleapis.com/webmasters/v3/sites/" + quote(site_url, safe="") + "/sitemaps/" + quote(sitemap_url, safe="")
+          try:
+              response = requests.put(endpoint, headers={"Authorization": f"Bearer {credentials.token}"}, timeout=30)
+          except requests.RequestException as exc:
+              print(f"::error::Sitemap submission request failed ({type(exc).__name__}).")
+              sys.exit(1)
+          if response.status_code in (200, 204):
+              print(f"Successfully submitted sitemap to Search Console: {sitemap_url}")
+              print("Submission confirmation is not proof of indexing.")
+          else:
+              print(f"::error::Google Search Console returned HTTP {response.status_code}.")
+              print(response.text[:1000])
+              print("Check Search Console property ownership for the service-account email and confirm the Search Console API is enabled.")
+              sys.exit(1)
+          PY
+
+      - name: Explain the result
+        if: always()
+        run: |
+          echo "This workflow checks crawl readiness and submits the sitemap when valid authorized credentials are configured."
+          echo "It cannot send URL Inspection indexing requests. Google's Indexing API is limited to eligible job-posting and livestream pages."
+          echo "Sitemap submission is a discovery signal, not an indexing guarantee."

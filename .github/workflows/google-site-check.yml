@@ -46,9 +46,10 @@ jobs:
         env:
           GOOGLE_CREDS: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
         run: |
+          set -euo pipefail
           if [ -z "$GOOGLE_CREDS" ]; then
-            echo "::warning::Automatic Google submission skipped: add the service-account JSON content as repository Actions secret GOOGLE_SERVICE_ACCOUNT."
-            exit 0
+            echo "::error::Repository secret GOOGLE_SERVICE_ACCOUNT is empty or unavailable to this workflow."
+            exit 1
           fi
           npm init -y >/dev/null
           npm install googleapis --no-audit --no-fund
@@ -56,7 +57,28 @@ jobs:
           const { google } = require('googleapis');
 
           async function main() {
-            const credentials = JSON.parse(process.env.GOOGLE_CREDS);
+            let credentials;
+            try {
+              credentials = JSON.parse(process.env.GOOGLE_CREDS);
+            } catch {
+              throw new Error('GOOGLE_SERVICE_ACCOUNT is not valid JSON. Paste the complete downloaded service-account JSON file as the secret value.');
+            }
+
+            if (!credentials.client_email || !credentials.private_key) {
+              throw new Error('Service-account JSON is missing client_email or private_key. Use the complete JSON key file.');
+            }
+
+            // Handle copied keys that contain literal backslash-n sequences or Windows line endings.
+            credentials.private_key = credentials.private_key
+              .replace(/\\n/g, '\n')
+              .replace(/\r\n/g, '\n')
+              .trim();
+
+            if (!credentials.private_key.includes('-----BEGIN PRIVATE KEY-----') ||
+                !credentials.private_key.includes('-----END PRIVATE KEY-----')) {
+              throw new Error('private_key does not look like a PEM private key. Replace the secret with the complete original service-account JSON key file.');
+            }
+
             const auth = new google.auth.GoogleAuth({
               credentials,
               scopes: ['https://www.googleapis.com/auth/webmasters'],

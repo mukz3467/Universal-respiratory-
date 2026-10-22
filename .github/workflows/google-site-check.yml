@@ -44,10 +44,10 @@ jobs:
 
       - name: Submit sitemap through Google Search Console API
         env:
-          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
         run: |
           if [ -z "$GOOGLE_CREDS" ]; then
-            echo "::warning::Automatic Google submission skipped: add the service-account JSON content as repository Actions secret GOOGLE_CREDS."
+            echo "::warning::Automatic Google submission skipped: add the service-account JSON content as repository Actions secret GOOGLE_SERVICE_ACCOUNT."
             exit 0
           fi
           npm init -y >/dev/null

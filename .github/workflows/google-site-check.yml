@@ -1,105 +1,79 @@
-name: Google SEO Health Check
+name: Google SEO Crawl Readiness (No API Key)
 
 on:
   workflow_dispatch:
   push:
     branches: [main]
   schedule:
-    - cron: "23 5 * * 1"
+    # Daily at 05:23 UTC. This checks discoverability; it does not force Google to crawl.
+    - cron: "23 5 * * *"
 
 permissions:
   contents: read
 
 env:
   SITE_URL: https://universal-respiratory.vercel.app
-  GSC_PROPERTY: https://universal-respiratory.vercel.app/
 
 jobs:
   check-google-crawl-readiness:
     runs-on: ubuntu-latest
     steps:
-      - name: Check homepage, robots.txt, and sitemap.xml
+      - name: Check every public page, robots.txt, and sitemap.xml
+        shell: bash
         run: |
           set -euo pipefail
+
+          pages=(
+            "/"
+            "/word-counter.html"
+            "/case-converter.html"
+            "/universal-time.html"
+            "/stopwatch.html"
+          )
+
           check_url() {
-            label="$1"
-            url="$2"
-            code="$(curl --location --silent --show-error --output /tmp/response.txt --write-out '%{http_code}' --max-time 30 "$url")"
-            echo "$label: HTTP $code ($url)"
-            if [ "$code" -lt 200 ] || [ "$code" -ge 400 ]; then
-              echo "::error::$label returned HTTP $code"
+            local path="$1"
+            local url="${SITE_URL}${path}"
+            local code
+            code="$(curl --location --silent --show-error --output /tmp/seo-response.txt --write-out '%{http_code}' --max-time 30 "$url")"
+            echo "HTTP $code $url"
+            if [[ "$code" -lt 200 || "$code" -ge 400 ]]; then
+              echo "::error::URL returned HTTP $code: $url"
               exit 1
             fi
           }
-          check_url "Homepage" "$SITE_URL/"
-          check_url "robots.txt" "$SITE_URL/robots.txt"
-          check_url "sitemap.xml" "$SITE_URL/sitemap.xml"
 
-          sitemap_body="$(curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/sitemap.xml")"
-          if ! printf '%s' "$sitemap_body" | grep -Eqi '<(urlset|sitemapindex)([[:space:]>])'; then
-            echo "::error::sitemap.xml did not appear to contain a valid sitemap root element."
+          for path in "${pages[@]}"; do
+            check_url "$path"
+          done
+          check_url "/robots.txt"
+          check_url "/sitemap.xml"
+
+          curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/sitemap.xml" -o /tmp/sitemap.xml
+          if ! grep -Eqi '<urlset([[:space:]>])|<sitemapindex([[:space:]>])' /tmp/sitemap.xml; then
+            echo "::error::sitemap.xml does not have a valid sitemap root element."
             exit 1
           fi
-          echo "Basic crawl-readiness checks passed."
 
-      - name: Submit sitemap through Google Search Console API
-        env:
-          GOOGLE_CREDS: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-        run: |
-          set -euo pipefail
-          if [ -z "$GOOGLE_CREDS" ]; then
-            echo "::error::Repository secret GOOGLE_SERVICE_ACCOUNT is empty or unavailable to this workflow."
+          for path in "${pages[@]}"; do
+            expected="${SITE_URL}${path}"
+            if ! grep -Fq "<loc>${expected}</loc>" /tmp/sitemap.xml; then
+              echo "::error::Sitemap is missing ${expected}"
+              exit 1
+            fi
+            echo "Sitemap includes: $expected"
+          done
+
+          if ! grep -Fq "Sitemap: ${SITE_URL}/sitemap.xml" <(curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/robots.txt"); then
+            echo "::error::robots.txt does not reference the sitemap URL."
             exit 1
           fi
-          npm init -y >/dev/null
-          npm install googleapis --no-audit --no-fund
-          node <<'NODE'
-          const { google } = require('googleapis');
 
-          async function main() {
-            let credentials;
-            try {
-              credentials = JSON.parse(process.env.GOOGLE_CREDS);
-            } catch {
-              throw new Error('GOOGLE_SERVICE_ACCOUNT is not valid JSON. Paste the complete downloaded service-account JSON file as the secret value.');
-            }
+          echo "All page, robots.txt, and sitemap checks passed."
 
-            if (!credentials.client_email || !credentials.private_key) {
-              throw new Error('Service-account JSON is missing client_email or private_key. Use the complete JSON key file.');
-            }
-
-            // Handle copied keys that contain literal backslash-n sequences or Windows line endings.
-            credentials.private_key = credentials.private_key
-              .replace(/\\n/g, '\n')
-              .replace(/\r\n/g, '\n')
-              .trim();
-
-            if (!credentials.private_key.includes('-----BEGIN PRIVATE KEY-----') ||
-                !credentials.private_key.includes('-----END PRIVATE KEY-----')) {
-              throw new Error('private_key does not look like a PEM private key. Replace the secret with the complete original service-account JSON key file.');
-            }
-
-            const auth = new google.auth.GoogleAuth({
-              credentials,
-              scopes: ['https://www.googleapis.com/auth/webmasters'],
-            });
-            const client = await auth.getClient();
-            const searchConsole = google.webmasters({ version: 'v3', auth: client });
-            const siteUrl = process.env.GSC_PROPERTY;
-            const feedpath = process.env.SITE_URL.replace(/\/$/, '') + '/sitemap.xml';
-
-            await searchConsole.sitemaps.submit({ siteUrl, feedpath });
-            console.log('Google Search Console accepted sitemap submission: ' + feedpath);
-            console.log('Sitemap submission does not guarantee crawling or indexing.');
-          }
-
-          main().catch((error) => {
-            console.error('Sitemap submission failed:', error.message);
-            process.exit(1);
-          });
-          NODE
-
-      - name: Next steps
+      - name: Explain indexing limits
         if: success()
         run: |
-          echo "Workflow finished. Google decides when and whether individual pages are crawled and indexed."
+          echo "No Google API key or service-account secret is required."
+          echo "This workflow checks crawl readiness only; it does not submit URLs through the Search Console API."
+          echo "Google controls crawl timing and whether pages are indexed. A successful check is not an indexing guarantee."

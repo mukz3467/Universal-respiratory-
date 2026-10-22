@@ -1,0 +1,61 @@
+name: Google SEO Health Check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  check-google-crawl-readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check site URL setting
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          if [ -z "$SITE_URL" ]; then
+            echo "::error::Set the repository variable SITE_URL to your live website URL, e.g. https://example.vercel.app"
+            exit 1
+          fi
+          case "$SITE_URL" in
+            https://*) ;;
+            *) echo "::error::SITE_URL must start with https://"; exit 1 ;;
+          esac
+          echo "SITE_URL=$SITE_URL" >> "$GITHUB_ENV"
+
+      - name: Check homepage, robots.txt, and sitemap.xml
+        run: |
+          set -euo pipefail
+          check_url() {
+            label="$1"
+            url="$2"
+            code="$(curl --location --silent --show-error --output /tmp/response.txt --write-out '%{http_code}' --max-time 30 "$url")"
+            echo "$label: HTTP $code ($url)"
+            if [ "$code" -lt 200 ] || [ "$code" -ge 400 ]; then
+              echo "::error::$label returned HTTP $code"
+              exit 1
+            fi
+          }
+          check_url "Homepage" "$SITE_URL/"
+          check_url "robots.txt" "$SITE_URL/robots.txt"
+          check_url "sitemap.xml" "$SITE_URL/sitemap.xml"
+
+          sitemap_body="$(curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/sitemap.xml")"
+          if ! printf '%s' "$sitemap_body" | grep -Eqi '<(urlset|sitemapindex)([[:space:]>])'; then
+            echo "::error::sitemap.xml did not appear to contain a valid sitemap root element."
+            exit 1
+          fi
+
+          echo "Basic crawl-readiness checks passed."
+          echo "Note: this workflow checks availability only. It does not force Google to index pages."
+
+      - name: Print next steps
+        if: success()
+        run: |
+          echo "If not already submitted, submit $SITE_URL/sitemap.xml in Google Search Console > Sitemaps."
+          echo "Use URL Inspection for a small number of important URLs; indexing is not guaranteed."

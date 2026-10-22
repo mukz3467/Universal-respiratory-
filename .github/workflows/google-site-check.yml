@@ -1,11 +1,11 @@
-name: Google SEO Crawl Readiness (No API Key)
+name: Google Crawl Monitor (No API Key)
 
 on:
   workflow_dispatch:
   push:
     branches: [main]
   schedule:
-    # Daily at 05:23 UTC. This checks discoverability; it does not force Google to crawl.
+    # Daily at 05:23 UTC. This verifies access; it cannot force indexing.
     - cron: "23 5 * * *"
 
 permissions:
@@ -18,7 +18,7 @@ jobs:
   check-google-crawl-readiness:
     runs-on: ubuntu-latest
     steps:
-      - name: Check every public page, robots.txt, and sitemap.xml
+      - name: Check pages as a browser and Googlebot
         shell: bash
         run: |
           set -euo pipefail
@@ -31,29 +31,64 @@ jobs:
             "/stopwatch.html"
           )
 
-          check_url() {
-            local path="$1"
-            local url="${SITE_URL}${path}"
-            local code
-            code="$(curl --location --silent --show-error --output /tmp/seo-response.txt --write-out '%{http_code}' --max-time 30 "$url")"
-            echo "HTTP $code $url"
-            if [[ "$code" -lt 200 || "$code" -ge 400 ]]; then
-              echo "::error::URL returned HTTP $code: $url"
+          for path in "${pages[@]}"; do
+            url="${SITE_URL}${path}"
+            body="$(mktemp)"
+            code="$(curl --location --silent --show-error --output "$body" --write-out '%{http_code}' --max-time 30 "$url")"
+            echo "Browser request: HTTP $code $url"
+            if [[ "$code" != "200" ]]; then
+              echo "::error::Page did not finish with HTTP 200: $url"
               exit 1
             fi
-          }
 
-          for path in "${pages[@]}"; do
-            check_url "$path"
+            if grep -Eiq '<meta[^>]+name=["\x27]robots["\x27][^>]+content=["\x27][^"\x27]*noindex|<meta[^>]+content=["\x27][^"\x27]*noindex[^>]*name=["\x27]robots["\x27]' "$body"; then
+              echo "::error::A robots meta tag appears to contain noindex: $url"
+              exit 1
+            fi
+
+            if ! grep -Eiq '<title[^>]*>[^<]+' "$body"; then
+              echo "::error::No readable HTML title found: $url"
+              exit 1
+            fi
+            if ! grep -Eiq '<h1([[:space:]>])' "$body"; then
+              echo "::error::No H1 heading found: $url"
+              exit 1
+            fi
+
+            bot_code="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 -A 'Googlebot' "$url")"
+            echo "Googlebot user-agent request: HTTP $bot_code $url"
+            if [[ "$bot_code" != "200" ]]; then
+              echo "::error::Googlebot user-agent request did not finish with HTTP 200: $url"
+              exit 1
+            fi
+            rm -f "$body"
           done
-          check_url "/robots.txt"
-          check_url "/sitemap.xml"
 
+      - name: Check robots.txt and sitemap
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/robots.txt" -o /tmp/robots.txt
           curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/sitemap.xml" -o /tmp/sitemap.xml
+
           if ! grep -Eqi '<urlset([[:space:]>])|<sitemapindex([[:space:]>])' /tmp/sitemap.xml; then
             echo "::error::sitemap.xml does not have a valid sitemap root element."
             exit 1
           fi
+
+          if ! grep -Fq "Sitemap: ${SITE_URL}/sitemap.xml" /tmp/robots.txt; then
+            echo "::error::robots.txt does not reference the sitemap URL."
+            exit 1
+          fi
+
+          pages=(
+            "/"
+            "/word-counter.html"
+            "/case-converter.html"
+            "/universal-time.html"
+            "/stopwatch.html"
+          )
 
           for path in "${pages[@]}"; do
             expected="${SITE_URL}${path}"
@@ -64,16 +99,13 @@ jobs:
             echo "Sitemap includes: $expected"
           done
 
-          if ! grep -Fq "Sitemap: ${SITE_URL}/sitemap.xml" <(curl --location --silent --show-error --fail --max-time 30 "$SITE_URL/robots.txt"); then
-            echo "::error::robots.txt does not reference the sitemap URL."
-            exit 1
-          fi
+          echo "All page, Googlebot user-agent, robots.txt, and sitemap checks passed."
 
-          echo "All page, robots.txt, and sitemap checks passed."
-
-      - name: Explain indexing limits
-        if: success()
+      - name: Report what this workflow can and cannot do
+        if: always()
         run: |
-          echo "No Google API key or service-account secret is required."
-          echo "This workflow checks crawl readiness only; it does not submit URLs through the Search Console API."
-          echo "Google controls crawl timing and whether pages are indexed. A successful check is not an indexing guarantee."
+          echo "No API key or service-account secret is required."
+          echo "This workflow verifies crawl access and sitemap discovery signals."
+          echo "It does not submit URL Inspection indexing requests: those require authenticated Search Console access."
+          echo "Google's Indexing API is restricted to eligible job-posting and livestream pages, not ordinary utility pages."
+          echo "A successful check does not guarantee crawling or indexing."

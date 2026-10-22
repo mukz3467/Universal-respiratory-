@@ -19,10 +19,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Google API Library
-        run: npm install googleapis
+      - name: Install Google API Library Directly
+        run: npm install googleapis --no-save
 
       - name: Run Indexing Script
         env:
           GOOGLE_CREDS: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
         run: node index-script.js
+        

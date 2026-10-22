@@ -10,25 +10,14 @@ on:
 permissions:
   contents: read
 
+env:
+  SITE_URL: https://universal-respiratory.vercel.app
+  GSC_PROPERTY: https://universal-respiratory.vercel.app/
+
 jobs:
   check-google-crawl-readiness:
     runs-on: ubuntu-latest
     steps:
-      - name: Check site URL setting
-        env:
-          SITE_URL: ${{ vars.SITE_URL }}
-        run: |
-          if [ -z "$SITE_URL" ]; then
-            echo "::error::Set repository variable SITE_URL to your live website URL, e.g. https://example.vercel.app"
-            exit 1
-          fi
-          SITE_URL="${SITE_URL%/}"
-          case "$SITE_URL" in
-            https://*) ;;
-            *) echo "::error::SITE_URL must start with https://"; exit 1 ;;
-          esac
-          echo "SITE_URL=$SITE_URL" >> "$GITHUB_ENV"
-
       - name: Check homepage, robots.txt, and sitemap.xml
         run: |
           set -euo pipefail
@@ -55,12 +44,10 @@ jobs:
 
       - name: Submit sitemap through Google Search Console API
         env:
-          SITE_URL: ${{ vars.SITE_URL }}
-          GSC_PROPERTY: ${{ vars.GSC_PROPERTY }}
           GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
         run: |
-          if [ -z "$GOOGLE_CREDS" ] || [ -z "$GSC_PROPERTY" ]; then
-            echo "::warning::Automatic sitemap submission skipped. Configure GOOGLE_CREDS secret and GSC_PROPERTY variable; the workflow still checks sitemap availability."
+          if [ -z "$GOOGLE_CREDS" ]; then
+            echo "::warning::Automatic Google submission skipped: add the service-account JSON content as repository Actions secret GOOGLE_CREDS."
             exit 0
           fi
           npm init -y >/dev/null
@@ -77,12 +64,11 @@ jobs:
             const client = await auth.getClient();
             const searchConsole = google.webmasters({ version: 'v3', auth: client });
             const siteUrl = process.env.GSC_PROPERTY;
-            const baseUrl = process.env.SITE_URL.replace(/\/$/, '');
-            const feedpath = baseUrl + '/sitemap.xml';
+            const feedpath = process.env.SITE_URL.replace(/\/$/, '') + '/sitemap.xml';
 
             await searchConsole.sitemaps.submit({ siteUrl, feedpath });
             console.log('Google Search Console accepted sitemap submission: ' + feedpath);
-            console.log('This is a sitemap submission, not a guarantee of crawling or indexing.');
+            console.log('Sitemap submission does not guarantee crawling or indexing.');
           }
 
           main().catch((error) => {
@@ -94,5 +80,4 @@ jobs:
       - name: Next steps
         if: success()
         run: |
-          echo "Google sitemap check/submission workflow finished."
-          echo "Google decides when and whether individual pages are crawled and indexed."
+          echo "Workflow finished. Google decides when and whether individual pages are crawled and indexed."

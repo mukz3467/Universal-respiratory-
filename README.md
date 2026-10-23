@@ -108,5 +108,18 @@ You can open any `.html` file directly in your browser:
 
 ---
 
+## 🌐 Live Website & Tools
+
+Explore OmniTool Global and use the tools directly:
+
+- [OmniTool Global — All Tools](https://universal-respiratory.vercel.app/)
+- [Word Counter & Character Counter](https://universal-respiratory.vercel.app/word-counter.html)
+- [Uppercase / Lowercase Case Converter](https://universal-respiratory.vercel.app/case-converter.html)
+- [UTC Clock & World Time Tracker](https://universal-respiratory.vercel.app/universal-time.html)
+
+If you find these utilities useful, share the live tools with writers, developers, and remote teams.
+
+---
+
 ## 📄 License
 MIT License. Free for personal, open-source, and commercial use.

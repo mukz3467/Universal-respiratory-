@@ -326,23 +326,22 @@
     })();
   </script>
 
-  <!-- Optional, user-controlled Christmas ambience. Audio does not autoplay. -->
+  <!-- Christmas ambience: attempt autoplay; browsers may require a first user gesture for sound. -->
   <style>
-    .christmas-music{position:fixed;right:16px;bottom:16px;z-index:1000;display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid rgba(212,175,55,.55);border-radius:999px;background:rgba(253,251,247,.94);box-shadow:0 8px 28px rgba(28,55,43,.18);backdrop-filter:blur(12px);color:#1B4D3E;font:600 13px/1.2 Inter,system-ui,sans-serif}
+    .christmas-music{position:fixed;right:16px;bottom:16px;z-index:1000;display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid rgba(212,175,55,.55);border-radius:999px;background:rgba(253,251,247,.96);box-shadow:0 8px 28px rgba(28,55,43,.18);backdrop-filter:blur(12px);color:#1B4D3E;font:600 13px/1.2 Inter,system-ui,sans-serif}
     .christmas-music button{border:0;border-radius:999px;background:#1B4D3E;color:#fff;padding:9px 13px;font:inherit;cursor:pointer;white-space:nowrap}
     .christmas-music button:focus-visible{outline:3px solid #D4AF37;outline-offset:3px}
     .christmas-music .music-note{font-size:19px}
     .christmas-music .music-caption{display:flex;flex-direction:column;gap:3px}
     .christmas-music small{font-size:10px;font-weight:500;opacity:.78}
     @media(max-width:480px){.christmas-music{right:10px;bottom:10px;padding:8px 10px;gap:7px}.christmas-music .music-caption{max-width:130px}.christmas-music button{padding:9px 11px}}
-    @media(prefers-reduced-motion:reduce){.christmas-music *{scroll-behavior:auto}}
   </style>
   <div class="christmas-music" role="group" aria-label="Christmas background music">
     <span class="music-note" aria-hidden="true">🎹</span>
-    <span class="music-caption"><span id="music-title">Christmas piano</span><small id="music-status">Soft festive ambience</small></span>
-    <button type="button" id="music-toggle" aria-pressed="false">▶ Play music</button>
+    <span class="music-caption"><span id="music-title">Christmas piano</span><small id="music-status">Trying to start music…</small></span>
+    <button type="button" id="music-toggle" aria-pressed="false">▶ Enable music</button>
   </div>
-  <audio id="christmas-audio" preload="auto" autoplay loop>
+  <audio id="christmas-audio" preload="auto" autoplay loop playsinline>
     <source src="https://orangefreesounds.com/wp-content/uploads/2023/12/Free-christmas-piano-music.mp3" type="audio/mpeg">
   </audio>
   <p style="font-size:11px;text-align:center;opacity:.68;margin:12px auto;max-width:720px">Music: “Free Christmas Piano Music” by Alexander Blu, licensed under CC BY 4.0. <a href="https://orangefreesounds.com/free-christmas-piano-music/" target="_blank" rel="noopener noreferrer">Track and licence</a>.</p>
@@ -353,44 +352,67 @@
       const status = document.getElementById('music-status');
       if (!audio || !button || !status) return;
       audio.volume = 0.22;
-      // Attempt audible autoplay when the page loads. Browsers may block this until user interaction.
-      const tryAutoplay = async () => {
+      let userPaused = false;
+      let started = false;
+
+      const syncPlaying = () => {
+        started = true;
+        userPaused = false;
+        button.textContent = '❚❚ Pause';
+        button.setAttribute('aria-pressed', 'true');
+        status.textContent = 'Playing softly';
+      };
+      const syncPaused = () => {
+        button.textContent = '▶ Enable music';
+        button.setAttribute('aria-pressed', 'false');
+      };
+      const tryPlay = async () => {
+        if (userPaused) return;
         try {
           await audio.play();
-          button.textContent = '❚❚ Pause';
-          button.setAttribute('aria-pressed', 'true');
-          status.textContent = 'Playing softly';
+          syncPlaying();
         } catch (error) {
-          status.textContent = 'Tap Play if autoplay is blocked';
+          status.textContent = 'Tap anywhere to start music';
+          syncPaused();
         }
       };
+
+      // Best-effort autoplay on page load; audible autoplay may be blocked by the browser.
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', tryAutoplay, { once: true });
+        document.addEventListener('DOMContentLoaded', tryPlay, { once: true });
       } else {
-        tryAutoplay();
+        tryPlay();
       }
+
+      // If autoplay was blocked, the first real user gesture anywhere on the page starts it.
+      const startOnFirstGesture = () => {
+        if (!started && !userPaused) tryPlay();
+      };
+      ['pointerdown', 'touchstart', 'keydown'].forEach(eventName => {
+        document.addEventListener(eventName, startOnFirstGesture, { once: true, passive: true });
+      });
+
       button.addEventListener('click', async () => {
-        if (audio.paused) {
-          try {
-            await audio.play();
-            button.textContent = '❚❚ Pause';
-            button.setAttribute('aria-pressed', 'true');
-            status.textContent = 'Playing softly';
-          } catch (error) {
-            status.textContent = 'Tap again or check your connection';
-          }
-        } else {
+        if (!audio.paused) {
+          userPaused = true;
           audio.pause();
-          button.textContent = '▶ Play music';
-          button.setAttribute('aria-pressed', 'false');
+          syncPaused();
           status.textContent = 'Paused';
+          return;
+        }
+        userPaused = false;
+        try {
+          await audio.play();
+          syncPlaying();
+        } catch (error) {
+          status.textContent = 'Music unavailable — check connection';
         }
       });
+      audio.addEventListener('play', syncPlaying);
       audio.addEventListener('error', () => {
         status.textContent = 'Music unavailable — check connection';
       });
     })();
   </script>
-
 </body>
 </html>

@@ -8,36 +8,29 @@ Built using **100% pure, standalone HTML5, CSS3, and vanilla JavaScript** with z
 
 ## 🚀 Live Pages & Architecture
 
-The application is architected into 4 independent, modular HTML pages that link together seamlessly:
+The repository contains six standalone HTML pages:
 
-1. **`index.html`** – **Navigation Center Hub**
-   - 3-column responsive card navigation hub.
-   - Core global On-Page SEO meta stack and Schema.org structured data (`WebSite`).
-   - Hardcoded Anti-CLS ad container reservation spaces (`728x90` desktop / `320x50` mobile).
-   - Global dark/light theme switch synchronized via `localStorage`.
+1. **`index.html` — OmniTool Global homepage**
+   - Links to the text, time and stopwatch utilities.
+   - Homepage title, meta description, canonical URL and WebSite structured data.
 
-2. **`word-counter.html`** – **Live Multi-Script Text Metric Counter**
-   - Top-layer full-width text input with instant metrics updates.
-   - Multi-byte Unicode segmentation supporting English, Roman Urdu, Hindi, Arabic, and CJK scripts.
-   - Dual character counts (with and without whitespace), words, sentences, lines, and paragraphs.
-   - Silent reading time (~225 wpm) and spoken pacing (~130 wpm) estimation.
-   - Text analytics breakdown: word length distribution and character frequency charts.
-   - One-click Copy, .txt Report Export, File Import, and sample loaders.
+2. **`word-counter.html` — Word and character counter**
+   - Counts words, characters with and without spaces, sentences, lines and paragraphs.
+   - Includes reading-time estimates and text import/export features.
 
-3. **`case-converter.html`** – **Universal Text Case Transformer**
-   - 12 case transformation formats:
-     - **UPPERCASE**, **lowercase**, **Title Case**, **Sentence case**, **Capitalized Case**
-     - **aLtErNaTiNg cAsE**, **InVeRsE cAsE**
-     - **camelCase**, **PascalCase**, **kebab-case**, **snake_case**, **CONSTANT_CASE**
-   - **Trim & Clean**: Normalizes consecutive spaces/tabs and cleans excess line breaks.
-   - Multi-level Undo / Redo history stack.
-   - Safe event delegation ensuring button child elements never intercept clicks.
+3. **`case-converter.html` — Uppercase/lowercase and text case converter**
+   - Converts text to uppercase, lowercase, title case, sentence case, camelCase, PascalCase, kebab-case and snake_case, among other formats.
 
-4. **`universal-time.html`** – **High-Precision UTC Clock & Global Zone Tracker**
-   - Real-time millisecond atomic UTC clock running via `requestAnimationFrame` to prevent background tab sleep drift.
-   - Worldwide timezone tracker (EST, GMT, CET, PKT, IST, and auto-detected Local offset).
-   - Focus countdown timer (Pomodoro 25m, 15m, 5m, 1m) with Web Audio API harmonic chime alert.
+4. **`universal-time.html` — World clock and UTC time**
+   - Displays UTC and selected world time zones, with a focus countdown timer.
 
+5. **`stopwatch.html` — Online stopwatch and countdown**
+   - Stopwatch with lap splits and countdown-timer functionality.
+
+6. **`christmas-countdown-2026.html` — Christmas countdown**
+   - Live countdown to December 25, 2026, with share options and holiday information.
+
+See [SEO-KEYWORD-PLAN.md](SEO-KEYWORD-PLAN.md) for dated keyword evidence, page mapping and the next measurement steps.
 ---
 
 ## 🛡️ Security & Performance Guarantees
@@ -114,11 +107,13 @@ Explore OmniTool Global and use the tools directly:
 
 - [OmniTool Global — All Tools](https://universal-respiratory.vercel.app/)
 - [Word Counter & Character Counter](https://universal-respiratory.vercel.app/word-counter.html)
-- [Uppercase / Lowercase Case Converter](https://universal-respiratory.vercel.app/case-converter.html)
-- [UTC Clock & World Time Tracker](https://universal-respiratory.vercel.app/universal-time.html)
+- [Uppercase to Lowercase Converter](https://universal-respiratory.vercel.app/case-converter.html)
+- [World Clock & UTC Time](https://universal-respiratory.vercel.app/universal-time.html)
+- [Online Stopwatch & Countdown](https://universal-respiratory.vercel.app/stopwatch.html)
+- [Christmas Countdown 2026](https://universal-respiratory.vercel.app/christmas-countdown-2026.html)
+- [SEO Keyword Research Plan](SEO-KEYWORD-PLAN.md)
 
-If you find these utilities useful, share the live tools with writers, developers, and remote teams.
-
+If you find these utilities useful, share the relevant tool with people who need it.
 ---
 
 ## 📄 License

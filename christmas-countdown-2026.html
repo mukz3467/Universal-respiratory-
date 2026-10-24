@@ -342,7 +342,7 @@
     <span class="music-caption"><span id="music-title">Christmas piano</span><small id="music-status">Soft festive ambience</small></span>
     <button type="button" id="music-toggle" aria-pressed="false">▶ Play music</button>
   </div>
-  <audio id="christmas-audio" preload="none" loop>
+  <audio id="christmas-audio" preload="auto" autoplay loop>
     <source src="https://orangefreesounds.com/wp-content/uploads/2023/12/Free-christmas-piano-music.mp3" type="audio/mpeg">
   </audio>
   <p style="font-size:11px;text-align:center;opacity:.68;margin:12px auto;max-width:720px">Music: “Free Christmas Piano Music” by Alexander Blu, licensed under CC BY 4.0. <a href="https://orangefreesounds.com/free-christmas-piano-music/" target="_blank" rel="noopener noreferrer">Track and licence</a>.</p>
@@ -353,6 +353,22 @@
       const status = document.getElementById('music-status');
       if (!audio || !button || !status) return;
       audio.volume = 0.22;
+      // Attempt audible autoplay when the page loads. Browsers may block this until user interaction.
+      const tryAutoplay = async () => {
+        try {
+          await audio.play();
+          button.textContent = '❚❚ Pause';
+          button.setAttribute('aria-pressed', 'true');
+          status.textContent = 'Playing softly';
+        } catch (error) {
+          status.textContent = 'Tap Play if autoplay is blocked';
+        }
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryAutoplay, { once: true });
+      } else {
+        tryAutoplay();
+      }
       button.addEventListener('click', async () => {
         if (audio.paused) {
           try {

@@ -2220,13 +2220,12 @@ body{background:var(--premium-bg)!important;color:var(--premium-ink)!important;f
   if(faq)set(faq,false);
   if(welcome){const h=welcome.querySelector('h1'),p=welcome.querySelector('p');if(h)h.textContent=view.title;if(p)p.textContent=view.desc;}
   nav.forEach(a=>{const href=a.getAttribute('href')||'';const active=(key==='counter'&&href==='#editor-workspace')||(key==='character'&&href==='#charts-container')||(key==='find'&&href==='#find-text')||(key==='clean'&&href==='#btn-clean-text')||(key==='frequency'&&href==='#keyword-analysis')||(key==='advanced'&&href==='#advanced-analysis');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-  const heading=advanced.querySelector('h2');if(heading)heading.textContent=key==='advanced'?'Advanced Analysis':'';
+  const heading=advanced.querySelector('h2');if(heading){heading.textContent=key==='advanced'?'Advanced Analysis':'Advanced Writing Tools';heading.hidden=(key==='find'||key==='clean');}
+  const intro=advanced.querySelector(':scope > .hero-subtitle');if(intro)intro.hidden=(key==='find'||key==='clean');
   if(view.focus){view.focus.scrollIntoView({behavior:'smooth',block:'start'});if(key==='find')document.getElementById('find-text')?.focus({preventScroll:true});}
  }
  nav.forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const href=this.getAttribute('href');const key=href==='#editor-workspace'?'counter':href==='#charts-container'?'character':href==='#find-text'?'find':href==='#btn-clean-text'?'clean':href==='#keyword-analysis'?'frequency':href==='#advanced-analysis'?'advanced':'counter';applyView(key);}));
  const pro=document.querySelector('.sidebar-pro a');if(pro)pro.addEventListener('click',e=>{e.preventDefault();applyView('advanced')});
- const cleanBtn=document.getElementById('btn-clean-text');
- if(cleanBtn)cleanBtn.addEventListener('click',()=>{const status=advanced.querySelector('.cleaner-status');if(status)status.textContent='Text cleaned successfully.';});
  applyView('counter');
 })();
 </script>

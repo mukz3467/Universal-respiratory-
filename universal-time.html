@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="https://universal-respiratory.vercel.app/universal-time.html">
   <meta property="og:url" content="https://universal-respiratory.vercel.app/universal-time.html">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com; media-src 'self';">
   <title>Universal Time Zone Clock & Christmas Countdown 2026 | OmniTool</title>
   <meta name="description" content="Check universal time and global time zones with a free online world clock, current UTC time, major-city clocks, and a live Christmas Countdown 2026.">
 
@@ -790,6 +790,39 @@
   }
 
 </style>
+
+<style>
+/* Cinematic dark luxury live-clock hero */
+.utc-master-card{
+  min-height:clamp(340px,48vw,520px)!important;
+  display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;
+  padding:clamp(28px,6vw,72px) 20px!important;margin:18px 0 28px!important;
+  border:1px solid rgba(255,255,255,.2)!important;border-radius:22px!important;
+  color:#fff!important;
+  background:
+    linear-gradient(180deg,rgba(5,8,18,.32) 0%,rgba(5,8,18,.48) 40%,rgba(2,4,10,.88) 100%),
+    url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1800&q=85') center 48%/cover no-repeat!important;
+  box-shadow:0 22px 55px rgba(0,0,0,.22)!important;
+}
+.utc-master-card .atomic-status-pill{
+  background:rgba(0,0,0,.35)!important;color:#fff!important;
+  border:1px solid rgba(255,255,255,.42)!important;backdrop-filter:blur(12px);
+}
+.utc-master-card .live-pulse{background:#f8fafc!important;box-shadow:0 0 12px rgba(255,255,255,.9)!important}
+.utc-master-card .utc-digital-clock{
+  color:#fff!important;text-shadow:0 4px 30px rgba(0,0,0,.65)!important;
+  font-size:clamp(3.8rem,13vw,7.5rem)!important;letter-spacing:-.055em!important;
+  line-height:1.05!important;margin:12px 0!important;
+}
+.utc-master-card .utc-calendar-date{color:rgba(255,255,255,.94)!important;text-shadow:0 2px 12px #000!important}
+.utc-master-card .utc-precision-indicator{color:#f3f4f6!important;text-shadow:0 2px 8px #000!important}
+@media(max-width:600px){
+ .utc-master-card{min-height:360px!important;border-radius:0!important;margin:8px 0 22px!important;padding:28px 10px!important;background-position:center!important}
+ .utc-master-card .utc-digital-clock{font-size:clamp(3.1rem,15vw,5.2rem)!important}
+ .utc-master-card .atomic-status-pill{font-size:10px!important;padding:5px 10px!important}
+}
+</style>
+
 </head>
 <body>
   <!-- Top Sticky Secure Navigation -->

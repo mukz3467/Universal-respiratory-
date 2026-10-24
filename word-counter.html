@@ -2442,8 +2442,92 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 // Premium dashboard visual insights; reads the same live editor used by all existing tools.
 (function(){const input=document.getElementById('main-textarea');if(!input)return;function paintPremiumInsights(){const t=input.value||'';const chars=[...t];let letters=0,spaces=0,numbers=0,symbols=0;for(const c of chars){if(/\s/u.test(c))spaces++;else if(/[\p{L}]/u.test(c))letters++;else if(/[\p{N}]/u.test(c))numbers++;else symbols++;}const total=chars.length||1;const vals=[letters,spaces,numbers,symbols];const els=['donut-letters','donut-spaces','donut-numbers','donut-symbols'];els.forEach((id,i)=>{const e=document.getElementById(id);if(e)e.textContent=vals[i].toLocaleString();});const dt=document.getElementById('donut-total');if(dt)dt.textContent=chars.length.toLocaleString();const p=vals.map(v=>v/total*100);let a=0;const colors=['#252932','#aeb4bf','#dce0e6','#eff1f4'];const stops=p.map((v,i)=>{const from=a;a+=v;return colors[i]+' '+from+'% '+a+'%'}).join(',');const donut=document.getElementById('character-donut');if(donut)donut.style.background='conic-gradient('+stops+')';const words=(t.toLocaleLowerCase().match(/[\\p{L}\\p{N}']+/gu)||[]).filter(w=>w.length>1);const counts={};words.forEach(w=>counts[w]=(counts[w]||0)+1);const top=Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,5);const preview=document.getElementById('top-words-preview');if(preview){preview.innerHTML=top.length?top.map((item,i)=>'<div class="top-word-row"><span class="top-word-rank">'+(i+1)+'</span><div><div class="top-word-name">'+item[0].replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'</div><div class="top-word-meter"><i style="width:'+Math.max(5,item[1]/top[0][1]*100)+'%"></i></div></div><span class="top-word-count">'+item[1]+' uses</span></div>').join(''):'<div class="preview-empty">Start typing to discover your most-used words.</div>';}}input.addEventListener('input',paintPremiumInsights);paintPremiumInsights();})();
 
-// Plain-text editor formatting controls. Formats selected text using portable Markdown/list syntax.
-(function(){const editor=document.getElementById('main-textarea');if(!editor)return;function applyFormat(type){const start=editor.selectionStart,end=editor.selectionEnd;const value=editor.value;const selected=value.slice(start,end);let before='',after='',replacement=selected;switch(type){case'bold':before='**';after='**';break;case'italic':before='_';after='_';break;case'underline':before='<u>';after='</u>';break;case'bullet':replacement=(selected||'List item').split('\\n').map(line=>line.trim()?'- '+line:'').join('\\n');break;case'numbered':replacement=(selected||'List item').split('\\n').map((line,i)=>line.trim()?(i+1)+'. '+line:'').join('\\n');break;case'quote':replacement=(selected||'Quote').split('\\n').map(line=>line.trim()?'> '+line:'>').join('\\n');break;case'clear':replacement=selected.replace(/\\*\\*(.*?)\\*\\*/gs,'$1').replace(/(^|\\s)_([^_]+)_(?=\\s|$)/g,'$1$2').replace(/<\\/?u>/gi,'').replace(/^\\s*(?:[-*]\\s+|\\d+\\.\\s+|>\\s?)/gm,'');break;}if(type==='bold'||type==='italic'||type==='underline')replacement=before+selected+after;editor.setRangeText(replacement,start,end,'select');editor.focus();editor.dispatchEvent(new Event('input',{bubbles:true}));}document.querySelectorAll('.format-btn[data-format]').forEach(button=>button.addEventListener('click',()=>applyFormat(button.dataset.format)));})();
+// Accessible, selection-safe plain-text formatting controls.
+(function () {
+  'use strict';
+  const editor = document.getElementById('main-textarea');
+  if (!editor) return;
+
+  function applyFormatting(type) {
+    const value = editor.value;
+    const hasSelection = editor.selectionStart !== editor.selectionEnd;
+    const start = hasSelection ? editor.selectionStart : 0;
+    const end = hasSelection ? editor.selectionEnd : value.length;
+    const selected = value.slice(start, end);
+    let replacement = selected;
+    let selectionStart = start;
+    let selectionEnd = start;
+
+    switch (type) {
+      case 'bold':
+        replacement = '**' + selected + '**';
+        selectionStart = start + 2;
+        selectionEnd = selectionStart + selected.length;
+        break;
+      case 'italic':
+        replacement = '*' + selected + '*';
+        selectionStart = start + 1;
+        selectionEnd = selectionStart + selected.length;
+        break;
+      case 'underline':
+        replacement = '<u>' + selected + '</u>';
+        selectionStart = start + 3;
+        selectionEnd = selectionStart + selected.length;
+        break;
+      case 'clear':
+        replacement = selected
+          .replace(/\*\*(.*?)\*\*/gs, '$1')
+          .replace(/\*(.*?)\*/gs, '$1')
+          .replace(/_(.*?)_/gs, '$1')
+          .replace(/<\/?u>/gi, '')
+          .replace(/^\s*(?:[-*]\s+|\d+\.\s+|>\s?)/gm, '');
+        selectionStart = start;
+        selectionEnd = start + replacement.length;
+        break;
+      case 'bullet':
+        replacement = (selected || 'List item').split('\n')
+          .map(line => line.trim() ? '- ' + line : '').join('\n');
+        selectionEnd = start + replacement.length;
+        break;
+      case 'numbered':
+        replacement = (selected || 'List item').split('\n')
+          .map((line, index) => line.trim() ? (index + 1) + '. ' + line : '').join('\n');
+        selectionEnd = start + replacement.length;
+        break;
+      case 'quote':
+        replacement = (selected || 'Quote').split('\n')
+          .map(line => line.trim() ? '> ' + line : '>').join('\n');
+        selectionEnd = start + replacement.length;
+        break;
+      default:
+        return;
+    }
+
+    // Replace only the intended range; all text outside it stays untouched.
+    editor.setRangeText(replacement, start, end, 'preserve');
+    editor.focus();
+    editor.setSelectionRange(
+      Math.min(selectionStart, editor.value.length),
+      Math.min(selectionEnd, editor.value.length)
+    );
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  const handlers = {
+    bold: () => applyFormatting('bold'),
+    italic: () => applyFormatting('italic'),
+    underline: () => applyFormatting('underline'),
+    clear: () => applyFormatting('clear')
+  };
+
+  document.querySelectorAll('.format-btn[data-format]').forEach(button => {
+    const type = button.dataset.format;
+    button.addEventListener('click', () => {
+      if (handlers[type]) handlers[type]();
+      else applyFormatting(type);
+    });
+  });
+})();
 
 // Focused feature workspaces: keep the live dashboard visible, show only the selected tool below it.
 (function(){

@@ -1592,5 +1592,60 @@
     })();
   </script>
 
+
+  <!-- Independent clock recovery: keeps world clocks running even if an unrelated widget fails. -->
+  <script>
+    (function () {
+      "use strict";
+      function pad(n) { return String(n).padStart(2, "0"); }
+      function put(id, value) {
+        var node = document.getElementById(id);
+        if (node) node.textContent = value;
+      }
+      var zones = [
+        ["tz-ny", "America/New_York"],
+        ["tz-london", "Europe/London"],
+        ["tz-frankfurt", "Europe/Berlin"],
+        ["tz-karachi", "Asia/Karachi"],
+        ["tz-delhi", "Asia/Kolkata"]
+      ];
+      var formatters = {};
+      zones.forEach(function (item) {
+        try {
+          formatters[item[0]] = new Intl.DateTimeFormat("en-GB", {
+            timeZone: item[1], hour: "2-digit", minute: "2-digit",
+            second: "2-digit", hourCycle: "h23"
+          });
+        } catch (e) {}
+      });
+      try {
+        formatters.local = new Intl.DateTimeFormat("en-GB", {
+          hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23"
+        });
+        formatters.utcDate = new Intl.DateTimeFormat("en-US", {
+          timeZone: "UTC", weekday: "long", year: "numeric", month: "long", day: "numeric"
+        });
+      } catch (e) {}
+      function update() {
+        try {
+          var now = new Date();
+          put("master-utc-clock", pad(now.getUTCHours()) + ":" + pad(now.getUTCMinutes()) + ":" + pad(now.getUTCSeconds()));
+          if (formatters.utcDate) put("master-utc-date", formatters.utcDate.format(now) + " • ISO: " + now.toISOString().slice(0, 10));
+          zones.forEach(function (item) {
+            if (formatters[item[0]]) put(item[0], formatters[item[0]].format(now));
+          });
+          if (formatters.local) put("tz-local", formatters.local.format(now));
+          var offset = -now.getTimezoneOffset();
+          var sign = offset >= 0 ? "+" : "-";
+          var abs = Math.abs(offset);
+          put("tz-local-offset", "UTC " + sign + Math.floor(abs / 60) + (abs % 60 ? ":" + pad(abs % 60) : ""));
+        } catch (e) {
+          put("master-utc-date", "Clock refresh issue — please reload the page.");
+        }
+      }
+      update();
+      window.setInterval(update, 250);
+    })();
+  </script>
 </body>
 </html>

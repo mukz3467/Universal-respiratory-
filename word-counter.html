@@ -1469,21 +1469,6 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
       <section class="dashboard-welcome"><div><span class="eyebrow">TEXT ANALYTICS DASHBOARD</span><h1>Make every word count.</h1><p>Write, measure, and understand your text in one focused workspace.</p></div><div class="welcome-icon">Aa</div></section>
       <!-- Main Input Textarea Card: Strictly Top Layer -->
       <section class="editor-card" id="editor-workspace" aria-label="Interactive Text Input Workspace">
-        <div class="format-toolbar" role="toolbar" aria-label="Text formatting tools">
-          <div class="format-toolbar-label"><span class="eyebrow">EDITOR TOOLS</span><span>Format your text</span></div>
-          <div class="format-buttons">
-            <button type="button" class="format-btn" data-format="bold" aria-label="Bold selected text" title="Bold"><strong>B</strong></button>
-            <button type="button" class="format-btn" data-format="italic" aria-label="Italic selected text" title="Italic"><em>I</em></button>
-            <button type="button" class="format-btn" data-format="underline" aria-label="Underline selected text" title="Underline"><span style="text-decoration:underline">U</span></button>
-            <span class="format-divider"></span>
-            <button type="button" class="format-btn format-wide" data-format="bullet" aria-label="Bullet list" title="Bullet list">☷ <span>Bullets</span></button>
-            <button type="button" class="format-btn format-wide" data-format="numbered" aria-label="Numbered list" title="Numbered list">1. <span>Numbered</span></button>
-            <button type="button" class="format-btn format-wide" data-format="quote" aria-label="Quote" title="Quote">❝ <span>Quote</span></button>
-            <span class="format-divider"></span>
-            <button type="button" class="format-btn format-wide" data-format="clear" aria-label="Remove formatting markers" title="Remove formatting markers">Tx <span>Clear format</span></button>
-          </div>
-          <span class="format-help">Select text first, then choose a format</span>
-        </div>
         <textarea
           id="main-textarea"
           placeholder="Type or paste your text here to compute real-time word metrics... Flawlessly parses English, European scripts, Roman Urdu phrases, Hindi text, and multi-byte unicode strings."
@@ -2606,72 +2591,7 @@ workspace.querySelectorAll('[data-buffer-action]').forEach(b=>b.addEventListener
 editor.addEventListener('input',render);$('focus-word-goal').addEventListener('input',render);route('counter');
 })();
 </script>
-<script>
-/* Reliable formatting-button binding, isolated from the page's other scripts. */
-(function () {
-  'use strict';
-  function initFormattingButtons() {
-    const editor = document.getElementById('main-textarea');
-    if (!editor || document.documentElement.dataset.formatButtonsReady === 'true') return;
-    document.documentElement.dataset.formatButtonsReady = 'true';
 
-    function applyFormatting(type) {
-      const fullText = editor.value;
-      const start = editor.selectionStart;
-      const end = editor.selectionEnd;
-      const hasSelection = end > start;
-      const from = hasSelection ? start : 0;
-      const to = hasSelection ? end : fullText.length;
-      const selected = fullText.slice(from, to);
-      let result = selected;
-      let innerStart = 0;
-      let innerEnd = 0;
-
-      if (type === 'bold') {
-        result = '**' + selected + '**'; innerStart = 2; innerEnd = 2 + selected.length;
-      } else if (type === 'italic') {
-        result = '*' + selected + '*'; innerStart = 1; innerEnd = 1 + selected.length;
-      } else if (type === 'underline') {
-        result = '<u>' + selected + '</u>'; innerStart = 3; innerEnd = 3 + selected.length;
-      } else if (type === 'clear') {
-        result = selected.replace(/\\*\\*(.*?)\\*\\*/gs, '$1')
-          .replace(/\\*(.*?)\\*/gs, '$1')
-          .replace(/_(.*?)_/gs, '$1')
-          .replace(/<\\/?u>/gi, '')
-          .replace(/^\\s*(?:[-*]\\s+|\\d+\\.\\s+|>\\s?)/gm, '');
-        innerStart = 0; innerEnd = result.length;
-      } else {
-        return;
-      }
-
-      editor.setRangeText(result, from, to, 'preserve');
-      editor.focus();
-      editor.setSelectionRange(
-        Math.min(from + innerStart, editor.value.length),
-        Math.min(from + innerEnd, editor.value.length)
-      );
-      editor.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-
-    document.addEventListener('click', function (event) {
-      const button = event.target.closest('.format-btn[data-format]');
-      if (!button) return;
-      const type = button.dataset.format;
-      if (!['bold', 'italic', 'underline', 'clear'].includes(type)) return;
-      event.preventDefault();
-      event.stopPropagation();
-      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-      applyFormatting(type);
-    }, true);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFormattingButtons, { once: true });
-  } else {
-    initFormattingButtons();
-  }
-})();
-</script>
  </body>
 </html>
 

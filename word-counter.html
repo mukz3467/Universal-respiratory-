@@ -910,6 +910,25 @@
         </div>
       </section>
 
+
+      <section class="chart-section" id="keyword-analysis" aria-labelledby="keyword-analysis-title">
+        <div class="chart-header">
+          <div class="chart-title-area">
+            <h3 id="keyword-analysis-title">Keyword Density & Unique Word Checker</h3>
+            <p>See repeated terms and their share of the total word count as you type. Analysis runs in your browser.</p>
+          </div>
+          <div class="chart-kpi-grid" style="margin:0;min-width:min(100%,260px)">
+            <div class="chart-kpi-card"><div class="chart-kpi-label">Unique words</div><div class="chart-kpi-val" id="unique-word-count">0</div></div>
+            <div class="chart-kpi-card"><div class="chart-kpi-label">Vocabulary diversity</div><div class="chart-kpi-val" id="vocabulary-diversity">0%</div></div>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);font-size:13px;margin:0 0 12px">Top repeated words (terms with fewer than 2 characters are excluded). Density is occurrences ÷ total words × 100. This is a writing analysis aid, not an SEO ranking guarantee.</p>
+        <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left">
+          <thead><tr style="color:var(--text-muted);border-bottom:1px solid var(--card-border)"><th style="padding:10px">Word / term</th><th style="padding:10px">Occurrences</th><th style="padding:10px">Density</th></tr></thead>
+          <tbody id="keyword-density-rows"><tr><td colspan="3" style="padding:14px;color:var(--text-muted)">Type or paste text to analyze repeated words.</td></tr></tbody>
+        </table></div>
+      </section>
+
       <!-- Bottom Ad Placeholder (Anti-CLS, 728x90) -->
       <aside class="ad-banner-container" aria-label="Bottom Advertisement">
         <div class="ad-banner-label">[ Future Ad Space ]</div>
@@ -1122,6 +1141,55 @@
         return matches ? matches.length : 0;
       }
 
+      function updateKeywordDensity(text) {
+        var tokens = [];
+        if (typeof Intl !== "undefined" && Intl.Segmenter) {
+          try {
+            var segmenter = new Intl.Segmenter(undefined, { granularity: "word" });
+            for (var part of segmenter.segment(text)) {
+              if (part.isWordLike) tokens.push(part.segment.toLocaleLowerCase());
+            }
+          } catch (e) {
+            tokens = text.toLocaleLowerCase().match(/[\\p{L}\\p{N}\\p{M}]+/gu) || [];
+          }
+        } else {
+          tokens = text.toLocaleLowerCase().match(/[\\p{L}\\p{N}\\p{M}]+/gu) || [];
+        }
+        var counts = Object.create(null);
+        tokens.forEach(function (word) {
+          if (Array.from(word).length >= 2) counts[word] = (counts[word] || 0) + 1;
+        });
+        var uniqueCount = Object.keys(counts).length;
+        document.getElementById("unique-word-count").textContent = uniqueCount.toLocaleString();
+        document.getElementById("vocabulary-diversity").textContent = (tokens.length ? (uniqueCount / tokens.length * 100).toFixed(1) : "0.0") + "%";
+        var top = Object.keys(counts).map(function (word) {
+          return { word: word, count: counts[word], density: tokens.length ? counts[word] / tokens.length * 100 : 0 };
+        }).sort(function (a, b) { return b.count - a.count || a.word.localeCompare(b.word); }).slice(0, 10);
+        var tbody = document.getElementById("keyword-density-rows");
+        tbody.textContent = "";
+        if (!top.length) {
+          var emptyRow = document.createElement("tr");
+          var emptyCell = document.createElement("td");
+          emptyCell.colSpan = 3;
+          emptyCell.style.cssText = "padding:14px;color:var(--text-muted)";
+          emptyCell.textContent = "Type or paste text to analyze repeated words.";
+          emptyRow.appendChild(emptyCell);
+          tbody.appendChild(emptyRow);
+          return;
+        }
+        top.forEach(function (item) {
+          var tr = document.createElement("tr");
+          tr.style.borderBottom = "1px solid var(--card-border)";
+          [item.word, item.count.toLocaleString(), item.density.toFixed(2) + "%"].forEach(function (value) {
+            var td = document.createElement("td");
+            td.style.padding = "10px";
+            td.textContent = value;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
       function refreshMetrics() {
         var val = textarea.value;
         var data = parseMetrics(val);
@@ -1137,6 +1205,7 @@
 
         // Update real-time distribution charts
         updateCharts(val);
+        updateKeywordDensity(val);
 
         try {
           localStorage.setItem("omnitool_wordcounter_cache", val);

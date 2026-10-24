@@ -27,6 +27,7 @@
     "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
   }
   </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many days until Christmas 2026?","acceptedAnswer":{"@type":"Answer","text":"The live counter calculates the remaining days, hours, minutes and seconds from your device clock and updates every second."}},{"@type":"Question","name":"What day is Christmas in 2026?","acceptedAnswer":{"@type":"Answer","text":"Christmas Day falls on Friday, December 25, 2026. Christmas Eve is Thursday, December 24."}},{"@type":"Question","name":"Does the countdown use my local time zone?","acceptedAnswer":{"@type":"Answer","text":"Yes. The timer uses your device’s local time and counts down to midnight at the beginning of December 25, 2026."}},{"@type":"Question","name":"Can I share this Christmas countdown?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the Share countdown or WhatsApp Status button to share the page, or copy the page link."}}]}</script>
   <style>
     :root{color-scheme:dark;--bg:#080b0a;--panel:#101613;--panel2:#151d18;--line:#2b3930;--white:#f7faf7;--muted:#b4c0b7;--green:#70e1a1;--red:#ff6868;--gold:#f4d58a;--radius:22px}
     *{box-sizing:border-box}
@@ -41,6 +42,9 @@
     .brand-mark{display:grid;place-items:center;width:38px;height:38px;border:1px solid #ffffff24;border-radius:12px;background:#ffffff0b;font-size:20px}
     .navlink{font-size:.9rem;font-weight:700;text-decoration:none}
     .hero{position:relative;overflow:hidden;margin:30px auto 26px;padding:clamp(26px,6vw,66px) clamp(16px,4vw,42px);text-align:center;border:1px solid #b7eac328;border-radius:28px;background:linear-gradient(145deg,#111a14f2,#0b100df7 70%);box-shadow:0 24px 90px #0008}
+    .snow-layer{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;opacity:.62}
+    .snowflake{position:absolute;top:-24px;color:#fff;font-size:var(--size,14px);opacity:var(--opacity,.8);text-shadow:0 0 8px #c8e8ff;animation:snow-fall var(--duration,12s) linear var(--delay,0s) infinite;will-change:transform}
+    @keyframes snow-fall{0%{transform:translate3d(0,-5vh,0) rotate(0deg)}100%{transform:translate3d(var(--drift,30px),110vh,0) rotate(360deg)}}
     .hero:before,.hero:after{position:absolute;content:"";width:240px;height:240px;border-radius:50%;filter:blur(60px);opacity:.12;pointer-events:none}
     .hero:before{background:var(--green);top:-140px;left:-90px}
     .hero:after{background:var(--red);right:-100px;bottom:-170px}
@@ -87,20 +91,21 @@
     .footer{padding:28px 0 44px;text-align:center;color:#8f9b92;font-size:.86rem}
     .footer a{margin:0 7px}
     @media(max-width:620px){.wrap{width:min(100% - 22px,1080px)}.nav{align-items:flex-start}.navlink{max-width:52%;text-align:right}.hero{margin-top:16px;border-radius:21px}.timer{gap:6px}.unit{border-radius:13px}.unit-label{font-size:.62rem;letter-spacing:.05em}.facts{grid-template-columns:1fr}.milestones{grid-template-columns:repeat(2,minmax(0,1fr))}.section{padding:21px 17px}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}.snow-layer{display:none}}
   </style>
 </head>
 <body>
+  <div class="snow-layer" id="snow-layer" aria-hidden="true"></div>
   <header class="topbar">
     <div class="wrap nav">
-      <a class="brand" href="/" aria-label="OmniTool home"><span class="brand-mark">✦</span><span>OmniTool</span></a>
+      <a class="brand" href="/" aria-label="OmniTool home"><span class="brand-mark">🎄</span><span>OmniTool</span></a>
       <a class="navlink" href="/universal-time.html">← World Clock &amp; Current Time</a>
     </div>
   </header>
   <main class="wrap">
     <section class="hero" aria-labelledby="page-title">
       <div class="content">
-        <div class="pill"><span class="dot"></span> Live holiday countdown</div>
+        <div class="pill"><span class="dot"></span> 🎄 Festive live countdown 🎅</div>
         <h1 id="page-title">Christmas <em>Countdown</em> 2026</h1>
         <p class="lead">The wait is on. See exactly how long until Christmas Day, with a live timer that updates every second on your device.</p>
         <div class="date-line">✦ Friday, December 25, 2026 ✦</div>
@@ -121,6 +126,7 @@
         <p id="status" aria-live="polite">Calculating your countdown…</p>
         <div class="actions">
           <button class="btn primary" id="share-btn" type="button">↗ Share countdown</button>
+          <button class="btn" id="whatsapp-btn" type="button">💬 Share my countdown to WhatsApp Status</button>
           <button class="btn" id="copy-btn" type="button">▣ Copy page link</button>
           <a class="btn" href="/universal-time.html">⌚ Open World Clock</a>
         </div>
@@ -190,6 +196,17 @@
     (function(){
       const el={days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
       const status=document.getElementById('status');
+      (function createSnow(){
+        if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+        const layer=document.getElementById('snow-layer');
+        for(let i=0;i<24;i++){
+          const flake=document.createElement('span');flake.className='snowflake';flake.textContent=i%4===0?'❄':'•';
+          flake.style.left=(i*37%100)+'%';flake.style.setProperty('--size',(8+(i%5)*3)+'px');
+          flake.style.setProperty('--duration',(9+(i%8)*1.7)+'s');flake.style.setProperty('--delay',(-1*(i%13))+'s');
+          flake.style.setProperty('--drift',((i%2?1:-1)*(10+(i%6)*8))+'px');flake.style.setProperty('--opacity',(0.25+(i%5)*0.13).toFixed(2));
+          layer.appendChild(flake);
+        }
+      })();
       let displayMode='standard';
       const countdownTarget=new Date(2026,11,25,0,0,0,0);
       const localMidnight=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
@@ -241,6 +258,13 @@
       }
       async function copyLink(){const text=location.href;try{await navigator.clipboard.writeText(text);status.textContent='Page link copied. Share it with family and friends!';}catch(e){status.textContent='Copy is not available here. Copy the page URL from your browser address bar.';}}
       document.getElementById('copy-btn').addEventListener('click',copyLink);
+      document.getElementById('whatsapp-btn').addEventListener('click',function(){
+        const now=new Date(), target=new Date(2026,11,25,0,0,0,0);
+        const days=Math.max(0,Math.ceil((new Date(target.getFullYear(),target.getMonth(),target.getDate())-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/86400000));
+        const message='Sirf '+days+' days aur '+days+' sleeps baqi hain Christmas mein! 🎄🎅 Dekho apna countdown yahan: '+location.href;
+        window.open('https://wa.me/?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
+        status.textContent='WhatsApp opened with your Christmas countdown message ready to share.';
+      });
       document.getElementById('share-btn').addEventListener('click',async function(){if(navigator.share){try{await navigator.share({title:'Christmas Countdown 2026',text:'Count down to Christmas Day, December 25, 2026.',url:location.href});}catch(e){}}else{await copyLink();}});
       tick();setInterval(tick,1000);
     })();

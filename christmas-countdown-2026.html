@@ -582,5 +582,43 @@
   @media(prefers-reduced-motion:reduce){body:before,body:after,.snowflake{animation:none!important}}
 </style>
 
+
+<script id="extreme-snowfall-script">
+(() => {
+  const start = () => {
+    const layer = document.getElementById('snow-layer');
+    if (!layer || layer.dataset.extremeSnow === '1') return;
+    layer.dataset.extremeSnow = '1';
+    layer.style.opacity = '1';
+    layer.style.zIndex = '6';
+    const count = window.innerWidth < 620 ? 180 : 300;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const flake = document.createElement('span');
+      flake.className = 'snowflake extreme-snowflake';
+      flake.textContent = i % 5 === 0 ? '❄' : '•';
+      const size = i % 5 === 0 ? 14 + Math.random() * 16 : 3 + Math.random() * 8;
+      flake.style.setProperty('--size', size + 'px');
+      flake.style.setProperty('--opacity', (0.45 + Math.random() * 0.55).toFixed(2));
+      flake.style.setProperty('--duration', (3 + Math.random() * 6).toFixed(2) + 's');
+      flake.style.setProperty('--delay', (-Math.random() * 10).toFixed(2) + 's');
+      flake.style.setProperty('--drift', ((Math.random() - .5) * 180).toFixed(0) + 'px');
+      flake.style.left = (Math.random() * 100).toFixed(2) + '%';
+      flake.style.top = (-Math.random() * 110).toFixed(0) + 'vh';
+      flake.style.textShadow = '0 0 5px rgba(255,255,255,.8)';
+      frag.appendChild(flake);
+    }
+    layer.appendChild(frag);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once:true});
+  else start();
+})();
+</script>
+<style id="extreme-snowfall-visual">
+  .snow-layer{opacity:1!important;z-index:6!important}
+  .snowflake{color:#fff!important;text-shadow:0 0 7px rgba(255,255,255,.9)!important}
+  .extreme-snowflake{display:block!important;pointer-events:none!important}
+</style>
+
 </body>
 </html>

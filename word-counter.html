@@ -2592,7 +2592,54 @@ editor.addEventListener('input',render);$('focus-word-goal').addEventListener('i
 })();
 </script>
 
- </body>
+ 
+<script>
+/* Button active-state behavior: operational buttons stay light until clicked. */
+(function () {
+  'use strict';
+  function initActiveButtonStates() {
+    const actionButtons = ['btn-import', 'btn-download', 'btn-copy', 'btn-clear']
+      .map(id => document.getElementById(id)).filter(Boolean);
+    const findNext = document.getElementById('focus-find-next');
+    const replaceAll = document.getElementById('focus-replace-all');
+    let activeAction = 'replace-all';
+
+    function markAction(button, duration) {
+      actionButtons.forEach(item => item.classList.remove('is-active'));
+      if (!button) return;
+      button.classList.add('is-active');
+      if (duration) window.setTimeout(() => button.classList.remove('is-active'), duration);
+    }
+
+    actionButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        markAction(button, button.id === 'btn-copy' ? 1500 : 1100);
+        if (button.id === 'btn-copy') {
+          const original = button.dataset.originalLabel || button.textContent.trim();
+          button.dataset.originalLabel = original;
+          button.textContent = 'Copied!';
+          window.setTimeout(() => { button.textContent = original; }, 1500);
+        }
+      });
+    });
+
+    function syncFindReplace() {
+      if (findNext) findNext.classList.toggle('is-active', activeAction === 'find-next');
+      if (replaceAll) replaceAll.classList.toggle('is-active', activeAction === 'replace-all');
+    }
+    if (findNext) findNext.addEventListener('click', () => { activeAction = 'find-next'; syncFindReplace(); });
+    if (replaceAll) replaceAll.addEventListener('click', () => { activeAction = 'replace-all'; syncFindReplace(); });
+    syncFindReplace();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initActiveButtonStates, { once: true });
+  } else {
+    initActiveButtonStates();
+  }
+})();
+</script>
+
+</body>
 </html>
 
 <style>
@@ -2620,6 +2667,36 @@ html,body{margin:0!important;padding:0!important;width:100%!important;max-width:
   .premium-main{display:block!important;width:100%!important;max-width:100%!important;flex:1 1 auto!important}
   .premium-main .container{width:100%!important;max-width:100%!important;padding-left:12px!important;padding-right:12px!important}
   .premium-main .editor-card,.premium-main .chart-section,.premium-main .social-counter-card,.premium-main .seo-section,.premium-main #focused-tools-workspace{width:100%!important;max-width:100%!important}
+}
+
+
+/* Active-state polish: neutral by default; dark only after interaction. */
+button.btn-act.btn-act-primary,
+button#btn-copy,
+button#btn-find-replace {
+  background: var(--bg, #fff) !important;
+  color: var(--text, #334155) !important;
+  border: 1px solid var(--card-border, #e2e8f0) !important;
+  box-shadow: none !important;
+}
+button.btn-act,
+button.focus-action {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #e2e8f0 !important;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+button.btn-act:hover,
+button.focus-action:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+button.btn-act.is-active,
+button.focus-action.is-active {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.16) !important;
 }
 
 </style>

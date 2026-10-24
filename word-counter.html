@@ -2605,7 +2605,74 @@ $('focus-clean-run').addEventListener('click',()=>{let t=editor.value;if($('focu
 workspace.querySelectorAll('[data-buffer-action]').forEach(b=>b.addEventListener('click',()=>{let t=editor.value;switch(b.dataset.bufferAction){case'spaces':t=t.replace(/[ \t]+/g,' ').replace(/\s*\n\s*/g,'\n').trim();break;case'html':t=t.replace(/<[^>]*>/g,'');break;case'upper':t=t.toLocaleUpperCase();break;case'lower':t=t.toLocaleLowerCase();break;case'title':t=t.toLocaleLowerCase().replace(/\b\p{L}/gu,c=>c.toLocaleUpperCase());break;case'sentence':t=t.toLocaleLowerCase().replace(/(^\s*\p{L}|[.!?]\s+\p{L})/gu,c=>c.toLocaleUpperCase());break;}editor.value=t;editor.dispatchEvent(new Event('input',{bubbles:true}));$('focus-case-status').textContent='Text updated in the shared editor.';}));
 editor.addEventListener('input',render);$('focus-word-goal').addEventListener('input',render);route('counter');
 })();
-</script></body>
+</script>
+<script>
+/* Reliable formatting-button binding, isolated from the page's other scripts. */
+(function () {
+  'use strict';
+  function initFormattingButtons() {
+    const editor = document.getElementById('main-textarea');
+    if (!editor || document.documentElement.dataset.formatButtonsReady === 'true') return;
+    document.documentElement.dataset.formatButtonsReady = 'true';
+
+    function applyFormatting(type) {
+      const fullText = editor.value;
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const hasSelection = end > start;
+      const from = hasSelection ? start : 0;
+      const to = hasSelection ? end : fullText.length;
+      const selected = fullText.slice(from, to);
+      let result = selected;
+      let innerStart = 0;
+      let innerEnd = 0;
+
+      if (type === 'bold') {
+        result = '**' + selected + '**'; innerStart = 2; innerEnd = 2 + selected.length;
+      } else if (type === 'italic') {
+        result = '*' + selected + '*'; innerStart = 1; innerEnd = 1 + selected.length;
+      } else if (type === 'underline') {
+        result = '<u>' + selected + '</u>'; innerStart = 3; innerEnd = 3 + selected.length;
+      } else if (type === 'clear') {
+        result = selected.replace(/\\*\\*(.*?)\\*\\*/gs, '$1')
+          .replace(/\\*(.*?)\\*/gs, '$1')
+          .replace(/_(.*?)_/gs, '$1')
+          .replace(/<\\/?u>/gi, '')
+          .replace(/^\\s*(?:[-*]\\s+|\\d+\\.\\s+|>\\s?)/gm, '');
+        innerStart = 0; innerEnd = result.length;
+      } else {
+        return;
+      }
+
+      editor.setRangeText(result, from, to, 'preserve');
+      editor.focus();
+      editor.setSelectionRange(
+        Math.min(from + innerStart, editor.value.length),
+        Math.min(from + innerEnd, editor.value.length)
+      );
+      editor.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    document.addEventListener('click', function (event) {
+      const button = event.target.closest('.format-btn[data-format]');
+      if (!button) return;
+      const type = button.dataset.format;
+      if (!['bold', 'italic', 'underline', 'clear'].includes(type)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+      applyFormatting(type);
+    }, true);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFormattingButtons, { once: true });
+  } else {
+    initFormattingButtons();
+  }
+})();
+</script>
+ </body>
 </html>
 
 <style>

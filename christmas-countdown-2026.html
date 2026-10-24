@@ -99,7 +99,7 @@
     /* Warm, cozy Christmas theme */
     :root{color-scheme:light;--bg:#FDFBF7;--panel:#FFFDF8;--panel2:#F5EEE4;--white:#24352D;--muted:#655F56;--green:#1B4D3E;--red:#A22323;--gold:#D4AF37;--line:#E8DCC8;--radius:22px}
     html{background:var(--bg)}
-    body{background:linear-gradient(180deg,rgba(14,24,19,.42),rgba(14,24,19,.58)),url("https://images.unsplash.com/photo-1511600173735-a896042389cf?auto=format&fit=crop&fm=jpg&q=80&w=2200") center 35%/cover fixed,var(--bg);color:var(--white);font-family:Inter,system-ui,sans-serif}
+    body{background:linear-gradient(180deg,rgba(14,24,19,.42),rgba(14,24,19,.58)),url("https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=2200&q=85") center 35%/cover fixed,var(--bg);color:var(--white);font-family:Inter,system-ui,sans-serif}
     body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,20,14,.24),rgba(8,20,14,.56));}
     h1,h2,h3,.brand{font-family:"Playfair Display",Georgia,serif}
     h1{letter-spacing:-.045em;line-height:1.08}
@@ -504,6 +504,52 @@
       .btn{flex:1 1 145px}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.unit,.btn,.christmas-music button{transition:none}.snow-layer{display:none}}
+  </style>
+
+
+  <style id="final-santa-background-and-large-music-control">
+    body{
+      background:
+        linear-gradient(180deg,rgba(3,7,6,.34) 0%,rgba(3,7,6,.48) 45%,rgba(3,7,6,.76) 100%),
+        url("https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=2200&q=85") center 30%/cover fixed,
+        #07100d !important;
+      color:#fffaf2;
+    }
+    body:before{z-index:0!important;opacity:1;background:linear-gradient(180deg,rgba(4,10,7,.15),rgba(4,10,7,.42) 42%,rgba(4,10,7,.72))!important}
+    .wrap,.topbar{position:relative;z-index:1}
+    .hero,.section{background:rgba(5,14,9,.58)!important;border-color:rgba(255,255,255,.2)!important;backdrop-filter:blur(8px)!important;-webkit-backdrop-filter:blur(8px)!important}
+    .unit,.fact,.mile{background:rgba(4,12,8,.48)!important;backdrop-filter:blur(8px)!important;-webkit-backdrop-filter:blur(8px)!important}
+    .christmas-music{
+      position:fixed!important;top:12px!important;left:50%!important;transform:translateX(-50%)!important;
+      z-index:10000!important;display:flex!important;align-items:center!important;gap:14px!important;
+      padding:12px 16px!important;border:1px solid rgba(245,215,139,.8)!important;border-radius:22px!important;
+      background:rgba(4,16,10,.94)!important;box-shadow:0 12px 38px rgba(0,0,0,.48),0 0 24px rgba(232,199,126,.15)!important;
+      width:max-content;max-width:calc(100% - 20px)
+    }
+    .christmas-music .music-note{font-size:30px!important}
+    .christmas-music .music-caption{min-width:110px}
+    .christmas-music #music-title{font-size:14px;font-weight:800}
+    .christmas-music small{font-size:12px!important}
+    .christmas-music button{
+      min-height:54px!important;padding:15px 25px!important;border-radius:999px!important;
+      border:1px solid #f4d58a!important;background:linear-gradient(135deg,#c72d3c,#831827)!important;
+      color:#fff!important;font-size:16px!important;font-weight:900!important;
+      box-shadow:0 0 0 4px rgba(244,213,138,.08),0 8px 24px rgba(0,0,0,.4)!important;
+      transition:transform .2s ease,box-shadow .2s ease
+    }
+    .christmas-music button:hover{transform:translateY(-2px)!important;box-shadow:0 0 0 5px rgba(244,213,138,.12),0 12px 28px rgba(0,0,0,.42)!important}
+    .topbar{padding-top:92px!important}
+    @media(max-width:520px){
+      body{background-attachment:scroll!important;background-position:center top!important;background-size:auto 100vh!important}
+      .christmas-music{top:8px!important;gap:9px!important;padding:9px 10px!important;border-radius:17px!important}
+      .christmas-music .music-note{font-size:24px!important}
+      .christmas-music .music-caption{min-width:82px;max-width:100px}
+      .christmas-music #music-title{font-size:12px}
+      .christmas-music small{font-size:10px!important}
+      .christmas-music button{min-height:50px!important;padding:13px 16px!important;font-size:14px!important}
+      .topbar{padding-top:82px!important}
+    }
+    @media(prefers-reduced-motion:reduce){.christmas-music button{transition:none}}
   </style>
 
 </body>

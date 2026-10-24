@@ -1313,13 +1313,15 @@ body{background:var(--premium-bg)!important;color:var(--premium-ink)!important;f
       <section class="editor-card" aria-label="Advanced writing tools" style="margin-top:20px;">
         <h2 style="margin:0 0 8px;">Advanced Writing Tools</h2>
         <p class="hero-subtitle">Analyze sentence length, set a word goal, estimate pages, find and replace text, or clean up formatting. All processing happens in your browser.</p>
+        <div class="advanced-stats-panel" data-advanced-panel="stats">
         <div class="metrics-grid-row" style="margin:16px 0;">
           <div class="metric-box"><div class="metric-num" id="stat-avg-sentence">0</div><div class="metric-title">Avg. Words / Sentence</div></div>
           <div class="metric-box"><div class="metric-num" id="stat-longest-sentence">0</div><div class="metric-title">Longest Sentence (words)</div></div>
           <div class="metric-box"><div class="metric-num" id="stat-shortest-sentence">0</div><div class="metric-title">Shortest Sentence (words)</div></div>
           <div class="metric-box"><div class="metric-num" id="stat-page-estimate">0</div><div class="metric-title">Estimated Pages</div><div class="metric-sub">250 words per page</div></div>
         </div>
-        <div style="margin:14px 0;">
+        </div>
+        <div class="word-goal-panel" data-advanced-panel="goal" style="margin:14px 0;">
           <label for="word-goal" style="display:block;margin-bottom:6px;font-weight:600;">Word goal</label>
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
             <input id="word-goal" type="number" min="1" max="1000000" value="500" style="max-width:180px;padding:10px;border-radius:8px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);">
@@ -1327,6 +1329,7 @@ body{background:var(--premium-bg)!important;color:var(--premium-ink)!important;f
           </div>
           <div style="height:8px;background:var(--card-border);border-radius:8px;overflow:hidden;margin-top:10px;"><div id="word-goal-bar" style="height:100%;width:0%;background:var(--accent,#22c55e);transition:width .15s;"></div></div>
         </div>
+        <div class="find-replace-panel" data-advanced-panel="find">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px;">
           <div>
             <label for="find-text" style="display:block;margin-bottom:6px;font-weight:600;">Find text</label>
@@ -1339,9 +1342,16 @@ body{background:var(--premium-bg)!important;color:var(--premium-ink)!important;f
         </div>
         <div class="action-btn-group" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn-act btn-act-primary" id="btn-find-replace">Find &amp; Replace All</button>
-          <button class="btn-act" id="btn-clean-text">Clean Text Formatting</button>
+          
         </div>
         <p id="find-replace-status" aria-live="polite" style="margin-top:8px;"></p>
+        </div>
+        <div class="text-cleaner-panel" data-advanced-panel="clean" style="margin-top:16px;padding:16px;border:1px solid var(--card-border);border-radius:12px;">
+          <h3 style="margin:0 0 8px;">Text Cleaner</h3>
+          <p class="hero-subtitle">Remove extra spaces and tidy text formatting in the editor above.</p>
+          <button class="btn-act btn-act-primary" id="btn-clean-text">Clean Text Formatting</button>
+          <p class="cleaner-status" aria-live="polite" style="margin-top:8px;"></p>
+        </div>
       </section>
 
 
@@ -2178,9 +2188,47 @@ body{background:var(--premium-bg)!important;color:var(--premium-ink)!important;f
 // Plain-text editor formatting controls. Formats selected text using portable Markdown/list syntax.
 (function(){const editor=document.getElementById('main-textarea');if(!editor)return;function applyFormat(type){const start=editor.selectionStart,end=editor.selectionEnd;const value=editor.value;const selected=value.slice(start,end);let before='',after='',replacement=selected;switch(type){case'bold':before='**';after='**';break;case'italic':before='_';after='_';break;case'underline':before='<u>';after='</u>';break;case'bullet':replacement=(selected||'List item').split('\\n').map(line=>line.trim()?'- '+line:'').join('\\n');break;case'numbered':replacement=(selected||'List item').split('\\n').map((line,i)=>line.trim()?(i+1)+'. '+line:'').join('\\n');break;case'quote':replacement=(selected||'Quote').split('\\n').map(line=>line.trim()?'> '+line:'>').join('\\n');break;case'clear':replacement=selected.replace(/\\*\\*(.*?)\\*\\*/gs,'$1').replace(/(^|\\s)_([^_]+)_(?=\\s|$)/g,'$1$2').replace(/<\\/?u>/gi,'').replace(/^\\s*(?:[-*]\\s+|\\d+\\.\\s+|>\\s?)/gm,'');break;}if(type==='bold'||type==='italic'||type==='underline')replacement=before+selected+after;editor.setRangeText(replacement,start,end,'select');editor.focus();editor.dispatchEvent(new Event('input',{bubbles:true}));}document.querySelectorAll('.format-btn[data-format]').forEach(button=>button.addEventListener('click',()=>applyFormat(button.dataset.format)));})();
 
-// Feature navigation: each sidebar tool opens a focused workspace instead of showing every panel together.
-(function(){const nav=[...document.querySelectorAll('.premium-sidebar .side-link')];const editor=document.getElementById('editor-workspace');const metrics=document.querySelector('.section-heading');const metricGrid=document.querySelector('.metrics-grid-row[aria-label="Live Content Analysis Summary"]');const insights=document.querySelector('.dashboard-insights-grid');const advanced=document.querySelector('section.editor-card[aria-label="Advanced writing tools"]');const charts=document.getElementById('charts-container');const keywords=document.getElementById('keyword-analysis');const adSections=[...document.querySelectorAll('.ad-banner-container')];const social=document.querySelector('.social-counter-card');const faq=document.querySelector('#counter-faq-title')?.closest('section');const welcome=document.querySelector('.dashboard-welcome');if(!editor||!charts||!keywords||!advanced)return;const views={counter:{title:'Word Counter',desc:'Count words, characters, sentences, paragraphs, and reading time.',show:['editor','metrics','insights'],focus:'editor'},character:{title:'Character Analyzer',desc:'Explore character distribution, frequency, and text composition.',show:['editor','insights','charts'],focus:'charts'},find:{title:'Find & Replace',desc:'Find terms and replace every matching occurrence in your text.',show:['editor','advanced'],focus:'find'},clean:{title:'Text Cleaner',desc:'Clean extra spaces and formatting issues in your text.',show:['editor','advanced'],focus:'clean'},frequency:{title:'Word Frequency',desc:'Find repeated words, unique vocabulary, and keyword density.',show:['editor','keywords'],focus:'keywords'},advanced:{title:'Advanced Analysis',desc:'Review sentence statistics, writing goals, word length, and character patterns.',show:['editor','metrics','advanced','charts','keywords'],focus:'advanced'}};function applyView(key){const view=views[key]||views.counter;const show=new Set(view.show);const set=(el,visible)=>{if(el)el.hidden=!visible};set(editor,show.has('editor'));set(metrics,show.has('metrics'));set(metricGrid,show.has('metrics'));set(insights,show.has('insights'));set(advanced,show.has('advanced'));set(charts,show.has('charts'));set(keywords,show.has('keywords'));adSections.forEach(el=>set(el,false));set(social,false);if(faq)set(faq,false);if(welcome){welcome.querySelector('h1').textContent=view.title;welcome.querySelector('p').textContent=view.desc;}nav.forEach(a=>{const href=a.getAttribute('href')||'';const active=(key==='counter'&&href==='#editor-workspace')||(key==='character'&&href==='#charts-container')||(key==='find'&&href==='#find-text')||(key==='clean'&&href==='#btn-clean-text')||(key==='frequency'&&href==='#keyword-analysis')||(key==='advanced'&&href==='#advanced-analysis');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});const focusTargets={counter:editor,character:charts,find:document.getElementById('find-text')?.closest('div[style*="grid-template-columns"]')||advanced,clean:document.getElementById('btn-clean-text'),frequency:keywords,advanced:advanced};const target=focusTargets[key];if(key==='find'||key==='clean'){advanced.hidden=false;set(editor,true);if(key==='find'){document.getElementById('find-text')?.focus({preventScroll:true});}else{document.getElementById('btn-clean-text')?.focus({preventScroll:true});}}if(key==='advanced'){const heading=advanced.querySelector('h2');if(heading)heading.textContent='Advanced Analysis & Writing Tools';}else{const heading=advanced.querySelector('h2');if(heading)heading.textContent='Advanced Writing Tools';}if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}
-nav.forEach((a,i)=>a.addEventListener('click',function(e){e.preventDefault();const href=this.getAttribute('href');const key=href==='#editor-workspace'?'counter':href==='#charts-container'?'character':href==='#find-text'?'find':href==='#btn-clean-text'?'clean':href==='#keyword-analysis'?'frequency':href==='#advanced-analysis'?'advanced':'counter';applyView(key);}));const pro=document.querySelector('.sidebar-pro a');if(pro)pro.addEventListener('click',e=>{e.preventDefault();applyView('advanced')});applyView('counter');})();
+// Focused feature workspaces: keep the live dashboard visible, show only the selected tool below it.
+(function(){
+ const nav=[...document.querySelectorAll('.premium-sidebar .side-link')];
+ const editor=document.getElementById('editor-workspace');
+ const metrics=document.querySelector('.section-heading');
+ const metricGrid=document.querySelector('.metrics-grid-row[aria-label="Live Content Analysis Summary"]');
+ const insights=document.querySelector('.dashboard-insights-grid');
+ const advanced=document.querySelector('section.editor-card[aria-label="Advanced writing tools"]');
+ const charts=document.getElementById('charts-container');
+ const keywords=document.getElementById('keyword-analysis');
+ const welcome=document.querySelector('.dashboard-welcome');
+ const faq=document.querySelector('#counter-faq-title')?.closest('section');
+ if(!editor||!charts||!keywords||!advanced)return;
+ const panels=[...advanced.querySelectorAll('[data-advanced-panel]')];
+ const views={
+  counter:{title:'Word Counter',desc:'Count words, characters, sentences, paragraphs, and reading time.',show:['editor','insights'],panel:[],focus:editor},
+  character:{title:'Character Analyzer',desc:'Explore character distribution, frequency, and text composition.',show:['editor','insights','charts'],panel:[],focus:charts},
+  find:{title:'Find & Replace',desc:'Find a phrase and replace matching text in your editor.',show:['editor','advanced'],panel:['find'],focus:document.getElementById('find-text')},
+  clean:{title:'Text Cleaner',desc:'Clean extra spaces and tidy formatting in your text.',show:['editor','advanced'],panel:['clean'],focus:document.getElementById('btn-clean-text')},
+  frequency:{title:'Word Frequency',desc:'Find repeated words, unique vocabulary, and keyword density.',show:['editor','keywords'],panel:[],focus:keywords},
+  advanced:{title:'Advanced Analysis',desc:'Review sentence statistics, writing goals, and detailed text patterns.',show:['editor','advanced','charts','keywords'],panel:['stats','goal','find','clean'],focus:advanced}
+ };
+ function applyView(key){
+  const view=views[key]||views.counter, show=new Set(view.show), panelSet=new Set(view.panel);
+  const set=(el,visible)=>{if(el)el.hidden=!visible};
+  set(editor,show.has('editor')); set(metrics,true); set(metricGrid,true);
+  set(insights,show.has('insights')); set(advanced,show.has('advanced'));
+  set(charts,show.has('charts')); set(keywords,show.has('keywords'));
+  panels.forEach(p=>set(p,panelSet.has(p.dataset.advancedPanel)));
+  if(faq)set(faq,false);
+  if(welcome){const h=welcome.querySelector('h1'),p=welcome.querySelector('p');if(h)h.textContent=view.title;if(p)p.textContent=view.desc;}
+  nav.forEach(a=>{const href=a.getAttribute('href')||'';const active=(key==='counter'&&href==='#editor-workspace')||(key==='character'&&href==='#charts-container')||(key==='find'&&href==='#find-text')||(key==='clean'&&href==='#btn-clean-text')||(key==='frequency'&&href==='#keyword-analysis')||(key==='advanced'&&href==='#advanced-analysis');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  const heading=advanced.querySelector('h2');if(heading)heading.textContent=key==='advanced'?'Advanced Analysis':'';
+  if(view.focus){view.focus.scrollIntoView({behavior:'smooth',block:'start'});if(key==='find')document.getElementById('find-text')?.focus({preventScroll:true});}
+ }
+ nav.forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const href=this.getAttribute('href');const key=href==='#editor-workspace'?'counter':href==='#charts-container'?'character':href==='#find-text'?'find':href==='#btn-clean-text'?'clean':href==='#keyword-analysis'?'frequency':href==='#advanced-analysis'?'advanced':'counter';applyView(key);}));
+ const pro=document.querySelector('.sidebar-pro a');if(pro)pro.addEventListener('click',e=>{e.preventDefault();applyView('advanced')});
+ const cleanBtn=document.getElementById('btn-clean-text');
+ if(cleanBtn)cleanBtn.addEventListener('click',()=>{const status=advanced.querySelector('.cleaner-status');if(status)status.textContent='Text cleaned successfully.';});
+ applyView('counter');
+})();
 </script>
 
       </div></div></div>

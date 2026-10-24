@@ -1069,6 +1069,102 @@
       .security-badge { display: none; }
     }
 
+
+  /* AI-designed writing workspace: editorial, calm, monochrome, editor-first */
+  :root {
+    --bg: #f7f7f5;
+    --card-bg: #ffffff;
+    --card-border: #e7e7e4;
+    --card-hover-border: #c9c9c4;
+    --text: #171715;
+    --text-muted: #777772;
+    --primary: #171715;
+    --primary-hover: #33332f;
+    --primary-light: rgba(20,20,18,.08);
+    --accent: #3e6b4f;
+    --accent-light: #edf4ee;
+    --radius: 16px;
+  }
+  body { background: var(--bg); padding: 0 24px 48px; color: var(--text); }
+  .sticky-secure-nav { background: rgba(255,255,255,.92); border-bottom: 1px solid var(--card-border); margin-bottom: 0; }
+  .sticky-nav-inner { max-width: 1080px; padding: 0 8px; }
+  .secure-home-btn { color: var(--text); font-size: 14px; font-weight: 650; }
+  .security-badge { color: #426b4d; background: #f0f5f0; border-color: #dce8dd; font-family: var(--font-sans); }
+  .theme-toggle-btn { background: #fff; border-color: var(--card-border); border-radius: 999px; padding: 8px 13px; }
+  .container { max-width: 1080px; }
+  .page-header-content { text-align: left; padding: 38px 0 22px; }
+  h1 { color: var(--text); background: none; -webkit-text-fill-color: currentColor; font-size: clamp(2rem,4.2vw,3rem); letter-spacing: -.055em; line-height: 1.08; font-weight: 760; margin-bottom: 12px; }
+  .hero-subtitle { margin: 0; max-width: 670px; font-size: 15px; color: var(--text-muted); }
+  main { display: flex; flex-direction: column; gap: 18px; }
+  .editor-card { margin: 0 0 2px; padding: 0; overflow: hidden; background: #fff; border: 1px solid #deded9; border-radius: 18px; box-shadow: 0 8px 30px rgba(20,20,16,.035); }
+  .editor-card[aria-label="Interactive Text Input Workspace"] { display: flex; flex-direction: column; }
+  textarea#main-textarea { order: 1; min-height: 350px; border: 0; border-radius: 0; background: #fff; padding: 25px 26px; font-size: 16px; line-height: 1.8; color: #22221f; resize: vertical; box-shadow: none; }
+  textarea#main-textarea:focus { border: 0; box-shadow: inset 0 0 0 2px #e5e5df; }
+  .editor-toolbar { order: 2; margin: 0 !important; padding: 13px 16px; border-top: 1px solid var(--card-border); background: #fcfcfb; align-items: center; }
+  .toolbar-left { gap: 6px; }
+  .sample-pill { border-radius: 999px; padding: 6px 11px; background: #fff; border-color: #e5e5e0; color: #5f5f59; font-size: 12px; }
+  .sample-pill:hover, .sample-pill.is-selected { border-color: #22221f; color: #171715; background: #f2f2ef; }
+  .action-btn-group { gap: 7px; flex-wrap: wrap; }
+  button.btn-act { background: #fff; border: 1px solid #deded9; color: #242420; border-radius: 9px; padding: 8px 12px; font-size: 12px; }
+  button.btn-act:hover, button.btn-act.is-selected { border-color: #22221f; color: #171715; background: #f2f2ef; }
+  button.btn-act-primary { background: #171715; border-color: #171715; color: #fff; }
+  button.btn-act-primary:hover, button.btn-act-primary.is-selected { background: #33332f; border-color: #33332f; color: #fff; }
+  .editor-status-bar { order: 3; margin: 0; padding: 12px 18px; background: #fff; border-top: 1px solid #eeeeea; font-size: 11px; }
+  .privacy-tag { color: #52735b; }
+  .metrics-grid-row[aria-label="Live Content Analysis Summary"] { margin: 0 !important; display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 10px; }
+  .metric-box { background: #fff; border: 1px solid var(--card-border); border-radius: 12px; padding: 16px 12px; text-align: left; box-shadow: none; }
+  .metric-box:hover { transform: none; border-color: var(--card-hover-border); }
+  .metric-num { color: #191916; font-size: clamp(22px,2.5vw,29px); letter-spacing: -.04em; }
+  .metric-title { font-size: 10px; letter-spacing: .055em; color: #73736c; }
+  .metric-sub { font-size: 10px; }
+  .editor-card[aria-label="Advanced writing tools"] { padding: 22px; margin-top: 0 !important; }
+  .editor-card[aria-label="Advanced writing tools"] h2 { font-size: 19px; letter-spacing: -.03em; }
+  .chart-section, .social-counter-card, .seo-section { background: #fff; border: 1px solid var(--card-border); border-radius: 16px; box-shadow: none; }
+  .chart-section { margin-top: 0; padding: 22px; }
+  .chart-header { align-items: flex-start; }
+  .chart-title-area h3 { color: #20201d; }
+  .chart-tabs { background: #f7f7f5; border-color: #e6e6e1; flex-wrap: wrap; }
+  .chart-tab-btn.active { background: #fff; color: #171715; }
+  .chart-kpi-card, .chart-box { background: #fafaf8; border-color: #e8e8e3; }
+  .bar-fill, .bar-fill.accent { background: #777770; }
+  .ad-banner-container { border: 1px dashed #d8d8d2; background: #fff; }
+  .ad-banner-label { color: #777770; }
+  .toast-alert { background: #171715; border-radius: 10px; }
+  .seo-section { padding: 30px; }
+  footer { border-color: var(--card-border); }
+  @media (max-width: 900px) {
+    body { padding: 0 16px 32px; }
+    .metrics-grid-row[aria-label="Live Content Analysis Summary"] { grid-template-columns: repeat(3,minmax(0,1fr)); }
+    .editor-toolbar { align-items: flex-start; }
+  }
+  @media (max-width: 600px) {
+    body { padding: 0 12px 28px !important; }
+    .sticky-nav-inner { padding: 0 12px; }
+    .security-badge { display: none; }
+    .page-header-content { padding: 28px 2px 18px !important; text-align: left; }
+    h1 { font-size: 31px; }
+    .hero-subtitle { font-size: 14px; }
+    .editor-card[aria-label="Interactive Text Input Workspace"] { border-radius: 14px !important; border: 1px solid #deded9 !important; }
+    textarea#main-textarea { min-height: 300px !important; padding: 19px 16px !important; font-size: 16px !important; }
+    .editor-toolbar { padding: 12px !important; }
+    .toolbar-left { width: 100%; }
+    .action-btn-group { display: flex; width: 100%; }
+    .action-btn-group .btn-act { flex: 1 1 auto; }
+    .editor-status-bar { align-items: flex-start; padding: 11px 12px; }
+    .metrics-grid-row[aria-label="Live Content Analysis Summary"] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; padding: 0 !important; gap: 8px !important; }
+    .metric-box { border-radius: 11px !important; padding: 13px 11px !important; }
+    .metric-box .metric-num { font-size: 25px !important; }
+    .editor-card[aria-label="Advanced writing tools"] { padding: 17px; }
+    .chart-section, .social-counter-card, .seo-section { padding: 17px !important; border-radius: 14px !important; }
+    .chart-header { gap: 12px; }
+    .chart-tabs { width: 100%; }
+    .chart-tab-btn { flex: 1 1 auto; padding: 7px 8px; }
+    .ad-banner-container { min-height: 60px; height: 60px; margin: 12px 0; }
+    .ad-banner-sub { font-size: 9px; }
+    .seo-section { border: 1px solid var(--card-border) !important; }
+    footer { padding: 24px 0 !important; }
+  }
+
   </style>
 </head>
 <body>
@@ -1096,12 +1192,6 @@
         Count words and characters instantly with this free online word counter. Check characters with or without spaces, sentences, paragraphs, and estimated reading time for essays, articles, and everyday writing.
       </p>
     </header>
-
-    <!-- Top Ad Placeholder (Anti-CLS, 728x90) -->
-    <aside class="ad-banner-container" aria-label="Top Advertisement">
-      <div class="ad-banner-label">[ Future Ad Space ]</div>
-      <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile • Google AdSense & Media.net Compliant</div>
-    </aside>
 
     <main>
       <!-- Main Input Textarea Card: Strictly Top Layer -->
@@ -1134,6 +1224,42 @@
             <span>🔒 Confidential Sandbox: 100% Client-Side Memory Processing</span>
           </div>
           <div id="word-density-summary">Estimated Speed: ~225 wpm silent reading</div>
+        </div>
+      </section>
+
+
+
+      <!-- Real-Time Metrics Row Neatly Underneath -->
+      <section class="metrics-grid-row" aria-label="Live Content Analysis Summary" style="margin-top: 20px;">
+        <div class="metric-box">
+          <div class="metric-num" id="metric-words">0</div>
+          <div class="metric-title">Total Words</div>
+          <div class="metric-sub">Multi-language aware</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num" id="metric-chars-all">0</div>
+          <div class="metric-title">Characters</div>
+          <div class="metric-sub">Including spaces</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num" id="metric-chars-no-space">0</div>
+          <div class="metric-title">Chars (No Space)</div>
+          <div class="metric-sub">Pure text volume</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num" id="metric-sentences">0</div>
+          <div class="metric-title">Sentences</div>
+          <div class="metric-sub">Global punctuation</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num" id="metric-lines">0</div>
+          <div class="metric-title">Lines</div>
+          <div class="metric-sub" id="metric-paragraphs">0 paragraphs</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-num" id="metric-reading">0s</div>
+          <div class="metric-title">Reading Time</div>
+          <div class="metric-sub" id="metric-speaking">0s speaking</div>
         </div>
       </section>
 
@@ -1173,39 +1299,6 @@
         <p id="find-replace-status" aria-live="polite" style="margin-top:8px;"></p>
       </section>
 
-      <!-- Real-Time Metrics Row Neatly Underneath -->
-      <section class="metrics-grid-row" aria-label="Live Content Analysis Summary" style="margin-top: 20px;">
-        <div class="metric-box">
-          <div class="metric-num" id="metric-words">0</div>
-          <div class="metric-title">Total Words</div>
-          <div class="metric-sub">Multi-language aware</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-num" id="metric-chars-all">0</div>
-          <div class="metric-title">Characters</div>
-          <div class="metric-sub">Including spaces</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-num" id="metric-chars-no-space">0</div>
-          <div class="metric-title">Chars (No Space)</div>
-          <div class="metric-sub">Pure text volume</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-num" id="metric-sentences">0</div>
-          <div class="metric-title">Sentences</div>
-          <div class="metric-sub">Global punctuation</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-num" id="metric-lines">0</div>
-          <div class="metric-title">Lines</div>
-          <div class="metric-sub" id="metric-paragraphs">0 paragraphs</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-num" id="metric-reading">0s</div>
-          <div class="metric-title">Reading Time</div>
-          <div class="metric-sub" id="metric-speaking">0s speaking</div>
-        </div>
-      </section>
 
       <!-- Visual Text Analytics & Distribution Charts -->
       <section class="chart-section" id="charts-container" aria-label="Word and Character Distribution Charts">
@@ -1285,6 +1378,13 @@
           <tbody id="keyword-density-rows"><tr><td colspan="3" style="padding:14px;color:var(--text-muted)">Type or paste text to analyze repeated words.</td></tr></tbody>
         </table></div>
       </section>
+
+    <!-- Top Ad Placeholder (Anti-CLS, 728x90) -->
+    <aside class="ad-banner-container" aria-label="Top Advertisement">
+      <div class="ad-banner-label">[ Future Ad Space ]</div>
+      <div class="ad-banner-sub">728 × 90 Leaderboard / 320 × 50 Mobile • Google AdSense & Media.net Compliant</div>
+    </aside>
+
 
       <!-- Bottom Ad Placeholder (Anti-CLS, 728x90) -->
       <aside class="ad-banner-container" aria-label="Bottom Advertisement">

@@ -99,18 +99,19 @@
     /* Warm, cozy Christmas theme */
     :root{color-scheme:light;--bg:#FDFBF7;--panel:#FFFDF8;--panel2:#F5EEE4;--white:#24352D;--muted:#655F56;--green:#1B4D3E;--red:#A22323;--gold:#D4AF37;--line:#E8DCC8;--radius:22px}
     html{background:var(--bg)}
-    body{background:radial-gradient(ellipse at 50% 0%,#E7EEDB 0%,transparent 48%),var(--bg);color:var(--white);font-family:Inter,system-ui,sans-serif}
+    body{background:linear-gradient(180deg,rgba(14,24,19,.42),rgba(14,24,19,.58)),url("https://images.unsplash.com/photo-1511600173735-a896042389cf?auto=format&fit=crop&fm=jpg&q=80&w=2200") center 35%/cover fixed,var(--bg);color:var(--white);font-family:Inter,system-ui,sans-serif}
+    body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,20,14,.24),rgba(8,20,14,.56));}
     h1,h2,h3,.brand{font-family:"Playfair Display",Georgia,serif}
     h1{letter-spacing:-.045em;line-height:1.08}
     h1 em{color:var(--red);text-shadow:0 2px 18px #A223231A}
     h2{color:var(--green)}
     p,.lead{color:var(--muted)}
-    .topbar{background:#FDFBF7E8;border-bottom:1px solid var(--line)}
+    .topbar{background:rgba(253,251,247,.18);border-bottom:1px solid rgba(255,255,255,.22);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
     .brand{color:var(--green)}
     .brand-mark{border-color:#D4AF3755;background:#D4AF371A}
     a,.navlink{color:var(--green)}
     a:hover{color:var(--red)}
-    .hero{background:radial-gradient(ellipse at top left,#FFFFFFD9,transparent 65%),linear-gradient(145deg,#FFFDF8,#F4E9D8);border:1px solid #D4AF3780;box-shadow:0 22px 55px #593A1710,inset 0 1px 0 #FFFFFF}
+    .hero{background:linear-gradient(135deg,rgba(255,253,248,.74),rgba(245,233,216,.58));border:1px solid rgba(255,255,255,.55);box-shadow:0 22px 55px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.65);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
     .hero:before{background:var(--green);opacity:.10}
     .hero:after{background:var(--red);opacity:.09}
     .pill{color:var(--green);background:#1B4D3E0D;border-color:#1B4D3E38}
@@ -123,7 +124,7 @@
     .unit:nth-child(3) .num{color:#9A7418}
     .unit:nth-child(4) .num{color:var(--green)}
     .unit-label{color:#655F56}
-    .section{background:#FFFFFFC7;border:1px solid #D4AF374A;box-shadow:0 12px 35px #593A1708,inset 0 1px 0 #FFFFFF;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .section{background:rgba(255,253,248,.70);border:1px solid rgba(255,255,255,.56);box-shadow:0 12px 35px rgba(0,0,0,.13),inset 0 1px 0 rgba(255,255,255,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
     .eyebrow{color:var(--red)}
     .fact,.mile{background:#F7F0E6E0;border:1px solid #E8DCC8;border-radius:15px}
     .fact strong{color:var(--green)}
@@ -328,13 +329,14 @@
 
   <!-- Christmas ambience: attempt autoplay; browsers may require a first user gesture for sound. -->
   <style>
-    .christmas-music{position:fixed;right:16px;bottom:16px;z-index:1000;display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid rgba(212,175,55,.55);border-radius:999px;background:rgba(253,251,247,.96);box-shadow:0 8px 28px rgba(28,55,43,.18);backdrop-filter:blur(12px);color:#1B4D3E;font:600 13px/1.2 Inter,system-ui,sans-serif}
-    .christmas-music button{border:0;border-radius:999px;background:#1B4D3E;color:#fff;padding:9px 13px;font:inherit;cursor:pointer;white-space:nowrap}
+     .christmas-music{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:13px;padding:12px 17px;border:1px solid rgba(244,213,138,.85);border-radius:18px;background:rgba(15,39,28,.91);box-shadow:0 10px 32px rgba(0,0,0,.28),0 0 22px rgba(244,213,138,.15);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff8e8;font:600 14px/1.2 Inter,system-ui,sans-serif}
+    .christmas-music button{border:1px solid rgba(244,213,138,.65);border-radius:13px;background:linear-gradient(135deg,#b9232b,#8f171f);color:#fff;padding:13px 19px;font-size:15px;font-weight:850;cursor:pointer;white-space:nowrap;box-shadow:0 5px 16px rgba(0,0,0,.22)}
     .christmas-music button:focus-visible{outline:3px solid #D4AF37;outline-offset:3px}
-    .christmas-music .music-note{font-size:19px}
-    .christmas-music .music-caption{display:flex;flex-direction:column;gap:3px}
-    .christmas-music small{font-size:10px;font-weight:500;opacity:.78}
-    @media(max-width:480px){.christmas-music{right:10px;bottom:10px;padding:8px 10px;gap:7px}.christmas-music .music-caption{max-width:130px}.christmas-music button{padding:9px 11px}}
+    .christmas-music .music-note{font-size:25px}
+    .christmas-music .music-caption{display:flex;flex-direction:column;gap:4px}
+    .christmas-music small{font-size:11px;font-weight:500;opacity:.85}
+    .topbar{padding-top:78px}
+    @media(max-width:480px){.christmas-music{top:8px;width:max-content;max-width:calc(100% - 16px);gap:8px;padding:9px 11px;border-radius:15px}.christmas-music .music-caption{max-width:115px}.christmas-music button{padding:12px 13px;font-size:13px}.christmas-music .music-note{font-size:22px}.topbar{padding-top:76px}.hero,.section{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}}
   </style>
   <div class="christmas-music" role="group" aria-label="Christmas background music">
     <span class="music-note" aria-hidden="true">🎹</span>

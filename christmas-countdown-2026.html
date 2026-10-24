@@ -647,5 +647,27 @@
   }
 </style>
 
+
+<style id="cls-stability-fix">
+  /* Reserve stable dimensions for the fixed music control so its changing labels cannot shift nearby content. */
+  .christmas-music{width:340px!important;min-height:64px!important;max-width:calc(100% - 20px)!important;justify-content:space-between!important;contain:layout paint!important}
+  .christmas-music .music-note{flex:0 0 30px!important;width:30px!important;text-align:center!important}
+  .christmas-music .music-caption{flex:1 1 auto!important;min-width:0!important;height:34px!important;justify-content:center!important;overflow:hidden!important}
+  .christmas-music #music-title,.christmas-music #music-status{display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;line-height:16px!important}
+  .christmas-music button{flex:0 0 126px!important;width:126px!important;min-width:126px!important;max-width:126px!important;min-height:44px!important;white-space:nowrap!important}
+  .topbar{padding-top:92px!important}
+  #snow-layer{contain:strict!important}
+  .timer .num{font-variant-numeric:tabular-nums!important}
+  @media(max-width:520px){
+    .christmas-music{width:calc(100% - 16px)!important;min-height:58px!important;padding:7px 9px!important;gap:8px!important}
+    .christmas-music .music-note{flex-basis:24px!important;width:24px!important;font-size:20px!important}
+    .christmas-music .music-caption{height:30px!important}
+    .christmas-music #music-title{font-size:11px!important}
+    .christmas-music small{font-size:9px!important}
+    .christmas-music button{flex-basis:112px!important;width:112px!important;min-width:112px!important;max-width:112px!important;min-height:40px!important;padding:9px 8px!important;font-size:12px!important}
+    .topbar{padding-top:82px!important}
+  }
+</style>
+
 </body>
 </html>

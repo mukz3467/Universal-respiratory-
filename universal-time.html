@@ -977,6 +977,31 @@
   }
   </style>
 
+
+  <style>
+    .country-time-lookup {
+      margin: 18px 0 28px;
+      padding: 22px;
+      border-radius: 14px;
+      background: var(--card-bg, #111827);
+      border: 1px solid var(--border, rgba(255,255,255,.14));
+      color: var(--text, #fff);
+    }
+    .country-time-lookup h2 { margin: 0 0 8px; font-weight: 900; }
+    .country-time-lookup .desc { margin: 0 0 16px; }
+    .country-time-lookup label { display:block; font-weight:800; margin-bottom:7px; }
+    #country-time-search {
+      width:100%; box-sizing:border-box; padding:13px 14px; border-radius:10px;
+      border:1px solid var(--border, #4b5563); background:var(--bg, #030712);
+      color:var(--text, #fff); font:inherit; outline-offset:3px;
+    }
+    .country-time-result { margin-top:16px; padding:16px 4px 2px; text-align:center; }
+    #country-time-name { font-size:1.15rem; font-weight:900; }
+    #country-time-clock { font-size:clamp(2rem,8vw,3.5rem); font-weight:950; font-variant-numeric:tabular-nums; letter-spacing:.02em; }
+    #country-time-date, #country-time-zone { opacity:.85; margin-top:5px; }
+    #country-time-error { color:#f87171; margin:8px 0 0; }
+  </style>
+
 </head>
 <body>
   <!-- Top Sticky Secure Navigation -->
@@ -1038,6 +1063,23 @@
         <div class="utc-digital-clock" id="master-utc-clock">00:00:00</div>
         <div class="utc-calendar-date" id="master-utc-date">Synchronizing atomic reference...</div>
         <div class="utc-precision-indicator" id="master-utc-ms">Live browser clock • Displayed in UTC</div>
+      </section>
+
+
+      <!-- Searchable country time lookup -->
+      <section class="country-time-lookup" aria-labelledby="country-time-title">
+        <h2 id="country-time-title">Find Current Time by Country</h2>
+        <p class="desc">Search or select a country to see its current local time.</p>
+        <label for="country-time-search">Country</label>
+        <input id="country-time-search" type="search" list="country-time-options" placeholder="Type a country name, e.g. Japan" autocomplete="off">
+        <datalist id="country-time-options"></datalist>
+        <div class="country-time-result" aria-live="polite">
+          <div id="country-time-name">Choose a country to begin</div>
+          <div id="country-time-clock">--:--:--</div>
+          <div id="country-time-date">The current local date and time will appear here.</div>
+          <div id="country-time-zone"></div>
+        </div>
+        <p id="country-time-error" role="status"></p>
       </section>
 
       <!-- Worldwide Freelancer Grid -->
@@ -1109,26 +1151,7 @@
         </div>
       </section>
 
-      <!-- Zero-Crash Focus Countdown Module -->
-      <section class="countdown-module" aria-label="Sprint Focus Countdown Timer">
-        <h2>Free Online Countdown Timer</h2>
-        <p class="desc">Set a focused work session, study break or countdown. The timer runs in your browser.</p>
-
-        <div class="countdown-timer-display" id="cd-display">25:00</div>
-
-        <div class="countdown-action-row">
-          <button class="btn-countdown btn-primary-cd" id="cd-start">Start Timer</button>
-          <button class="btn-countdown" id="cd-add">+1 Min</button>
-          <button class="btn-countdown" id="cd-reset">Reset</button>
-        </div>
-
-        <div class="preset-pill-group">
-          <button class="preset-btn" data-sec="300">5 Min Quick Break</button>
-          <button class="preset-btn" data-sec="900">15 Min Short Sprint</button>
-          <button class="preset-btn active" data-sec="1500">25m Pomodoro Focus</button>
-          <button class="preset-btn" data-sec="3000">50m Deep Work</button>
-        </div>
-      </section>
+      <!-- Focus countdown module removed; this page is dedicated to world time. -->
 
       <!-- Bottom Ad Placeholder (Anti-CLS, 728x90) -->
       <aside class="ad-banner-container" aria-label="Bottom Advertisement">
@@ -1477,5 +1500,114 @@
       });
     })();
   </script>
+
+  <script>
+    (function () {
+      const search = document.getElementById('country-time-search');
+      const options = document.getElementById('country-time-options');
+      const nameEl = document.getElementById('country-time-name');
+      const clockEl = document.getElementById('country-time-clock');
+      const dateEl = document.getElementById('country-time-date');
+      const zoneEl = document.getElementById('country-time-zone');
+      const errorEl = document.getElementById('country-time-error');
+      if (!search || !options || !clockEl) return;
+
+      const countries = {
+        "Afghanistan":"Asia/Kabul","Albania":"Europe/Tirane","Algeria":"Africa/Algiers",
+        "Andorra":"Europe/Andorra","Angola":"Africa/Luanda","Argentina":"America/Argentina/Buenos_Aires",
+        "Armenia":"Asia/Yerevan","Australia":"Australia/Sydney","Austria":"Europe/Vienna",
+        "Azerbaijan":"Asia/Baku","Bahrain":"Asia/Bahrain","Bangladesh":"Asia/Dhaka",
+        "Belarus":"Europe/Minsk","Belgium":"Europe/Brussels","Bhutan":"Asia/Thimphu",
+        "Bolivia":"America/La_Paz","Bosnia and Herzegovina":"Europe/Sarajevo","Botswana":"Africa/Gaborone",
+        "Brazil":"America/Sao_Paulo","Brunei":"Asia/Brunei","Bulgaria":"Europe/Sofia",
+        "Cambodia":"Asia/Phnom_Penh","Cameroon":"Africa/Douala","Canada":"America/Toronto",
+        "Chile":"America/Santiago","China":"Asia/Shanghai","Colombia":"America/Bogota",
+        "Costa Rica":"America/Costa_Rica","Croatia":"Europe/Zagreb","Cuba":"America/Havana",
+        "Cyprus":"Asia/Nicosia","Czechia":"Europe/Prague","Denmark":"Europe/Copenhagen",
+        "Dominican Republic":"America/Santo_Domingo","Ecuador":"America/Guayaquil","Egypt":"Africa/Cairo",
+        "El Salvador":"America/El_Salvador","Estonia":"Europe/Tallinn","Ethiopia":"Africa/Addis_Ababa",
+        "Finland":"Europe/Helsinki","France":"Europe/Paris","Georgia":"Asia/Tbilisi",
+        "Germany":"Europe/Berlin","Ghana":"Africa/Accra","Greece":"Europe/Athens",
+        "Guatemala":"America/Guatemala","Hungary":"Europe/Budapest","Iceland":"Atlantic/Reykjavik",
+        "India":"Asia/Kolkata","Indonesia":"Asia/Jakarta","Iran":"Asia/Tehran",
+        "Iraq":"Asia/Baghdad","Ireland":"Europe/Dublin","Israel":"Asia/Jerusalem",
+        "Italy":"Europe/Rome","Jamaica":"America/Jamaica","Japan":"Asia/Tokyo",
+        "Jordan":"Asia/Amman","Kazakhstan":"Asia/Almaty","Kenya":"Africa/Nairobi",
+        "Kuwait":"Asia/Kuwait","Kyrgyzstan":"Asia/Bishkek","Laos":"Asia/Vientiane",
+        "Latvia":"Europe/Riga","Lebanon":"Asia/Beirut","Libya":"Africa/Tripoli",
+        "Lithuania":"Europe/Vilnius","Luxembourg":"Europe/Luxembourg","Madagascar":"Indian/Antananarivo",
+        "Malaysia":"Asia/Kuala_Lumpur","Maldives":"Indian/Maldives","Malta":"Europe/Malta",
+        "Mauritius":"Indian/Mauritius","Mexico":"America/Mexico_City","Mongolia":"Asia/Ulaanbaatar",
+        "Morocco":"Africa/Casablanca","Mozambique":"Africa/Maputo","Myanmar":"Asia/Yangon",
+        "Namibia":"Africa/Windhoek","Nepal":"Asia/Kathmandu","Netherlands":"Europe/Amsterdam",
+        "New Zealand":"Pacific/Auckland","Nigeria":"Africa/Lagos","North Korea":"Asia/Pyongyang",
+        "North Macedonia":"Europe/Skopje","Norway":"Europe/Oslo","Oman":"Asia/Muscat",
+        "Pakistan":"Asia/Karachi","Palestine":"Asia/Gaza","Panama":"America/Panama",
+        "Paraguay":"America/Asuncion","Peru":"America/Lima","Philippines":"Asia/Manila",
+        "Poland":"Europe/Warsaw","Portugal":"Europe/Lisbon","Qatar":"Asia/Qatar",
+        "Romania":"Europe/Bucharest","Russia":"Europe/Moscow","Rwanda":"Africa/Kigali",
+        "Saudi Arabia":"Asia/Riyadh","Senegal":"Africa/Dakar","Serbia":"Europe/Belgrade",
+        "Singapore":"Asia/Singapore","Slovakia":"Europe/Bratislava","Slovenia":"Europe/Ljubljana",
+        "Somalia":"Africa/Mogadishu","South Africa":"Africa/Johannesburg","South Korea":"Asia/Seoul",
+        "South Sudan":"Africa/Juba","Spain":"Europe/Madrid","Sri Lanka":"Asia/Colombo",
+        "Sudan":"Africa/Khartoum","Sweden":"Europe/Stockholm","Switzerland":"Europe/Zurich",
+        "Syria":"Asia/Damascus","Taiwan":"Asia/Taipei","Tajikistan":"Asia/Dushanbe",
+        "Tanzania":"Africa/Dar_es_Salaam","Thailand":"Asia/Bangkok","Tunisia":"Africa/Tunis",
+        "Turkey":"Europe/Istanbul","Turkmenistan":"Asia/Ashgabat","Uganda":"Africa/Kampala",
+        "Ukraine":"Europe/Kyiv","United Arab Emirates":"Asia/Dubai","United Kingdom":"Europe/London",
+        "United States":"America/New_York","Uruguay":"America/Montevideo","Uzbekistan":"Asia/Tashkent",
+        "Venezuela":"America/Caracas","Vietnam":"Asia/Ho_Chi_Minh","Yemen":"Asia/Aden",
+        "Zambia":"Africa/Lusaka","Zimbabwe":"Africa/Harare"
+      };
+
+      Object.keys(countries).sort((a,b) => a.localeCompare(b)).forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        options.appendChild(option);
+      });
+
+      let selectedZone = null;
+      function updateCountryClock() {
+        if (!selectedZone) return;
+        const now = new Date();
+        try {
+          clockEl.textContent = new Intl.DateTimeFormat('en-GB', {
+            timeZone: selectedZone, hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23'
+          }).format(now);
+          dateEl.textContent = new Intl.DateTimeFormat('en-US', {
+            timeZone: selectedZone, weekday:'long', year:'numeric', month:'long', day:'numeric'
+          }).format(now);
+          zoneEl.textContent = 'Time zone: ' + selectedZone + ' · Live local time';
+        } catch (e) {
+          errorEl.textContent = 'Time could not be displayed for this selection.';
+        }
+      }
+      function chooseCountry() {
+        const country = search.value.trim();
+        errorEl.textContent = '';
+        if (!country) {
+          selectedZone = null;
+          nameEl.textContent = 'Choose a country to begin';
+          clockEl.textContent = '--:--:--';
+          dateEl.textContent = 'The current local date and time will appear here.';
+          zoneEl.textContent = '';
+          return;
+        }
+        if (!Object.prototype.hasOwnProperty.call(countries, country)) {
+          selectedZone = null;
+          errorEl.textContent = 'Please choose a country from the suggested list.';
+          return;
+        }
+        selectedZone = countries[country];
+        nameEl.textContent = country;
+        updateCountryClock();
+      }
+      search.addEventListener('input', chooseCountry);
+      search.addEventListener('change', chooseCountry);
+      chooseCountry();
+      window.setInterval(updateCountryClock, 1000);
+    })();
+  </script>
+
 </body>
 </html>

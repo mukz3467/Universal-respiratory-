@@ -1789,14 +1789,40 @@
       }
       document.getElementById("word-goal").addEventListener("input", updateAdvancedStats);
       document.getElementById("btn-find-replace").addEventListener("click", function () {
-        var find = document.getElementById("find-text").value;
-        var replacement = document.getElementById("replace-text").value;
+        var findInput = document.getElementById("find-text");
+        var replaceInput = document.getElementById("replace-text");
         var status = document.getElementById("find-replace-status");
-        if (!find) { status.textContent = "Enter the text you want to find."; return; }
+        var find = findInput.value;
+        var replacement = replaceInput.value;
         var source = textarea.value;
-        var count = source.split(find).length - 1;
-        if (!count) { status.textContent = "No exact matches found."; return; }
-        textarea.value = source.split(find).join(replacement);
+
+        if (find.length === 0) {
+          status.textContent = "Enter the text you want to find.";
+          findInput.focus();
+          return;
+        }
+
+        // Literal, case-insensitive replacement; avoids treating user text as a regex.
+        var sourceLower = source.toLocaleLowerCase();
+        var findLower = find.toLocaleLowerCase();
+        var output = "";
+        var cursor = 0;
+        var count = 0;
+        var matchAt;
+
+        while ((matchAt = sourceLower.indexOf(findLower, cursor)) !== -1) {
+          output += source.slice(cursor, matchAt) + replacement;
+          cursor = matchAt + find.length;
+          count++;
+        }
+
+        if (count === 0) {
+          status.textContent = "No matches found. Check the spelling and try again.";
+          return;
+        }
+
+        output += source.slice(cursor);
+        textarea.value = output;
         refreshMetrics();
         status.textContent = "Replaced " + count + " occurrence" + (count === 1 ? "" : "s") + ".";
       });

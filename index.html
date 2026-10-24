@@ -154,6 +154,57 @@
     .benefit{background:#fafaff;border-color:#e9e8f8}
     @media(max-width:1000px){.saved-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:680px){.tool-grid{grid-template-columns:1fr}.saved-grid{grid-template-columns:1fr}.saved-section{padding:16px}.saved-heading{align-items:flex-start;flex-direction:column}.hero{padding-top:48px}.section-head{margin-top:52px}}
+
+    /* Premium + luxury layer: restrained motion, glass surfaces, accessible theme toggle */
+    .theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 11px;border:1px solid #e3e3ef;border-radius:10px;background:rgba(255,255,255,.8);color:#35334f;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
+    .theme-toggle:hover{border-color:#aaa4ff;background:#f5f4ff}
+    .hero{position:relative;isolation:isolate}
+    .hero:before{content:"";position:absolute;z-index:-1;width:min(660px,95vw);height:360px;left:50%;top:5px;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(126,113,255,.13),rgba(190,166,255,.07) 38%,transparent 72%);filter:blur(12px);pointer-events:none;animation:heroGlow 8s ease-in-out infinite alternate}
+    .eyebrow{box-shadow:0 5px 22px rgba(67,56,202,.045)}
+    .hero-preview{background:rgba(255,255,255,.88);backdrop-filter:blur(18px);animation:previewEnter .7s cubic-bezier(.2,.75,.25,1) both}
+    .preview-mini{transition:transform .2s,border-color .2s,box-shadow .2s}
+    .preview-mini:hover{transform:translateY(-2px);border-color:#c8c3ff;box-shadow:0 8px 20px rgba(65,55,190,.07)}
+    .tool-card{animation:cardEnter .55s both}
+    .tool-card:nth-child(2){animation-delay:.06s}.tool-card:nth-child(3){animation-delay:.12s}.tool-card:nth-child(4){animation-delay:.18s}
+    .stat{transition:background .2s}.stat:hover{background:rgba(99,91,255,.035)}
+    @keyframes heroGlow{from{opacity:.65;transform:translateX(-50%) scale(.96)}to{opacity:1;transform:translateX(-50%) scale(1.04)}}
+    @keyframes previewEnter{from{opacity:0;transform:perspective(1200px) translateY(12px) rotateX(2deg)}to{opacity:1;transform:perspective(1200px) translateY(0) rotateX(1deg)}}
+    @keyframes cardEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+    body.dark-theme{color:#eef0ff;background:radial-gradient(ellipse at 50% -18%,rgba(99,91,255,.2),transparent 42%),#0b0d16;--ink:#eef0ff;--muted:#a6abc0;--line:#292d40;--soft:#141827}
+    body.dark-theme .site-nav{background:rgba(12,14,24,.88);border-color:#292d40}
+    body.dark-theme .brand{color:#f7f7ff}
+    body.dark-theme .nav-links a{color:#b5bad0}
+    body.dark-theme .nav-links a:hover,body.dark-theme .nav-links a.active{color:#aaa4ff}
+    body.dark-theme .nav-search,body.dark-theme .theme-toggle{background:#151827;color:#e4e5ff;border-color:#30344b}
+    body.dark-theme .nav-links.open{background:#111421;border-color:#292d40}
+    body.dark-theme .eyebrow{background:#151827;border-color:#37345e;color:#c2bdff}
+    body.dark-theme .hero-copy,body.dark-theme .section-head p,body.dark-theme .tool-card p,body.dark-theme .content-section p{color:#a6abc0}
+    body.dark-theme .search-form,body.dark-theme .stats,body.dark-theme .tool-card,body.dark-theme .hero-preview,body.dark-theme .content-section{background:#111421;border-color:#292d40;color:#eef0ff}
+    body.dark-theme .search-form input{color:#eef0ff}
+    body.dark-theme .search-form input::placeholder{color:#8c92aa}
+    body.dark-theme .stat{border-color:#292d40}
+    body.dark-theme .stat-icon,body.dark-theme .benefit{background:#1b2034;color:#c5c0ff;border-color:#30344b}
+    body.dark-theme .stat small,body.dark-theme .benefit span,body.dark-theme .promo p{color:#a6abc0}
+    body.dark-theme .tool-card:hover{background:#151a2b;border-color:#6159c9}
+    body.dark-theme .arrow-circle,body.dark-theme .favorite-btn{background:#171a2a;color:#c2bdff;border-color:#353956}
+    body.dark-theme .favorite-btn[aria-pressed="true"]{background:#29234f;border-color:#6d63df}
+    body.dark-theme .saved-section{background:#121426;border-color:#37345e}
+    body.dark-theme .saved-item{background:#171a2a;border-color:#30344b;color:#eef0ff}
+    body.dark-theme .promo{background:radial-gradient(ellipse at 100% 0%,rgba(99,91,255,.17),transparent 50%),#121626;border-color:#292d40}
+    body.dark-theme .content-section a{color:#c2bdff}
+    body.dark-theme .footer-inner,body.dark-theme .footer-links a{color:#a6abc0}
+    body.dark-theme footer{border-color:#292d40}
+    body.dark-theme .preview-top{background:#171a2a;border-color:#292d40}
+    body.dark-theme .preview-side{border-color:#292d40}
+    body.dark-theme .preview-side-line{background:#292d40}
+    body.dark-theme .preview-mini{background:#151827;border-color:#30344b}
+    body.dark-theme .preview-mini small,body.dark-theme .preview-welcome small{color:#a6abc0}
+    body.dark-theme .preview-mini b,body.dark-theme .preview-welcome strong{color:#f1f1ff}
+    body.dark-theme .preview-date{background:#29234f;color:#c2bdff}
+    body.dark-theme .empty-state{color:#a6abc0}
+    @media(max-width:680px){.theme-toggle{padding:9px 10px}.theme-toggle span{display:none}.hero:before{height:280px}}
+
   </style>
 </head>
 <body>
@@ -163,7 +214,7 @@
       <div class="nav-links" id="nav-links">
         <a class="active" href="/">Home</a><a href="#popular-tools">All Tools</a><a href="case-converter.html">Converters</a><a href="universal-time.html">Time &amp; Date</a><a href="word-counter.html">Text Tools</a>
       </div>
-      <div class="nav-right"><a class="nav-search" href="#tool-search">⌕ &nbsp; Find a tool</a><button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links">Menu ☰</button></div>
+      <div class="nav-right"><a class="nav-search" href="#tool-search">⌕ &nbsp; Find a tool</a><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch theme">☾ <span>Theme</span></button><button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links">Menu ☰</button></div>
     </div>
   </nav>
   <main class="wrap">
@@ -277,6 +328,23 @@
         });
       });
       paintSaved();
+      var themeButton=document.getElementById('theme-toggle');
+      var themeKey='omnitool_theme_v1';
+      function applyTheme(theme){
+        var dark=theme==='dark';
+        document.body.classList.toggle('dark-theme',dark);
+        themeButton.innerHTML=dark?'☀ <span>Theme</span>':'☾ <span>Theme</span>';
+        themeButton.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+        themeButton.setAttribute('title',dark?'Switch to light mode':'Switch to dark mode');
+      }
+      var preferredTheme='light';
+      try{preferredTheme=localStorage.getItem(themeKey)||'light'}catch(e){}
+      applyTheme(preferredTheme);
+      themeButton.addEventListener('click',function(){
+        var next=document.body.classList.contains('dark-theme')?'light':'dark';
+        applyTheme(next);
+        try{localStorage.setItem(themeKey,next)}catch(e){}
+      });
       var menu=document.getElementById('menu-btn'), links=document.getElementById('nav-links');
       menu.addEventListener('click',function(){var open=links.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));});
       links.addEventListener('click',function(e){if(e.target.tagName==='A'){links.classList.remove('open');menu.setAttribute('aria-expanded','false');}});

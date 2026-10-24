@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="OmniTool Global black interlocking logo">
-  <rect width="128" height="128" rx="24" fill="#ffffff"/>
-  <g fill="none" stroke="#000000" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M29 43c0-10 8-18 18-18h15c10 0 18 8 18 18v7c0 10-8 18-18 18H47"/>
-    <path d="M99 85c0 10-8 18-18 18H66c-10 0-18-8-18-18v-7c0-10 8-18 18-18h15"/>
-    <path d="M47 43v42M81 43v42"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="OmniTool Global blue geometric logo">
+  <rect width="128" height="128" rx="26" fill="#ffffff"/>
+  <defs>
+    <linearGradient id="blue" x1="18" y1="18" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#24c6dc"/>
+      <stop offset="1" stop-color="#2463eb"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 13 108 38.5 108 89.5 64 115 20 89.5 20 38.5Z" fill="none" stroke="url(#blue)" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M43 45 64 33 85 45 85 69 64 81 43 69Z" fill="url(#blue)"/>
+  <path d="M43 73 64 85 85 73 85 83 64 96 43 83Z" fill="#2463eb" opacity=".92"/>
+  <circle cx="64" cy="64" r="7" fill="#ffffff"/>
 </svg>

@@ -217,6 +217,54 @@
     body.dark-theme .preview-clock{color:#f0efff}
     @media(max-width:680px){.preview-clock{font-size:12px}.preview-live-meta{gap:3px}.preview-date{font-size:7px}}
 
+  
+    /* Readability pass: stronger typography and reliable contrast in both themes */
+    body{font-weight:500;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    p,li,label,input,button,small{font-weight:550}
+    .nav-links a,.nav-search,.text-link,.footer-links a{font-weight:750}
+    .hero-copy{color:#454b5a;font-weight:600}
+    .section-head p,.tool-card p,.content-section p,.promo p{color:#454b5a;font-weight:550}
+    .stat small,.benefit span,.saved-heading p,.footer-inner,.preview-mini small,.preview-welcome small{color:#52586a;font-weight:600}
+    .tool-card h3,.content-section h3,.content-section h2,.promo h2,.section-head h2{color:#111827;font-weight:800}
+    .card-bottom{font-weight:900}
+    .eyebrow,.preview-label,.preview-status,.preview-welcome small{font-weight:900}
+    .preview-mini b,.preview-welcome strong{font-weight:800}
+    .search-form input{font-weight:600}
+    .search-form input::placeholder{color:#555b6b;opacity:1;font-weight:600}
+    .theme-toggle,.menu-btn,.search-form button,.black-btn{font-weight:850}
+    .content-section a{font-weight:800;text-decoration-thickness:1.5px}
+    .footer-links a{color:#454b5a}
+    body.dark-theme .hero-copy,
+    body.dark-theme .section-head p,
+    body.dark-theme .tool-card p,
+    body.dark-theme .content-section p,
+    body.dark-theme .promo p{color:#d0d5e5;font-weight:550}
+    body.dark-theme .stat small,
+    body.dark-theme .benefit span,
+    body.dark-theme .saved-heading p,
+    body.dark-theme .footer-inner,
+    body.dark-theme .footer-links a,
+    body.dark-theme .preview-mini small,
+    body.dark-theme .preview-welcome small{color:#c1c7dc;font-weight:600}
+    body.dark-theme .tool-card h3,
+    body.dark-theme .content-section h2,
+    body.dark-theme .content-section h3,
+    body.dark-theme .promo h2,
+    body.dark-theme .section-head h2{color:#f7f8ff;font-weight:800}
+    body.dark-theme .nav-links a{color:#d0d5e5;font-weight:750}
+    body.dark-theme .nav-search,body.dark-theme .theme-toggle{color:#f1f2ff;font-weight:800}
+    body.dark-theme .search-form input{color:#f7f8ff}
+    body.dark-theme .search-form input::placeholder{color:#c1c7dc}
+    body.dark-theme .content-section a{color:#d0cbff}
+    body.dark-theme .card-bottom{color:#c2bdff}
+    body.dark-theme .empty-state{color:#d0d5e5}
+    @media(max-width:680px){
+      body{font-size:16px}
+      .hero-copy,.section-head p,.tool-card p,.content-section p{font-size:14px;line-height:1.75}
+      .stat small{font-size:11px}
+      .nav-links.open a{font-weight:800}
+    }
+
   </style>
 </head>
 <body>

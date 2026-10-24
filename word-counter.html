@@ -842,6 +842,22 @@
       padding: 10px 14px !important;
       font-weight: 650 !important;
     }
+    /* Keep action buttons neutral until the user selects one. */
+    .btn-act.btn-act-primary,
+    #btn-copy,
+    #btn-find-replace {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--card-border) !important;
+      box-shadow: none !important;
+    }
+    .btn-act.is-selected,
+    .sample-pill.is-selected {
+      background: linear-gradient(135deg,#6366f1,#4f46e5) !important;
+      color: #fff !important;
+      border-color: rgba(165,180,252,.55) !important;
+      box-shadow: 0 7px 20px rgba(79,70,229,.22) !important;
+    }
     .metrics-grid-row { gap: 14px !important; }
     .metric-box, .chart-kpi-card {
       border: 1px solid rgba(148,163,184,.17) !important;
@@ -1843,6 +1859,19 @@
 
       textarea.addEventListener("input", updateAdvancedStats);
       updateAdvancedStats();
+
+      // Give the last clicked tool/sample button a clear selected state.
+      document.querySelectorAll(".btn-act, .sample-pill").forEach(function (button) {
+        button.addEventListener("click", function () {
+          document.querySelectorAll(".btn-act.is-selected, .sample-pill.is-selected")
+            .forEach(function (selected) {
+              selected.classList.remove("is-selected");
+              selected.setAttribute("aria-pressed", "false");
+            });
+          button.classList.add("is-selected");
+          button.setAttribute("aria-pressed", "true");
+        });
+      });
 
       // Theme Engine
       var themeToggle = document.getElementById("theme-toggle");

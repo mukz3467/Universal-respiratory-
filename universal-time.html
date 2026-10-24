@@ -826,16 +826,38 @@
 
 <style>
 /* Snowy Christmas Village countdown — responsive visual enhancement */
+/* AI-generated Christmas video background with adaptive text contrast */
+.christmas-countdown { position: relative; isolation: isolate; }
+.christmas-countdown .xmas-video-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 48%; z-index: -2;
+  pointer-events: none; background: #10253b;
+}
+.christmas-countdown .xmas-video-shade {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(3,12,25,.25), rgba(3,12,25,.56) 48%, rgba(3,12,25,.82));
+  transition: background-color .25s ease;
+}
+.christmas-countdown .xmas-unit strong {
+  color: var(--xmas-number-color, #fff) !important;
+  text-shadow: 0 2px 14px rgba(0,0,0,.55), 0 0 2px rgba(0,0,0,.75);
+  transition: color .2s ease;
+}
+.christmas-countdown .xmas-unit {
+  background: rgba(8,18,32,.38) !important;
+  border-color: rgba(255,255,255,.4) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .christmas-countdown .xmas-video-bg { display:none; }
+}
+
 .christmas-countdown {
   isolation: isolate;
   min-height: 320px;
   padding: clamp(30px, 5vw, 58px) 18px 34px !important;
   border: 1px solid rgba(255,255,255,.55) !important;
   border-radius: 18px !important;
-  background:
-    linear-gradient(180deg, rgba(5,18,35,.22) 0%, rgba(5,18,35,.55) 48%, rgba(5,18,35,.88) 100%),
-    url('https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=1800&q=85') center 48% / cover no-repeat,
-    #10253b !important;
+  background: #10253b !important;
   box-shadow: 0 18px 50px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.08) !important;
 }
 .christmas-countdown::before,
@@ -922,6 +944,10 @@
 
     <!-- Christmas Countdown feature at the top of the World Clock page -->
     <section class="christmas-countdown" aria-labelledby="xmas-title">
+      <video class="xmas-video-bg" id="xmas-video-bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=1600&q=80">
+        <source src="https://cdn.pixabay.com/video/2023/12/05/191724-891613208_large.mp4" type="video/mp4">
+      </video>
+      <div class="xmas-video-shade" aria-hidden="true"></div>
       <div class="xmas-kicker">✦ Holiday Countdown ✦</div>
       <h2 id="xmas-title">🎄 Christmas Countdown 2026 🎅</h2>
       <p class="xmas-desc">Count down the days, hours, minutes and seconds until Christmas Day.</p>
@@ -1142,8 +1168,57 @@
         document.getElementById("xmas-target-date").textContent =
           "Counting down to December 25, " + target.getFullYear();
       }
+
       updateChristmasCountdown();
       setInterval(updateChristmasCountdown, 1000);
+
+      // Detect the visible video frame's average luminance and choose a contrasting number colour.
+      // A tiny canvas is used only when the browser permits reading the cross-origin video frame.
+      (function initChristmasVideoContrast() {
+        var video = document.getElementById("xmas-video-bg");
+        var banner = document.querySelector(".christmas-countdown");
+        if (!video || !banner) return;
+        var canvas = document.createElement("canvas");
+        canvas.width = 24;
+        canvas.height = 14;
+        var ctx = canvas.getContext("2d", { willReadFrequently: true });
+        var lastColor = "";
+        var lastCheck = 0;
+        function chooseReadableColor() {
+          if (!ctx || video.paused || video.readyState < 2) return;
+          var now = Date.now();
+          if (now - lastCheck < 900) return;
+          lastCheck = now;
+          try {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            var total = 0, count = 0;
+            for (var i = 0; i < pixels.length; i += 4) {
+              var r = pixels[i] / 255, g = pixels[i + 1] / 255, b = pixels[i + 2] / 255;
+              r = r <= .04045 ? r / 12.92 : Math.pow((r + .055) / 1.055, 2.4);
+              g = g <= .04045 ? g / 12.92 : Math.pow((g + .055) / 1.055, 2.4);
+              b = b <= .04045 ? b / 12.92 : Math.pow((b + .055) / 1.055, 2.4);
+              total += .2126 * r + .7152 * g + .0722 * b;
+              count++;
+            }
+            var luminance = count ? total / count : .2;
+            var color = luminance > .42 ? "#07111f" : "#ffffff";
+            if (color !== lastColor) {
+              lastColor = color;
+              banner.style.setProperty("--xmas-number-color", color);
+            }
+          } catch (err) {
+            // Cross-origin video pixels may be protected by CORS; keep the safe white-number fallback.
+          }
+        }
+        video.addEventListener("loadeddata", chooseReadableColor);
+        video.addEventListener("timeupdate", chooseReadableColor);
+        video.addEventListener("play", chooseReadableColor);
+        setInterval(chooseReadableColor, 1200);
+        video.play().catch(function () {
+          // Autoplay can be blocked; the poster and CSS background remain visible.
+        });
+      })();
 
       // DOM Elements
       var utcClockEl = document.getElementById("master-utc-clock");

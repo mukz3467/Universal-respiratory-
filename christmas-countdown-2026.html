@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christmas Countdown 2026 – Days Until Christmas | OmniTool</title>
+  <meta name="description" content="See the live Christmas Countdown 2026. Count the days, hours, minutes and seconds until Christmas Day on December 25, 2026.">
+  <link rel="canonical" href="https://universal-respiratory.vercel.app/christmas-countdown-2026.html">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Christmas Countdown 2026 – Days Until Christmas | OmniTool">
+  <meta property="og:description" content="Watch the live countdown to Christmas Day 2026, with days, hours, minutes and seconds remaining.">
+  <meta property="og:url" content="https://universal-respiratory.vercel.app/christmas-countdown-2026.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Christmas Countdown 2026 – OmniTool">
+  <meta name="twitter:description" content="Count down the days, hours, minutes and seconds until Christmas Day, December 25, 2026.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Christmas Countdown 2026",
+    "url": "https://universal-respiratory.vercel.app/christmas-countdown-2026.html",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "description": "A free live countdown showing the days, hours, minutes and seconds remaining until Christmas Day 2026.",
+    "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+  <style>
+    :root{color-scheme:dark;--bg:#050505;--panel:#111;--line:#292929;--white:#fff;--muted:#d1d5db}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--white);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+    main{max-width:900px;margin:auto;padding:24px 18px 56px}
+    nav{margin-bottom:30px}
+    a{color:#fff;text-underline-offset:4px}
+    .hero{text-align:center;border:1px solid var(--line);border-radius:18px;padding:clamp(24px,6vw,56px) 16px;background:#000}
+    .eyebrow{font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800}
+    h1{font-size:clamp(2rem,7vw,4rem);line-height:1.12;margin:12px 0;font-weight:950}
+    .intro{max-width:650px;margin:0 auto 26px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:680px;margin:28px auto}
+    .unit{padding:18px 6px;border:1px solid #333;border-radius:12px;background:#090909}
+    .number{display:block;font-size:clamp(1.8rem,7vw,3.5rem);font-weight:950;font-variant-numeric:tabular-nums;line-height:1.15}
+    .label{display:block;margin-top:8px;color:var(--muted);font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    #status{color:var(--muted);min-height:1.5em}
+    section.copy{margin:30px 0;padding:0 4px}
+    h2{font-size:1.5rem;line-height:1.3}
+    .links{display:flex;flex-wrap:wrap;gap:16px;margin-top:24px}
+    @media(max-width:480px){.grid{gap:6px}.unit{padding:14px 2px}.label{font-size:.65rem;letter-spacing:.03em}}
+  </style>
+</head>
+<body>
+  <main>
+    <nav><a href="/universal-time.html">← World Clock &amp; Current Time by Country</a></nav>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Live holiday countdown</div>
+      <h1 id="page-title">Christmas Countdown 2026</h1>
+      <p class="intro">How many days until Christmas? Follow the live countdown to Christmas Day on December 25, 2026, with the days, hours, minutes and seconds remaining.</p>
+      <div class="grid" role="timer" aria-label="Time remaining until Christmas 2026">
+        <div class="unit"><span class="number" id="days">--</span><span class="label">Days</span></div>
+        <div class="unit"><span class="number" id="hours">--</span><span class="label">Hours</span></div>
+        <div class="unit"><span class="number" id="minutes">--</span><span class="label">Minutes</span></div>
+        <div class="unit"><span class="number" id="seconds">--</span><span class="label">Seconds</span></div>
+      </div>
+      <p id="status" aria-live="polite">Calculating time remaining…</p>
+      <div class="links"><a href="/universal-time.html">Check the current time by country</a></div>
+    </section>
+    <section class="copy">
+      <h2>How long until Christmas 2026?</h2>
+      <p>Christmas Day is Friday, December 25, 2026. This Christmas countdown updates every second and calculates the remaining time using your device's local time zone. The displayed countdown reaches zero at midnight at the start of December 25 on your device.</p>
+      <h2>What does the Christmas countdown show?</h2>
+      <p>The live Christmas timer displays the remaining days, hours, minutes and seconds until Christmas Day. Keep this page open to watch the countdown update automatically.</p>
+      <h2>Check the world clock</h2>
+      <p>Need to check another country's local time before the holidays? Use our <a href="/universal-time.html">World Clock and Current Time by Country tool</a> to search for a country and see its current local time and date.</p>
+    </section>
+  </main>
+  <script>
+    (function(){
+      const ids={days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
+      const status=document.getElementById('status');
+      function tick(){
+        const now=new Date();
+        const target=new Date(2026,11,25,0,0,0,0);
+        let remaining=Math.max(0,target.getTime()-now.getTime());
+        const totalSeconds=Math.floor(remaining/1000);
+        ids.days.textContent=Math.floor(totalSeconds/86400).toLocaleString('en-US');
+        ids.hours.textContent=String(Math.floor((totalSeconds%86400)/3600)).padStart(2,'0');
+        ids.minutes.textContent=String(Math.floor((totalSeconds%3600)/60)).padStart(2,'0');
+        ids.seconds.textContent=String(totalSeconds%60).padStart(2,'0');
+        if(remaining===0) status.textContent='Merry Christmas! Christmas Day 2026 has arrived.';
+        else status.textContent='Counting down to December 25, 2026 · Your device local time';
+      }
+      tick();setInterval(tick,1000);
+    })();
+  </script>
+</body>
+</html>

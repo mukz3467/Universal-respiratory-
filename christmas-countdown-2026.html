@@ -110,6 +110,14 @@
           <div class="unit"><span class="num" id="minutes">--</span><span class="unit-label">Minutes</span></div>
           <div class="unit"><span class="num" id="seconds">--</span><span class="unit-label">Seconds</span></div>
         </div>
+        <div class="actions" aria-label="Countdown display units" style="margin-top:14px">
+          <button class="btn unit-mode" data-mode="standard" type="button" aria-pressed="true">Days + time</button>
+          <button class="btn unit-mode" data-mode="days" type="button" aria-pressed="false">Total days</button>
+          <button class="btn unit-mode" data-mode="sleeps" type="button" aria-pressed="false">Total sleeps</button>
+          <button class="btn unit-mode" data-mode="hours" type="button" aria-pressed="false">Total hours</button>
+          <button class="btn unit-mode" data-mode="minutes" type="button" aria-pressed="false">Total minutes</button>
+          <button class="btn unit-mode" data-mode="seconds" type="button" aria-pressed="false">Total seconds</button>
+        </div>
         <p id="status" aria-live="polite">Calculating your countdown…</p>
         <div class="actions">
           <button class="btn primary" id="share-btn" type="button">↗ Share countdown</button>
@@ -127,6 +135,22 @@
         <div class="fact"><strong>Friday</strong><span>Day of the week</span></div>
         <div class="fact"><strong>December 25</strong><span>Christmas Day 2026</span></div>
         <div class="fact"><strong>Every second</strong><span>Live timer refresh</span></div>
+      </div>
+    </section>
+
+
+    <section class="section" aria-labelledby="sleeps-title">
+      <div class="eyebrow">Live date calculations</div>
+      <h2 id="sleeps-title">How many sleeps until Christmas 2026?</h2>
+      <p id="sleeps-copy">Calculating nights remaining until Christmas…</p>
+      <h2>How many weekends or weekdays are left before December 25?</h2>
+      <p id="days-left-copy">Calculating weekdays and weekends remaining…</p>
+      <h2>What day is Christmas 2026 on? (Friday)</h2>
+      <p>Christmas Day 2026 falls on Friday, December 25. Christmas Eve is Thursday, December 24.</p>
+      <div class="facts">
+        <div class="fact"><strong id="thanksgiving-days">--</strong><span>Days until Thanksgiving 2026 (Nov 26)</span></div>
+        <div class="fact"><strong id="eve-days">--</strong><span>Days until Christmas Eve (Dec 24)</span></div>
+        <div class="fact"><strong id="newyear-days">--</strong><span>Days until New Year 2027 (Jan 1)</span></div>
       </div>
     </section>
 
@@ -166,17 +190,47 @@
     (function(){
       const el={days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
       const status=document.getElementById('status');
+      let displayMode='standard';
+      const countdownTarget=new Date(2026,11,25,0,0,0,0);
+      const localMidnight=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+      function daysUntil(date,now){return Math.max(0,Math.ceil((localMidnight(date)-localMidnight(now))/86400000));}
+      function updateExtraDates(now){
+        const christmasDays=daysUntil(countdownTarget,now);
+        document.getElementById('sleeps-copy').textContent=christmasDays===1?'1 sleep until Christmas 2026.':christmasDays+' sleeps until Christmas 2026 (one sleep means one night).';
+        const start=localMidnight(now), end=localMidnight(countdownTarget);
+        let weekdays=0, weekendDays=0;
+        for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)){if(d.getDay()===0||d.getDay()===6)weekendDays++;else weekdays++;}
+        document.getElementById('days-left-copy').textContent=weekdays+' weekdays and '+weekendDays+' weekend days remain before December 25, 2026 (today is excluded).';
+        const thanksgiving=new Date(2026,10,26), eve=new Date(2026,11,24), newYear=new Date(2027,0,1);
+        const label=(date)=>{const n=daysUntil(date,now);return n===0?'Today':n+' days';};
+        document.getElementById('thanksgiving-days').textContent=label(thanksgiving);
+        document.getElementById('eve-days').textContent=label(eve);
+        document.getElementById('newyear-days').textContent=label(newYear);
+      }
+      function setMode(mode){
+        displayMode=mode;
+        document.querySelectorAll('.unit-mode').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+        const labels={standard:['Days','Hours','Minutes','Seconds'],days:['Total days','—','—','—'],sleeps:['Total sleeps','—','—','—'],hours:['Total hours','—','—','—'],minutes:['Total minutes','—','—','—'],seconds:['Total seconds','—','—','—']};
+        document.querySelectorAll('.unit-label').forEach((el,i)=>el.textContent=labels[mode][i]);
+      }
+      document.querySelectorAll('.unit-mode').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
       const target=new Date(2026,11,25,0,0,0,0);
       const lastChristmas=new Date(2025,11,25,0,0,0,0);
       const nextChristmas=new Date(2026,11,25,0,0,0,0);
       function tick(){
         const now=new Date();
         let remaining=Math.max(0,target.getTime()-now.getTime());
-        const total=Math.floor(remaining/1000);
-        el.days.textContent=Math.floor(total/86400).toLocaleString('en-US');
-        el.hours.textContent=String(Math.floor((total%86400)/3600)).padStart(2,'0');
-        el.minutes.textContent=String(Math.floor((total%3600)/60)).padStart(2,'0');
-        el.seconds.textContent=String(total%60).padStart(2,'0');
+        const total=Math.floor(remaining/1000), totalDays=Math.ceil(remaining/86400000);
+        const values={
+          standard:[Math.floor(total/86400).toLocaleString('en-US'),String(Math.floor((total%86400)/3600)).padStart(2,'0'),String(Math.floor((total%3600)/60)).padStart(2,'0'),String(total%60).padStart(2,'0')],
+          days:[Math.ceil(remaining/86400000).toLocaleString('en-US'),'0','0','0'],
+          sleeps:[totalDays.toLocaleString('en-US'),'0','0','0'],
+          hours:[Math.floor(total/3600).toLocaleString('en-US'),'0','0','0'],
+          minutes:[Math.floor(total/60).toLocaleString('en-US'),'0','0','0'],
+          seconds:[total.toLocaleString('en-US'),'0','0','0']
+        }[displayMode];
+        el.days.textContent=values[0];el.hours.textContent=values[1];el.minutes.textContent=values[2];el.seconds.textContent=values[3];
+        updateExtraDates(now);
         if(remaining===0){status.textContent='Merry Christmas! Christmas Day 2026 has arrived.';}
         else{status.textContent='Counting down to midnight in your local time zone.';}
         const pct=Math.min(100,Math.max(0,((now-lastChristmas)/(nextChristmas-lastChristmas))*100));

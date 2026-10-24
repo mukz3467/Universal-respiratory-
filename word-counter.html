@@ -1042,9 +1042,10 @@
             <p>Real-time visual distribution of word length frequencies and character occurrences.</p>
           </div>
           <div class="chart-tabs">
-            <button class="chart-tab-btn active" id="tab-all-charts">All Charts</button>
-            <button class="chart-tab-btn" id="tab-words-chart">Word Lengths</button>
-            <button class="chart-tab-btn" id="tab-chars-chart">Character Frequencies</button>
+            <button class="chart-tab-btn active" id="tab-all-charts" type="button">All Charts</button>
+            <button class="chart-tab-btn" id="tab-words-chart" type="button">Word Lengths</button>
+            <button class="chart-tab-btn" id="tab-chars-chart" type="button">Character Frequencies</button>
+            <button class="btn-act btn-act-primary" id="btn-analyze-text" type="button" style="min-height:40px;">🔎 Analyze Text</button>
           </div>
         </div>
 
@@ -1571,6 +1572,22 @@
       tabAll.addEventListener("click", function() { setChartTab("all"); });
       tabWords.addEventListener("click", function() { setChartTab("words"); });
       tabChars.addEventListener("click", function() { setChartTab("chars"); });
+
+      // Explicit analysis action: recalculate every count and distribution on demand.
+      var analyzeButton = document.getElementById("btn-analyze-text");
+      if (analyzeButton) {
+        analyzeButton.addEventListener("click", function () {
+          refreshMetrics();
+          setChartTab("all");
+          var chartSection = document.getElementById("charts-grid");
+          if (chartSection && textarea.value.trim()) {
+            showToast("Analysis complete — counts and distributions updated.");
+          } else {
+            showToast("Enter or paste text first to analyze it.");
+            textarea.focus();
+          }
+        });
+      }
 
       // Attach oninput event
       textarea.addEventListener("input", refreshMetrics);

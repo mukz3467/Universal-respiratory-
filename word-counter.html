@@ -1341,6 +1341,86 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
  .premium-main .focus-shortcut-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
 
+
+/* Premium mobile drawer refinement */
+.mobile-menu-overlay{backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);background:rgba(15,23,42,.30)!important}
+@media(max-width:767px){
+  .premium-sidebar#premium-sidebar{
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    flex-wrap:nowrap!important;gap:8px!important;
+    position:fixed!important;inset:0 auto 0 0!important;
+    width:288px!important;max-width:calc(100vw - 40px)!important;
+    height:100vh!important;height:100dvh!important;min-height:100vh!important;
+    padding:24px!important;overflow-x:hidden!important;overflow-y:auto!important;
+    background:#fff!important;border-right:1px solid #f1f5f9!important;
+    box-shadow:0 25px 60px rgba(15,23,42,.20)!important;
+    z-index:60!important;box-sizing:border-box!important;
+    transform:translateX(-105%);visibility:hidden;
+    transition:transform .32s cubic-bezier(.22,1,.36,1),visibility .32s;
+  }
+  body.mobile-menu-open .premium-sidebar#premium-sidebar{transform:translateX(0);visibility:visible}
+  .premium-sidebar .premium-brand-row{
+    display:flex!important;align-items:center!important;justify-content:space-between!important;
+    gap:12px!important;width:100%!important;min-width:0!important;
+    margin:0 0 22px!important;padding:0 0 18px!important;
+    border-bottom:1px solid #f1f5f9!important;
+  }
+  .premium-sidebar .premium-brand{
+    display:flex!important;align-items:center!important;gap:12px!important;
+    min-width:0!important;width:auto!important;padding:0!important;margin:0!important;
+    text-decoration:none!important;flex:1 1 auto!important;
+  }
+  .premium-sidebar .premium-brand .brand-mark{
+    flex:0 0 40px!important;width:40px!important;height:40px!important;
+    border-radius:12px!important;background:#0f172a!important;color:#fff!important;
+  }
+  .premium-sidebar .premium-brand strong{font-size:18px!important;letter-spacing:-.45px!important;color:#0f172a!important}
+  .premium-sidebar .premium-brand small{font-size:9px!important;letter-spacing:1.4px!important;color:#94a3b8!important}
+  .drawer-close-btn{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    flex:0 0 36px!important;width:36px!important;height:36px!important;
+    border:0!important;border-radius:10px!important;background:#f8fafc!important;
+    color:#475569!important;font-size:25px!important;line-height:1!important;cursor:pointer!important;
+    transition:background .2s,color .2s,transform .2s!important;
+  }
+  .drawer-close-btn:hover{background:#f1f5f9!important;color:#0f172a!important}
+  .drawer-close-btn:active{transform:scale(.94)}
+  .premium-sidebar .sidebar-label{
+    display:block!important;padding:0 12px!important;margin:0 0 5px!important;
+    color:#94a3b8!important;font-size:10px!important;font-weight:800!important;
+    letter-spacing:1.8px!important;
+  }
+  .premium-sidebar .side-link{
+    display:flex!important;align-items:center!important;justify-content:flex-start!important;
+    flex-direction:row!important;gap:12px!important;width:100%!important;min-width:0!important;
+    box-sizing:border-box!important;margin:0!important;padding:12px 14px!important;
+    border:1px solid transparent!important;border-radius:12px!important;
+    color:#475569!important;background:transparent!important;
+    font-size:14px!important;font-weight:500!important;line-height:1.4!important;
+    white-space:normal!important;text-align:left!important;text-decoration:none!important;
+    box-shadow:none!important;transition:background .2s,color .2s,border-color .2s!important;
+  }
+  .premium-sidebar .side-link>span{
+    display:block!important;flex:1 1 auto!important;min-width:0!important;
+    overflow-wrap:anywhere!important;text-align:left!important;
+  }
+  .premium-sidebar .side-link:hover{background:#f8fafc!important;color:#0f172a!important}
+  .premium-sidebar .side-link.active{
+    background:#eff6ff!important;color:#2563eb!important;font-weight:700!important;
+    border-color:#dbeafe!important;box-shadow:none!important;
+  }
+  .premium-sidebar .sidebar-pro{
+    display:block!important;margin-top:auto!important;padding:16px!important;
+    border:1px solid #f1f5f9!important;border-radius:16px!important;background:#f8fafc!important;
+  }
+  .premium-sidebar .sidebar-pro strong{color:#0f172a!important;font-size:13px!important}
+  .premium-sidebar .sidebar-pro p{color:#64748b!important;font-size:12px!important;line-height:1.6!important}
+  .premium-sidebar .sidebar-pro a{color:#334155!important;font-size:12px!important}
+  body.mobile-menu-open{overflow:hidden!important}
+}
+@media(min-width:768px){.drawer-close-btn{display:none!important}.premium-brand-row{display:contents}}
+@media(prefers-reduced-motion:reduce){.premium-sidebar,.mobile-menu-overlay,.drawer-close-btn{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -1363,7 +1443,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
   <div class="mobile-menu-overlay" id="mobile-menu-overlay" aria-hidden="true"></div>
   <div class="premium-app-shell">
     <aside class="premium-sidebar" id="premium-sidebar" aria-label="Main navigation">
-      <a class="premium-brand" href="/" aria-label="OmniTool Hub home"><span class="brand-mark">O</span><span><strong>OmniTool</strong><small>WRITING STUDIO</small></span></a>
+      <div class="premium-brand-row"><a class="premium-brand" href="/" aria-label="OmniTool Hub home"><span class="brand-mark">O</span><span><strong>OmniTool</strong><small>WRITING STUDIO</small></span></a><button class="drawer-close-btn" id="drawer-close-btn" type="button" aria-label="Close navigation menu">×</button></div>
       <div class="sidebar-label">WORKSPACE</div>
       <a class="side-link active" href="#editor-workspace">✍️ <span>Word Counter</span></a>
       <a class="side-link" href="#charts-container">◉ <span>Character Analyzer</span></a>
@@ -2414,9 +2494,10 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 const editor=document.getElementById('main-textarea'),workspace=document.getElementById('focused-tools-workspace');if(!editor||!workspace)return;
 const panels=[...workspace.querySelectorAll('[data-focus-panel]')],nav=[...document.querySelectorAll('.premium-sidebar .side-link')],$=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-const menuButton=$('mobile-menu-toggle'),menuOverlay=$('mobile-menu-overlay'),sidebar=$('premium-sidebar');
+const menuButton=$('mobile-menu-toggle'),menuOverlay=$('mobile-menu-overlay'),sidebar=$('premium-sidebar'),drawerClose=$('drawer-close-btn');
 function setMobileMenu(open){if(!menuButton||!menuOverlay||!sidebar)return;document.body.classList.toggle('mobile-menu-open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');menuButton.textContent=open?'×':'☰';menuOverlay.setAttribute('aria-hidden',String(!open));}
 if(menuButton){menuButton.addEventListener('click',()=>setMobileMenu(!document.body.classList.contains('mobile-menu-open')));}
+ if(drawerClose){drawerClose.addEventListener('click',()=>setMobileMenu(false));}
 if(menuOverlay){menuOverlay.addEventListener('click',()=>setMobileMenu(false));}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')setMobileMenu(false);});
 nav.forEach(a=>a.addEventListener('click',()=>setMobileMenu(false)));

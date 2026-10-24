@@ -205,6 +205,18 @@
     body.dark-theme .empty-state{color:#a6abc0}
     @media(max-width:680px){.theme-toggle{padding:9px 10px}.theme-toggle span{display:none}.hero:before{height:280px}}
 
+
+    /* Live dashboard details */
+    .preview-live-meta{display:flex;align-items:flex-end;flex-direction:column;gap:4px}
+    .preview-clock{font-size:15px;line-height:1.1;font-weight:850;letter-spacing:-.035em;font-variant-numeric:tabular-nums;color:#25244a}
+    .preview-date{font-size:8px;color:#6259e8;font-weight:800;background:#f0efff;padding:5px 8px;border-radius:7px;white-space:nowrap}
+    a.preview-mini{text-decoration:none;color:inherit;cursor:pointer}
+    .preview-mini:focus-visible{outline:3px solid #8f88ff;outline-offset:2px}
+    .preview-status b{animation:livePulse 1.8s ease-out infinite}
+    @keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(110,100,255,.3)}70%{box-shadow:0 0 0 5px rgba(110,100,255,0)}100%{box-shadow:0 0 0 0 rgba(110,100,255,0)}}
+    body.dark-theme .preview-clock{color:#f0efff}
+    @media(max-width:680px){.preview-clock{font-size:12px}.preview-live-meta{gap:3px}.preview-date{font-size:7px}}
+
   </style>
 </head>
 <body>
@@ -223,8 +235,8 @@
       <h1 id="hero-title">All Your Essential Tools <span class="hero-emphasis">in One Place.</span></h1>
       <p class="hero-copy">A smarter workspace for everyday tasks. Count words, format text, check global time and track every second — in a clean, focused experience.</p>
       <div class="hero-preview" aria-label="Workspace preview">
-        <div class="preview-top"><span class="preview-dots"><i></i><i></i><i></i></span><span class="preview-label">OMNITOOL WORKSPACE</span><span class="preview-status"><b></b> READY TO USE</span></div>
-        <div class="preview-body"><div class="preview-side"><span class="preview-logo">O</span><span class="preview-side-line active"></span><span class="preview-side-line"></span><span class="preview-side-line"></span><span class="preview-side-line"></span></div><div class="preview-main"><div class="preview-welcome"><div><small>YOUR DAILY TOOLKIT</small><strong>What would you like to do?</strong></div><span class="preview-date">FREE · NO ACCOUNT</span></div><div class="preview-mini-grid"><div class="preview-mini"><span> Tt </span><div><b>Word Counter</b><small>Writing &amp; editing</small></div><em>↗</em></div><div class="preview-mini"><span>Aa</span><div><b>Case Converter</b><small>Text formatting</small></div><em>↗</em></div><div class="preview-mini"><span>◎</span><div><b>Universal Time</b><small>Time zones</small></div><em>↗</em></div><div class="preview-mini"><span>◷</span><div><b>Stopwatch</b><small>Time tracking</small></div><em>↗</em></div></div></div></div>
+        <div class="preview-top"><span class="preview-dots"><i></i><i></i><i></i></span><span class="preview-label">OMNITOOL WORKSPACE</span><span class="preview-status"><b></b> LIVE WORKSPACE</span></div>
+        <div class="preview-body"><div class="preview-side"><span class="preview-logo">O</span><span class="preview-side-line active"></span><span class="preview-side-line"></span><span class="preview-side-line"></span><span class="preview-side-line"></span></div><div class="preview-main"><div class="preview-welcome"><div><small id="preview-greeting">YOUR DAILY TOOLKIT</small><strong>What would you like to do?</strong></div><div class="preview-live-meta"><span class="preview-clock" id="preview-clock" aria-label="Your local time">--:--:--</span><span class="preview-date" id="preview-date">LOCAL TIME</span></div></div><div class="preview-mini-grid"><a class="preview-mini" href="word-counter.html"><span>Tt</span><div><b>Word Counter</b><small>Writing &amp; editing</small></div><em>↗</em></a><a class="preview-mini" href="case-converter.html"><span>Aa</span><div><b>Case Converter</b><small>Text formatting</small></div><em>↗</em></a><a class="preview-mini" href="universal-time.html"><span>◎</span><div><b>Universal Time</b><small>Time zones</small></div><em>↗</em></a><a class="preview-mini" href="stopwatch.html"><span>◷</span><div><b>Stopwatch</b><small>Time tracking</small></div><em>↗</em></a></div></div></div>
       </div>
       <form class="search-form" id="tool-search" role="search">
         <input type="search" id="search-input" placeholder="Search for a tool..." aria-label="Search available tools">
@@ -328,6 +340,21 @@
         });
       });
       paintSaved();
+      /* Real local clock and date make the workspace preview feel live. */
+      var clockNode=document.getElementById('preview-clock');
+      var dateNode=document.getElementById('preview-date');
+      var greetingNode=document.getElementById('preview-greeting');
+      function updateLiveDashboard(){
+        var now=new Date();
+        if(clockNode) clockNode.textContent=new Intl.DateTimeFormat(undefined,{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(now);
+        if(dateNode) dateNode.textContent=new Intl.DateTimeFormat(undefined,{weekday:'short',month:'short',day:'numeric'}).format(now);
+        if(greetingNode){
+          var hour=now.getHours();
+          greetingNode.textContent=hour<12?'GOOD MORNING · YOUR TOOLKIT':hour<18?'GOOD AFTERNOON · YOUR TOOLKIT':'GOOD EVENING · YOUR TOOLKIT';
+        }
+      }
+      updateLiveDashboard();
+      window.setInterval(updateLiveDashboard,1000);
       var themeButton=document.getElementById('theme-toggle');
       var themeKey='omnitool_theme_v1';
       function applyTheme(theme){

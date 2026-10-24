@@ -817,6 +817,42 @@
         </div>
       </section>
 
+
+      <!-- Advanced writing tools -->
+      <section class="editor-card" aria-label="Advanced writing tools" style="margin-top:20px;">
+        <h2 style="margin:0 0 8px;">Advanced Writing Tools</h2>
+        <p class="hero-subtitle">Analyze sentence length, set a word goal, estimate pages, find and replace text, or clean up formatting. All processing happens in your browser.</p>
+        <div class="metrics-grid-row" style="margin:16px 0;">
+          <div class="metric-box"><div class="metric-num" id="stat-avg-sentence">0</div><div class="metric-title">Avg. Words / Sentence</div></div>
+          <div class="metric-box"><div class="metric-num" id="stat-longest-sentence">0</div><div class="metric-title">Longest Sentence (words)</div></div>
+          <div class="metric-box"><div class="metric-num" id="stat-shortest-sentence">0</div><div class="metric-title">Shortest Sentence (words)</div></div>
+          <div class="metric-box"><div class="metric-num" id="stat-page-estimate">0</div><div class="metric-title">Estimated Pages</div><div class="metric-sub">250 words per page</div></div>
+        </div>
+        <div style="margin:14px 0;">
+          <label for="word-goal" style="display:block;margin-bottom:6px;font-weight:600;">Word goal</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <input id="word-goal" type="number" min="1" max="1000000" value="500" style="max-width:180px;padding:10px;border-radius:8px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);">
+            <span id="word-goal-status" aria-live="polite">0 of 500 words (0%)</span>
+          </div>
+          <div style="height:8px;background:var(--card-border);border-radius:8px;overflow:hidden;margin-top:10px;"><div id="word-goal-bar" style="height:100%;width:0%;background:var(--accent,#22c55e);transition:width .15s;"></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px;">
+          <div>
+            <label for="find-text" style="display:block;margin-bottom:6px;font-weight:600;">Find text</label>
+            <input id="find-text" type="text" placeholder="Text to find" style="box-sizing:border-box;width:100%;padding:10px;border-radius:8px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);">
+          </div>
+          <div>
+            <label for="replace-text" style="display:block;margin-bottom:6px;font-weight:600;">Replace with</label>
+            <input id="replace-text" type="text" placeholder="Replacement text" style="box-sizing:border-box;width:100%;padding:10px;border-radius:8px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);">
+          </div>
+        </div>
+        <div class="action-btn-group" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-act btn-act-primary" id="btn-find-replace">Find &amp; Replace All</button>
+          <button class="btn-act" id="btn-clean-text">Clean Text Formatting</button>
+        </div>
+        <p id="find-replace-status" aria-live="polite" style="margin-top:8px;"></p>
+      </section>
+
       <!-- Real-Time Metrics Row Neatly Underneath -->
       <section class="metrics-grid-row" aria-label="Live Content Analysis Summary" style="margin-top: 20px;">
         <div class="metric-box">
@@ -1205,7 +1241,7 @@
 
         // Update real-time distribution charts
         updateCharts(val);
-        updateKeywordDensity(val);
+        updateKeywordDensity(val);\n        updateAdvancedStats();
 
         try {
           localStorage.setItem("omnitool_wordcounter_cache", val);
@@ -1557,6 +1593,64 @@
         refreshMetrics();
         textarea.focus();
         showToast("Text cleared!");
+      });
+
+
+      // Advanced writing tools: sentence statistics, word goal, page estimate, find/replace and cleanup.
+      function getSentenceWordCounts(value) {
+        var trimmed = value.trim();
+        if (!trimmed) return [];
+        return trimmed.split(/[.!?。！？]+(?:["'”’)]*)?(?:\\s+|$)/u)
+          .map(function (sentence) { return sentence.trim(); })
+          .filter(Boolean)
+          .map(function (sentence) {
+            var matches = sentence.match(/[\\p{L}\\p{N}]+(?:['’_-][\\p{L}\\p{N}]+)*/gu);
+            return matches ? matches.length : 0;
+          }).filter(function (count) { return count > 0; });
+      }
+      function updateAdvancedStats() {
+        var textValue = textarea.value;
+        var wordCount = parseMetrics(textValue).words;
+        var counts = getSentenceWordCounts(textValue);
+        var average = counts.length ? wordCount / counts.length : 0;
+        var longest = counts.length ? Math.max.apply(null, counts) : 0;
+        var shortest = counts.length ? Math.min.apply(null, counts) : 0;
+        document.getElementById("stat-avg-sentence").textContent = average.toFixed(1);
+        document.getElementById("stat-longest-sentence").textContent = String(longest);
+        document.getElementById("stat-shortest-sentence").textContent = String(shortest);
+        document.getElementById("stat-page-estimate").textContent = (wordCount / 250).toFixed(2);
+        var goalInput = document.getElementById("word-goal");
+        var goal = Math.max(1, Number(goalInput.value) || 500);
+        var percent = Math.min(100, Math.round(wordCount / goal * 100));
+        document.getElementById("word-goal-status").textContent = wordCount.toLocaleString() + " of " + goal.toLocaleString() + " words (" + percent + "%)";
+        document.getElementById("word-goal-bar").style.width = percent + "%";
+      }
+      document.getElementById("word-goal").addEventListener("input", updateAdvancedStats);
+      document.getElementById("btn-find-replace").addEventListener("click", function () {
+        var find = document.getElementById("find-text").value;
+        var replacement = document.getElementById("replace-text").value;
+        var status = document.getElementById("find-replace-status");
+        if (!find) { status.textContent = "Enter the text you want to find."; return; }
+        var source = textarea.value;
+        var count = source.split(find).length - 1;
+        if (!count) { status.textContent = "No exact matches found."; return; }
+        textarea.value = source.split(find).join(replacement);
+        refreshMetrics();
+        status.textContent = "Replaced " + count + " occurrence" + (count === 1 ? "" : "s") + ".";
+      });
+      document.getElementById("btn-clean-text").addEventListener("click", function () {
+        var before = textarea.value;
+        var cleaned = before
+          .replace(/\\r\\n?/g, "\\n")
+          .replace(/[\\t\\f\\v ]+/g, " ")
+          .replace(/ *\\n */g, "\\n")
+          .replace(/\\n{3,}/g, "\\n\\n")
+          .replace(/[“”]/g, '"')
+          .replace(/[‘’]/g, "'");
+        textarea.value = cleaned.trim();
+        refreshMetrics();
+        document.getElementById("find-replace-status").textContent =
+          before === textarea.value ? "Text is already clean." : "Text formatting cleaned.";
       });
 
       // Theme Engine

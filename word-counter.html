@@ -909,6 +909,166 @@
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
 
+
+    /* Minimal monochrome editor refresh: clean, lightweight, product-like */
+    :root {
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e8e8e8;
+      --card-hover-border: #d0d0d0;
+      --text: #171717;
+      --text-muted: #737373;
+      --primary: #171717;
+      --primary-hover: #333333;
+      --primary-light: rgba(0,0,0,.06);
+      --accent: #404040;
+      --accent-light: #f3f3f3;
+      --radius: 12px;
+    }
+    [data-theme="light"] {
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e8e8e8;
+      --card-hover-border: #d0d0d0;
+      --text: #171717;
+      --text-muted: #737373;
+      --primary: #171717;
+      --primary-hover: #333333;
+      --primary-light: #f3f3f3;
+      --accent: #404040;
+      --accent-light: #f3f3f3;
+    }
+    body {
+      background: #fff !important;
+      color: #171717 !important;
+      line-height: 1.6;
+    }
+    .sticky-secure-nav {
+      background: rgba(255,255,255,.96) !important;
+      border-bottom: 1px solid #ededed !important;
+      box-shadow: none !important;
+      backdrop-filter: blur(12px);
+    }
+    .container { max-width: 1080px; padding: 22px 24px 42px; }
+    .secure-home-btn, .seo-section a { color: #171717 !important; }
+    .security-badge {
+      color: #525252 !important;
+      background: #f7f7f7 !important;
+      border: 1px solid #e8e8e8 !important;
+    }
+    .theme-toggle-btn {
+      background: #fff !important;
+      border: 1px solid #e5e5e5 !important;
+      color: #262626 !important;
+    }
+    .page-header-content {
+      text-align: left;
+      max-width: none;
+      padding: 24px 0 18px;
+      margin: 0 auto 12px;
+    }
+    .page-header-content h1 {
+      background: none !important;
+      color: #171717 !important;
+      -webkit-text-fill-color: #171717 !important;
+      font-size: clamp(1.8rem,4vw,2.6rem);
+      font-weight: 750;
+      letter-spacing: -.04em;
+      margin-bottom: 8px;
+    }
+    .hero-subtitle { color: #737373 !important; margin: 0; max-width: 760px; line-height: 1.65; }
+    .ad-banner-container { display: none !important; }
+    .editor-card, .chart-section, .social-counter-card, .seo-section {
+      background: #fff !important;
+      border: 1px solid #e8e8e8 !important;
+      border-radius: 14px !important;
+      box-shadow: none !important;
+      padding: clamp(16px,2.5vw,24px) !important;
+    }
+    .editor-card { margin-bottom: 18px; }
+    #main-textarea, textarea#main-textarea {
+      background: #fff !important;
+      color: #171717 !important;
+      border: 1px solid #e5e5e5 !important;
+      border-radius: 10px !important;
+      box-shadow: none !important;
+      min-height: 300px;
+      font-size: 16px !important;
+      line-height: 1.8 !important;
+      padding: 20px !important;
+    }
+    #main-textarea:focus {
+      border-color: #a3a3a3 !important;
+      box-shadow: 0 0 0 3px rgba(0,0,0,.045) !important;
+    }
+    .metric-box, .chart-kpi-card, .chart-box {
+      background: #fff !important;
+      border: 1px solid #ededed !important;
+      border-radius: 12px !important;
+      box-shadow: none !important;
+    }
+    .metric-box:hover, .chart-kpi-card:hover { transform: none !important; border-color: #d4d4d4 !important; }
+    .metric-num, .chart-kpi-val, #social-count-status {
+      color: #171717 !important;
+    }
+    .metric-title { color: #525252 !important; }
+    .metric-sub, .chart-kpi-label, .chart-title-area p { color: #737373 !important; }
+    button.btn-act, .sample-pill, .chart-tab-btn {
+      background: #fff !important;
+      color: #404040 !important;
+      border: 1px solid #e5e5e5 !important;
+      box-shadow: none !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+    }
+    button.btn-act:hover, .sample-pill:hover, .chart-tab-btn:hover {
+      background: #f7f7f7 !important;
+      color: #171717 !important;
+      border-color: #d4d4d4 !important;
+      transform: none !important;
+    }
+    .btn-act.is-selected, .sample-pill.is-selected, .chart-tab-btn.active {
+      background: #171717 !important;
+      color: #fff !important;
+      border-color: #171717 !important;
+      box-shadow: none !important;
+    }
+    .btn-act.btn-act-primary, #btn-copy, #btn-find-replace {
+      background: #171717 !important;
+      color: #fff !important;
+      border-color: #171717 !important;
+      box-shadow: none !important;
+    }
+    .btn-act.btn-act-primary:hover, #btn-copy:hover, #btn-find-replace:hover {
+      background: #333 !important;
+      color: #fff !important;
+    }
+    input:not([type="file"]), select, #social-bio-text {
+      background: #fff !important;
+      color: #171717 !important;
+      border-color: #e5e5e5 !important;
+      box-shadow: none !important;
+    }
+    .bar-track { background: #f5f5f5 !important; border-color: #e8e8e8 !important; }
+    .bar-fill, .bar-fill.accent {
+      background: #525252 !important;
+    }
+    .chart-header { border-bottom-color: #ededed !important; }
+    .chart-tabs { background: #fafafa !important; border-color: #ededed !important; }
+    .editor-status-bar { border-top-color: #ededed !important; }
+    .privacy-tag { color: #525252 !important; }
+    .toast-alert { background: #171717 !important; color: #fff !important; }
+    footer { border-top-color: #ededed !important; }
+    @media (max-width: 640px) {
+      .container { padding: 12px 12px 28px; }
+      .page-header-content { padding: 22px 4px 16px; text-align: left; }
+      .editor-card, .chart-section, .social-counter-card, .seo-section { border-radius: 12px !important; padding: 15px !important; }
+      #main-textarea { min-height: 240px; padding: 15px !important; }
+      .metrics-grid-row { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+      .sticky-nav-inner { gap: 10px; }
+      .security-badge { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -1876,7 +2036,7 @@
       // Theme Engine
       var themeToggle = document.getElementById("theme-toggle");
       var themeIcon = document.getElementById("theme-icon");
-      var currentTheme = localStorage.getItem("omnitool_theme") || "dark";
+      var currentTheme = localStorage.getItem("omnitool_theme") || "light";
       document.documentElement.setAttribute("data-theme", currentTheme);
       themeIcon.textContent = currentTheme === "light" ? "🌙" : "☀️";
 

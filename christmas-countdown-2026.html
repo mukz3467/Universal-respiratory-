@@ -614,10 +614,12 @@
   else start();
 })();
 </script>
-<style id="extreme-snowfall-visual">
-  .snow-layer{opacity:1!important;z-index:6!important}
-  .snowflake{color:#fff!important;text-shadow:0 0 7px rgba(255,255,255,.9)!important}
-  .extreme-snowflake{display:block!important;pointer-events:none!important}
+<style id="extreme-snowfall-visual-fix">
+  /* Keep the snow layer fixed to the viewport; earlier theme rules changed it to relative positioning. */
+  #snow-layer.snow-layer{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;opacity:1!important;z-index:6!important;display:block!important;pointer-events:none!important;}
+  #snow-layer .snowflake{position:absolute!important;display:block!important;color:#fff!important;text-shadow:0 0 7px rgba(255,255,255,.9)!important;will-change:transform!important;}
+  #snow-layer .extreme-snowflake{pointer-events:none!important;}
+  @media(prefers-reduced-motion:reduce){#snow-layer.snow-layer{display:block!important}#snow-layer .snowflake{animation:none!important;top:0!important;}}
 </style>
 
 </body>

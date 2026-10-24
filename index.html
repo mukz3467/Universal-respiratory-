@@ -329,7 +329,12 @@
       .preview-clock{font-size:13px}
     }
 
-  </style>
+  
+    /* Larger, bolder site identity in the top navigation */
+    .site-nav .brand{font-size:clamp(21px,2.2vw,25px)!important;font-weight:950!important;letter-spacing:-.04em!important;gap:12px!important}
+    .site-nav .brand-mark{width:44px!important;height:44px!important;flex:0 0 44px!important}
+    @media(max-width:680px){.site-nav .brand{font-size:21px!important}.site-nav .brand-mark{width:42px!important;height:42px!important;flex-basis:42px!important}}
+</style>
 </head>
 <body>
   <nav class="site-nav" aria-label="Main navigation">

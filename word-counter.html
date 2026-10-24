@@ -1304,6 +1304,43 @@ body{background:var(--premium-bg)!important;color:var(--premium-ink)!important;f
 }
 @media(prefers-reduced-motion:reduce){.premium-sidebar,.mobile-menu-overlay,.mobile-menu-toggle{transition:none!important}}
 
+
+/* Responsive full-width workspace and wrapping tool shortcuts */
+html,body{width:100%;max-width:100%;overflow-x:clip}
+.premium-app-shell{display:flex!important;flex-direction:row;width:100%;max-width:100%;min-height:100vh;min-width:0;overflow-x:clip}
+.premium-sidebar{flex:0 0 246px;width:246px;min-width:0}
+.premium-main{flex:1 1 0%;width:0;min-width:0;max-width:100%;overflow-x:clip}
+.premium-main .container{width:100%!important;max-width:none!important;min-width:0;margin:0!important;box-sizing:border-box}
+.premium-main main,.premium-main section,.premium-main .editor-card,.premium-main .chart-section,.premium-main .seo-section,#focused-tools-workspace{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
+.premium-main .dashboard-welcome{min-width:0;flex-wrap:wrap}
+.premium-main .focus-shortcut-grid{grid-template-columns:repeat(4,minmax(0,1fr));width:100%;min-width:0}
+.premium-main .focus-shortcut{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.premium-main .focus-shortcut span{overflow-wrap:anywhere}
+.premium-main .focus-action-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+.premium-main .focus-metric-grid{grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
+.premium-main .focus-stat-table-wrap,.premium-main .focus-frequency-summary{max-width:100%;min-width:0}
+@media(max-width:767px){
+ .premium-app-shell{display:flex!important;flex-direction:column!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+ .premium-sidebar{flex:0 0 auto!important}
+ .premium-main{display:block!important;flex:1 1 auto!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+ .premium-main .container{width:100%!important;max-width:100%!important;margin:0!important;padding:18px 12px 40px!important}
+ .premium-main .page-header-content,.premium-main .dashboard-welcome{width:100%;max-width:100%;min-width:0}
+ .premium-main .dashboard-welcome{gap:12px;padding:8px 0 20px}
+ .premium-main .editor-card,.premium-main .chart-section,.premium-main .seo-section{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;padding:16px 12px!important}
+ .premium-main .focus-shortcut-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%!important}
+ .premium-main .focus-action-grid{grid-template-columns:1fr!important}
+ .premium-main .focus-metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .premium-main .metrics-grid-row,.premium-main .chart-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important}
+ .premium-main textarea#main-textarea{width:100%;max-width:100%;min-width:0}
+ .premium-main .charts-grid{grid-template-columns:minmax(0,1fr)!important}
+ .premium-main .focus-frequency-summary{grid-template-columns:minmax(0,1fr)!important}
+}
+@media(min-width:768px) and (max-width:1024px){
+ .premium-sidebar{flex-basis:210px;width:210px}
+ .premium-main .container{padding-left:22px!important;padding-right:22px!important}
+ .premium-main .focus-shortcut-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
 </style>
 </head>
 <body>

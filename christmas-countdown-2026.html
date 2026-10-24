@@ -553,38 +553,33 @@
   </style>
 
 
-<style id="pure-black-heavy-snow-final">
-  body{background:#020304!important;background-image:radial-gradient(ellipse at 50% 0%,rgba(30,35,40,.25),transparent 55%)!important;background-color:#020304!important;color:#fff!important;overflow-x:hidden}
-  body:before{content:""!important;position:fixed!important;inset:-100% 0 0!important;z-index:0!important;pointer-events:none!important;opacity:1!important;background-image:
-    radial-gradient(3px 3px at 20px 30px,#fff 99%,transparent),
-    radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,.9) 99%,transparent),
-    radial-gradient(3px 3px at 90px 40px,rgba(255,255,255,.95) 99%,transparent),
-    radial-gradient(2px 2px at 130px 90px,#fff 99%,transparent),
-    radial-gradient(4px 4px at 160px 20px,rgba(255,255,255,.9) 99%,transparent),
-    radial-gradient(2px 2px at 200px 110px,#fff 99%,transparent),
-    radial-gradient(3px 3px at 240px 60px,rgba(255,255,255,.85) 99%,transparent),
-    radial-gradient(2px 2px at 280px 130px,#fff 99%,transparent)!important;
-    background-size:300px 150px!important;background-repeat:repeat!important;
-    animation:heavySnowFall 5s linear infinite!important}
-  body:after{content:""!important;position:fixed!important;inset:-100% 0 0!important;z-index:0!important;pointer-events:none!important;opacity:.9!important;background-image:
-    radial-gradient(1px 1px at 15px 15px,#fff 99%,transparent),
-    radial-gradient(2px 2px at 75px 55px,rgba(255,255,255,.8) 99%,transparent),
-    radial-gradient(1px 1px at 115px 95px,#fff 99%,transparent),
-    radial-gradient(2px 2px at 185px 35px,rgba(255,255,255,.9) 99%,transparent),
-    radial-gradient(1px 1px at 225px 120px,#fff 99%,transparent),
-    radial-gradient(2px 2px at 265px 75px,rgba(255,255,255,.8) 99%,transparent)!important;
-    background-size:280px 140px!important;background-repeat:repeat!important;
-    animation:heavySnowFall 8s linear infinite!important}
-  @keyframes heavySnowFall{from{transform:translateY(0)}to{transform:translateY(150px)}}
-  .wrap,.topbar,.christmas-music{position:relative;z-index:2!important}
-  .hero,.section{background:rgba(9,11,14,.84)!important;border-color:rgba(255,255,255,.22)!important;backdrop-filter:blur(8px)!important;-webkit-backdrop-filter:blur(8px)!important}
-  .unit,.fact,.mile{background:rgba(8,10,13,.82)!important;backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important}
-  .christmas-music{position:fixed!important;top:10px!important;left:50%!important;transform:translateX(-50%)!important;width:min(560px,calc(100% - 24px))!important;justify-content:center!important;gap:18px!important;padding:15px 20px!important;border-radius:22px!important;background:rgba(8,10,13,.97)!important;border:1px solid rgba(255,255,255,.78)!important;box-shadow:0 14px 45px rgba(0,0,0,.65)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
-  .christmas-music .music-note{font-size:32px!important}.christmas-music .music-caption{gap:5px!important;font-size:15px!important}.christmas-music small{font-size:12px!important}
-  .christmas-music button{min-height:56px!important;padding:15px 26px!important;border-radius:999px!important;font-size:16px!important;font-weight:900!important;background:#fff!important;color:#080808!important;border:1px solid #fff!important;box-shadow:0 7px 22px rgba(0,0,0,.45)!important}
-  .topbar{padding-top:96px!important}
-  @media(max-width:620px){.christmas-music{top:8px!important;width:calc(100% - 16px)!important;gap:9px!important;padding:10px!important}.christmas-music .music-note{font-size:25px!important}.christmas-music .music-caption{max-width:110px!important;font-size:13px!important}.christmas-music small{font-size:10px!important}.christmas-music button{min-height:48px!important;padding:12px 15px!important;font-size:13px!important}.topbar{padding-top:82px!important}}
-  @media(prefers-reduced-motion:reduce){body:before,body:after{animation:none!important}}
+<style id="clear-black-no-glass-auto-music">
+  body{background:#000!important;background-image:none!important;background-color:#000!important;color:#fff!important;overflow-x:hidden}
+  html{background:#000!important}
+  /* Keep snowfall, but remove every glass/card/blur layer behind text and numbers. */
+  .wrap,.topbar,.hero,.section,.unit,.fact,.mile,.content{background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;filter:none!important}
+  .hero,.section,.unit,.fact,.mile{border-color:transparent!important;border-radius:0!important}
+  .hero:before,.hero:after{display:none!important;content:none!important;filter:none!important}
+  .num,.unit-label,h1,h2,h3,p,.lead,.date-line,.pill,.eyebrow,.fact strong,.fact span,.mile b,.mile span,#status,.footer{color:#fff!important;text-shadow:none!important}
+  h1 em{color:#fff!important}
+  .pill{border:1px solid #fff!important;background:transparent!important}
+  .dot{background:#fff!important;box-shadow:none!important}
+  .unit:nth-child(1) .num,.unit:nth-child(2) .num,.unit:nth-child(3) .num,.unit:nth-child(4) .num{color:#fff!important}
+  .timer{gap:clamp(7px,2vw,14px)!important}
+  .unit{padding:clamp(13px,3vw,25px) 5px!important;border:0!important}
+  .actions .btn{background:transparent!important;color:#fff!important;border:1px solid #fff!important;box-shadow:none!important}
+  .actions .btn.primary{background:#fff!important;color:#000!important}
+  .track{background:#242424!important}
+  #progress{background:#fff!important}
+  .christmas-music{position:fixed!important;top:10px!important;left:50%!important;transform:translateX(-50%)!important;z-index:10000!important;width:auto!important;max-width:calc(100% - 20px)!important;gap:12px!important;padding:8px 12px!important;border:1px solid #fff!important;border-radius:999px!important;background:#000!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .christmas-music .music-note{font-size:24px!important}
+  .christmas-music .music-caption{min-width:0!important;gap:2px!important}
+  .christmas-music #music-title{font-size:12px!important;color:#fff!important}
+  .christmas-music small{font-size:10px!important;color:#fff!important}
+  .christmas-music button{min-height:42px!important;padding:10px 16px!important;border-radius:999px!important;font-size:13px!important;font-weight:900!important;background:#fff!important;color:#000!important;border:1px solid #fff!important;box-shadow:none!important}
+  .topbar{padding-top:82px!important;border:0!important}
+  @media(max-width:620px){.christmas-music{top:8px!important;gap:8px!important;padding:7px 9px!important}.christmas-music .music-note{font-size:20px!important}.christmas-music #music-title{font-size:11px!important}.christmas-music small{font-size:9px!important}.christmas-music button{min-height:40px!important;padding:9px 12px!important;font-size:12px!important}.topbar{padding-top:74px!important}}
+  @media(prefers-reduced-motion:reduce){body:before,body:after,.snowflake{animation:none!important}}
 </style>
 
 </body>

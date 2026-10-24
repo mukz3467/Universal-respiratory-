@@ -385,10 +385,12 @@
       }
 
       // If autoplay was blocked, the first real user gesture anywhere on the page starts it.
-      const startOnFirstGesture = () => {
+      const startOnFirstGesture = (event) => {
+        // Do not race the music button's own click handler; otherwise a tap can start and then pause playback.
+        if (event && event.target && button.contains(event.target)) return;
         if (!started && !userPaused) tryPlay();
       };
-      ['pointerdown', 'touchstart', 'keydown'].forEach(eventName => {
+      ['pointerdown', 'keydown'].forEach(eventName => {
         document.addEventListener(eventName, startOnFirstGesture, { once: true, passive: true });
       });
 

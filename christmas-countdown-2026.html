@@ -634,5 +634,18 @@
   @media(max-width:420px){.timer.single-total-mode .unit:first-child .num{font-size:clamp(1.25rem,7.2vw,2rem)!important;letter-spacing:-.02em!important}}
 </style>
 
+
+<style id="cls-stability-fix">
+  /* Reserve space for changing timer and music messages to prevent layout shifts. */
+  #status{display:block;min-height:1.65em;height:1.65em;line-height:1.65em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .christmas-music{box-sizing:border-box;min-height:58px}
+  .christmas-music .music-caption{min-width:125px;max-width:125px;min-height:32px;justify-content:center;overflow:hidden}
+  .christmas-music #music-title,.christmas-music #music-status{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+  @media(max-width:520px){
+    .christmas-music{min-height:54px}
+    .christmas-music .music-caption{min-width:92px;max-width:92px;min-height:29px}
+  }
+</style>
+
 </body>
 </html>

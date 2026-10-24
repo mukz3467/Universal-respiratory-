@@ -143,13 +143,15 @@
   .timer-card button.btn-ctrl,
   .timer-card .preset-pill,
   .timer-card .tab-btn { background:#fff!important; color:#222!important; border:1px solid #dcdcdc!important; box-shadow:none!important; }
-  .timer-card button.btn-ctrl.btn-primary,
+  /* All controls, including primary Start buttons, are light by default. */
   .timer-card button.btn-ctrl.is-selected,
   .timer-card .preset-pill.is-selected,
-  .timer-card .tab-btn.active { background:#111!important; color:#fff!important; border-color:#111!important; }
+  .timer-card .tab-btn.active,
+  .timer-card .tab-btn.is-selected { background:#111!important; color:#fff!important; border-color:#111!important; }
   .timer-card button.btn-ctrl:active,
   .timer-card .preset-pill:active,
   .timer-card .tab-btn:active { background:#111!important; color:#fff!important; border-color:#111!important; }
+  .timer-card button.btn-primary:not(.is-selected):not(:active) { background:#fff!important; color:#111!important; border-color:#dcdcdc!important; box-shadow:none!important; }
   .timer-card button.btn-ctrl:disabled { background:#fff!important; color:#999!important; border-color:#e2e2e2!important; opacity:.8; }
   /* Premium monochrome interface aligned with the Word Counter dashboard */
   :root{--bg:#f5f5f5;--card-bg:#fff;--card-border:#e5e5e5;--text:#111;--text-muted:#666;--primary:#111;--primary-strong:#111;--primary-hover:#333;--radius:16px}

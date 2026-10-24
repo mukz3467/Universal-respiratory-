@@ -2639,6 +2639,82 @@ editor.addEventListener('input',render);$('focus-word-goal').addEventListener('i
 })();
 </script>
 
+
+<script>
+/* Global interactive button states and reliable local import/export. */
+(function () {
+  'use strict';
+  function initButtonSystem() {
+    if (document.documentElement.dataset.globalButtonSystem === 'ready') return;
+    document.documentElement.dataset.globalButtonSystem = 'ready';
+    const editor = document.getElementById('main-textarea');
+    const fileInput = document.getElementById('file-import-input');
+    const actionIds = ['btn-import','btn-download','btn-copy','btn-clear'];
+    let lastAction = null;
+    function toast(message) {
+      if (typeof window.showToast === 'function') window.showToast(message);
+      else {
+        let el = document.getElementById('button-system-status');
+        if (!el) { el=document.createElement('div'); el.id='button-system-status'; el.setAttribute('role','status'); el.style.cssText='position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:99999;background:#111;color:white;padding:10px 16px;border-radius:10px;font:14px sans-serif;'; document.body.appendChild(el); }
+        el.textContent=message; el.style.display='block'; clearTimeout(el._hideTimer); el._hideTimer=setTimeout(()=>{el.style.display='none';},2200);
+      }
+    }
+    function refresh() {
+      if (editor) editor.dispatchEvent(new Event('input',{bubbles:true}));
+      if (typeof window.refreshMetrics === 'function') window.refreshMetrics();
+    }
+    document.addEventListener('click', function(e) {
+      const button=e.target.closest('button');
+      if(!button || button.disabled) return;
+      if (button.id === 'btn-import' || button.id === 'btn-download' || button.id === 'btn-copy' || button.id === 'btn-clear') {
+        e.preventDefault(); e.stopImmediatePropagation();
+        document.querySelectorAll('.action-btn-group button').forEach(b=>b.classList.remove('is-active'));
+        button.classList.add('is-active'); lastAction=button;
+        if(button.id==='btn-import') {
+          if(fileInput) { fileInput.value=''; fileInput.click(); }
+          else toast('File import control is unavailable.');
+        } else if(button.id==='btn-copy') {
+          if(!editor || !editor.value) { toast('Write or import text first.'); return; }
+          const copyFallback=()=>{editor.focus();editor.select();try{document.execCommand('copy');toast('Text copied.');}catch(_){toast('Copy is not supported by this browser.');}};
+          if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(editor.value).then(()=>toast('Text copied.')).catch(copyFallback);
+          else copyFallback();
+        } else if(button.id==='btn-download') {
+          if(!editor || !editor.value.trim()) { toast('Write or import text first.'); return; }
+          const blob=new Blob([editor.value],{type:'text/plain;charset=utf-8'});
+          const url=URL.createObjectURL(blob); const a=document.createElement('a');
+          a.href=url; a.download='word-counter-export.txt'; a.style.display='none'; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(()=>URL.revokeObjectURL(url),1500); toast('Text exported as a .txt file.');
+        } else if(button.id==='btn-clear') {
+          if(!editor || !editor.value) { toast('Editor is already empty.'); return; }
+          if(!window.confirm('Clear all text from the editor?')) return;
+          editor.value=''; refresh(); toast('Editor cleared.');
+        }
+        return;
+      }
+      // All other controls get a visible active state on click. Tabs/selection controls
+      // keep their state until another sibling is selected; one-shot actions fade back.
+      const isPersistent = button.classList.contains('chart-tab-btn') ||
+        button.classList.contains('sample-pill') ||
+        button.hasAttribute('aria-pressed') ||
+        /^tab-/.test(button.id || '');
+      const group = button.closest('.format-buttons, .action-btn-group, .focus-tool-panel, .chart-tabs, .chart-tab-group, .toolbar-left');
+      if (group) group.querySelectorAll('button').forEach(b=>b.classList.remove('is-active'));
+      button.classList.add('is-active');
+      if (!isPersistent) setTimeout(()=>button.classList.remove('is-active'),1500);
+    }, true);
+    if(fileInput) fileInput.addEventListener('change', function(){
+      const file=fileInput.files && fileInput.files[0]; if(!file) return;
+      const reader=new FileReader();
+      reader.onload=function(){ if(editor){editor.value=String(reader.result||'');refresh();toast('File imported successfully.');} };
+      reader.onerror=function(){toast('Could not read this file. Please try a text file.');};
+      reader.readAsText(file);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initButtonSystem,{once:true});
+  else initButtonSystem();
+})();
+</script>
+
 </body>
 </html>
 
@@ -2698,5 +2774,38 @@ button.focus-action.is-active {
   border-color: #000 !important;
   box-shadow: 0 4px 12px rgba(0,0,0,.16) !important;
 }
+
+
+/* Unified button state system: every button starts light; only active buttons go black. */
+button,
+button.btn-act,
+button.btn-act-primary,
+button.focus-action,
+button.chart-tab-btn,
+button.sample-pill,
+button.theme-toggle-btn,
+button.mobile-menu-toggle,
+button.drawer-close-btn {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+  transition: background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease !important;
+}
+button:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+button.is-active,
+button.is-selected,
+button[aria-pressed="true"],
+button[aria-current="true"] {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.16) !important;
+}
+button.is-active *,
+button.is-selected * { color: inherit !important; }
 
 </style>

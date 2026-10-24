@@ -1744,11 +1744,11 @@
       function getSentenceWordCounts(value) {
         var trimmed = value.trim();
         if (!trimmed) return [];
-        return trimmed.split(/[.!?。！？]+(?:["'”’)]*)?(?:\\s+|$)/u)
+        return trimmed.split(/[.!?。！？]+(?:["'”’)]*)?(?:\s+|$)/u)
           .map(function (sentence) { return sentence.trim(); })
           .filter(Boolean)
           .map(function (sentence) {
-            var matches = sentence.match(/[\\p{L}\\p{N}]+(?:['’_-][\\p{L}\\p{N}]+)*/gu);
+            var matches = sentence.match(/[\p{L}\p{N}]+(?:['’_-][\p{L}\p{N}]+)*/gu);
             return matches ? matches.length : 0;
           }).filter(function (count) { return count > 0; });
       }
@@ -1785,10 +1785,10 @@
       document.getElementById("btn-clean-text").addEventListener("click", function () {
         var before = textarea.value;
         var cleaned = before
-          .replace(/\\r\\n?/g, "\\n")
-          .replace(/[\\t\\f\\v ]+/g, " ")
-          .replace(/ *\\n */g, "\\n")
-          .replace(/\\n{3,}/g, "\\n\\n")
+          .replace(/\r\n?/g, "\n")
+          .replace(/[\t\f\v ]+/g, " ")
+          .replace(/ *\n */g, "\n")
+          .replace(/\n{3,}/g, "\n\n")
           .replace(/[“”]/g, '"')
           .replace(/[‘’]/g, "'");
         textarea.value = cleaned.trim();
@@ -1797,7 +1797,7 @@
           before === textarea.value ? "Text is already clean." : "Text formatting cleaned.";
       });
 
-      // Theme Engine
+      textarea.addEventListener("input", updateAdvancedStats);\n      updateAdvancedStats();\n\n      // Theme Engine
       var themeToggle = document.getElementById("theme-toggle");
       var themeIcon = document.getElementById("theme-icon");
       var currentTheme = localStorage.getItem("omnitool_theme") || "dark";

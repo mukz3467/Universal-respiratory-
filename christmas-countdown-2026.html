@@ -284,6 +284,8 @@
       function setMode(mode){
         displayMode=mode;
         document.querySelectorAll('.unit-mode').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+        const timer=document.querySelector('.timer');
+        if(timer){timer.classList.toggle('single-total-mode',mode!=='standard');timer.dataset.displayMode=mode;}
         const labels={standard:['Days','Hours','Minutes','Seconds'],days:['Total days','—','—','—'],sleeps:['Total sleeps','—','—','—'],hours:['Total hours','—','—','—'],minutes:['Total minutes','—','—','—'],seconds:['Total seconds','—','—','—']};
         document.querySelectorAll('.unit-label').forEach((el,i)=>el.textContent=labels[mode][i]);
       }
@@ -620,6 +622,17 @@
   #snow-layer .snowflake{position:absolute!important;display:block!important;color:#fff!important;text-shadow:0 0 7px rgba(255,255,255,.9)!important;will-change:transform!important;}
   #snow-layer .extreme-snowflake{pointer-events:none!important;}
   @media(prefers-reduced-motion:reduce){#snow-layer.snow-layer{display:block!important}#snow-layer .snowflake{animation:none!important;top:0!important;}}
+</style>
+
+
+<style id="countdown-total-number-visibility-fix">
+  /* In total modes, give the long value a full row so every digit stays visible. */
+  .timer.single-total-mode{display:grid!important;grid-template-columns:minmax(0,1fr)!important;max-width:790px!important;width:100%!important;margin:28px auto 20px!important}
+  .timer.single-total-mode .unit{display:none!important}
+  .timer.single-total-mode .unit:first-child{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;width:100%!important;min-width:0!important;overflow:visible!important;padding:clamp(18px,4vw,34px) 8px!important}
+  .timer.single-total-mode .unit:first-child .num{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;white-space:nowrap!important;overflow:visible!important;text-align:center!important;font-size:clamp(1.6rem,8vw,4.4rem)!important;line-height:1.15!important;letter-spacing:0!important;font-variant-numeric:tabular-nums!important;overflow-wrap:normal!important}
+  .timer.single-total-mode .unit:first-child .unit-label{display:block!important;font-size:clamp(.72rem,2.5vw,.95rem)!important;letter-spacing:.08em!important;margin-top:12px!important}
+  @media(max-width:420px){.timer.single-total-mode .unit:first-child .num{font-size:clamp(1.25rem,7.2vw,2rem)!important;letter-spacing:-.02em!important}}
 </style>
 
 </body>

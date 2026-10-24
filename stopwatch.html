@@ -84,7 +84,27 @@
     .ad-banner-container { width: 100%; max-width: 728px; min-height: 90px; height: 90px; margin: 20px auto; border: 2px dashed var(--card-border); border-radius: var(--radius); background: var(--card-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; contain: layout size; }
     .ad-banner-label { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
     .ad-banner-sub { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
-    .timer-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 30px; margin-bottom: 24px; text-align: center; }
+
+    .timer-card { background: radial-gradient(ellipse at 82% 5%, rgba(14,165,233,.18), transparent 38%), linear-gradient(135deg,#080f20 0%,#0c172b 52%,#101827 100%); border: 1px solid rgba(77,163,255,.26); border-radius: 22px; padding: 24px; margin-bottom: 24px; text-align: center; box-shadow: 0 24px 70px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06); overflow:hidden; position:relative; }
+    .stopwatch-visual { position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(150px,.72fr); align-items:center; gap:16px; text-align:left; padding:22px 22px 26px; margin:0 0 22px; border:1px solid rgba(96,165,250,.18); border-radius:17px; background:linear-gradient(110deg,rgba(8,15,32,.96),rgba(12,31,57,.76)); overflow:hidden; }
+    .stopwatch-visual:before { content:""; position:absolute; width:260px; height:260px; border-radius:50%; right:4%; top:-150px; background:#0ea5e9; filter:blur(90px); opacity:.18; pointer-events:none; }
+    .visual-eyebrow { color:#67e8f9; font:700 11px/1.4 var(--font-mono); letter-spacing:.18em; text-transform:uppercase; margin-bottom:10px; }
+    .visual-title { font-size:clamp(1.5rem,4vw,2.5rem); line-height:1.08; letter-spacing:-.045em; font-weight:850; color:#f8fafc; max-width:440px; }
+    .visual-copy { margin-top:12px; max-width:390px; color:#9fb2ca; font-size:13px; line-height:1.7; }
+    .visual-chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:17px; }
+    .visual-chip { color:#cbdff7; border:1px solid rgba(125,180,255,.24); background:rgba(18,42,73,.72); padding:6px 9px; border-radius:999px; font:600 10px var(--font-mono); }
+    .stopwatch-art { width:100%; max-width:220px; justify-self:center; filter:drop-shadow(0 12px 28px rgba(14,165,233,.18)); position:relative; z-index:1; }
+    .timer-card .tabs { border-color:rgba(148,163,184,.18); }
+    .timer-card .tab-btn { color:#9fb2ca; }
+    .timer-card .tab-btn.active { background:linear-gradient(135deg,#0284c7,#2563eb); color:#fff; box-shadow:0 7px 22px rgba(37,99,235,.3); }
+    .timer-card .display { color:#f8fafc; text-shadow:0 0 28px rgba(56,189,248,.16); font-variant-numeric:tabular-nums; letter-spacing:-.045em; }
+    .timer-card button.btn-ctrl { background:rgba(15,29,49,.94); border-color:rgba(125,164,207,.25); color:#dbeafe; }
+    .timer-card button.btn-primary { background:linear-gradient(135deg,#0284c7,#2563eb); border-color:#38bdf8; color:#fff; box-shadow:0 8px 22px rgba(37,99,235,.22); }
+    .timer-card button.btn-ctrl:hover,.timer-card .preset-pill:hover { border-color:#38bdf8; color:#fff; }
+    .timer-card .preset-pill { background:rgba(15,29,49,.94); border-color:rgba(125,164,207,.25); color:#b8cbe2; }
+    .timer-card .laps-box { border-color:rgba(148,163,184,.2); color:#dbeafe; }
+    @media(max-width:560px){ .timer-card{padding:14px!important;border-radius:16px!important}.stopwatch-visual{grid-template-columns:1fr;padding:20px 16px;gap:4px;text-align:center}.visual-title,.visual-copy{margin-left:auto;margin-right:auto}.visual-chips{justify-content:center}.stopwatch-art{max-width:150px;grid-row:1;margin-bottom:8px}.timer-card .display{font-size:clamp(2.1rem,10vw,3.6rem);white-space:nowrap}.timer-card .tabs{gap:4px}.timer-card .tab-btn{font-size:13px;padding:8px 10px} }
+
     .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
     .tab-btn { background: transparent; border: none; color: var(--text-muted); font-size: 15px; font-weight: 700; padding: 8px 16px; cursor: pointer; border-radius: 8px; }
     .tab-btn.active { background: var(--primary-strong); color: #fff; }
@@ -139,6 +159,34 @@
     </aside>
 
     <section class="timer-card">
+      <div class="stopwatch-visual" aria-label="Futuristic digital stopwatch visual">
+        <div>
+          <div class="visual-eyebrow">Precision timing / 01</div>
+          <div class="visual-title">Every second.<br>Count it.</div>
+          <p class="visual-copy">A precision timer for training, focus sessions, personal bests and every moment that matters.</p>
+          <div class="visual-chips"><span class="visual-chip">LAP TRACKING</span><span class="visual-chip">COUNTDOWN</span><span class="visual-chip">FULL SCREEN</span></div>
+        </div>
+        <svg class="stopwatch-art" viewBox="0 0 240 260" role="img" aria-label="Glowing blue digital sports stopwatch illustration">
+          <defs><linearGradient id="watchBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#334155"/><stop offset=".48" stop-color="#0f2038"/><stop offset="1" stop-color="#020617"/></linearGradient><linearGradient id="watchRing" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#67e8f9"/><stop offset=".5" stop-color="#2563eb"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#082f49"/><stop offset="1" stop-color="#020617"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <ellipse cx="120" cy="230" rx="70" ry="12" fill="#0284c7" opacity=".18"/>
+          <g transform="rotate(-9 120 135)">
+            <rect x="96" y="15" width="48" height="30" rx="9" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+            <rect x="102" y="4" width="36" height="18" rx="6" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="52" y="39" width="136" height="174" rx="34" fill="url(#watchBody)" stroke="#64748b" stroke-width="3"/>
+            <rect x="61" y="48" width="118" height="156" rx="27" fill="none" stroke="url(#watchRing)" stroke-width="2" opacity=".9"/>
+            <circle cx="120" cy="124" r="59" fill="#020617" stroke="#1e40af" stroke-width="2"/>
+            <circle cx="120" cy="124" r="52" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2 5" opacity=".85"/>
+            <circle cx="120" cy="124" r="43" fill="url(#screen)" stroke="#0ea5e9" stroke-width="1.5"/>
+            <path d="M120 88 L120 124 L145 139" fill="none" stroke="#67e8f9" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+            <circle cx="120" cy="124" r="5" fill="#e0f2fe"/>
+            <text x="120" y="166" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700" fill="#67e8f9">00:00:00</text>
+            <rect x="82" y="184" width="76" height="5" rx="2.5" fill="#0ea5e9" opacity=".8"/>
+            <rect x="188" y="74" width="12" height="36" rx="5" fill="#38bdf8" stroke="#bae6fd" stroke-width="1"/>
+            <rect x="40" y="80" width="12" height="30" rx="5" fill="#334155" stroke="#64748b" stroke-width="1"/>
+          </g>
+          <circle cx="190" cy="40" r="3" fill="#67e8f9"/><circle cx="42" cy="180" r="2" fill="#38bdf8"/><path d="M25 54h18M34 45v18M197 197h15M204.5 189.5v15" stroke="#38bdf8" stroke-width="1.5" opacity=".7"/>
+        </svg>
+      </div>
       <div class="tabs">
         <button class="tab-btn active" id="tab-sw">Stopwatch</button>
         <button class="tab-btn" id="tab-cd">Countdown Timer</button>

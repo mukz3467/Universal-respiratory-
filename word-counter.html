@@ -2442,3 +2442,32 @@ editor.addEventListener('input',render);$('focus-word-goal').addEventListener('i
 })();
 </script></body>
 </html>
+
+<style>
+
+/* Final viewport-fit correction: prevent the app shell or any nested wrapper
+   from reserving an empty column or leaving unused horizontal space. */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0!important;padding:0!important;width:100%!important;max-width:100%!important}
+.premium-app-shell{display:flex!important;gap:0!important;column-gap:0!important;width:100%!important;max-width:100%!important}
+.premium-main{flex:1 1 auto!important;width:auto!important;max-width:none!important;min-width:0!important;margin:0!important}
+.premium-main>.container{display:block!important;width:100%!important;max-width:none!important;margin:0!important}
+.premium-main .container>*{max-width:100%}
+@media(min-width:768px){
+  .premium-sidebar{flex:0 0 246px!important;width:246px!important}
+  .premium-main{width:calc(100% - 246px)!important;flex:1 1 calc(100% - 246px)!important}
+  .premium-main .container{padding-left:clamp(16px,2.2vw,34px)!important;padding-right:clamp(16px,2.2vw,34px)!important}
+}
+@media(min-width:768px) and (max-width:1024px){
+  .premium-sidebar{flex-basis:210px!important;width:210px!important}
+  .premium-main{width:calc(100% - 210px)!important;flex-basis:calc(100% - 210px)!important}
+}
+@media(max-width:767px){
+  .premium-app-shell{display:flex!important;flex-direction:column!important;width:100%!important}
+  .premium-sidebar{width:min(84vw,320px)!important;max-width:320px!important;flex:0 0 auto!important}
+  .premium-main{display:block!important;width:100%!important;max-width:100%!important;flex:1 1 auto!important}
+  .premium-main .container{width:100%!important;max-width:100%!important;padding-left:12px!important;padding-right:12px!important}
+  .premium-main .editor-card,.premium-main .chart-section,.premium-main .social-counter-card,.premium-main .seo-section,.premium-main #focused-tools-workspace{width:100%!important;max-width:100%!important}
+}
+
+</style>

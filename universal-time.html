@@ -292,6 +292,83 @@
       font-family: var(--font-mono);
     }
 
+    /* Christmas countdown banner */
+    .christmas-countdown {
+      --xmas-red: #dc2626;
+      --xmas-green: #166534;
+      position: relative;
+      overflow: hidden;
+      margin: 14px 0 20px;
+      padding: 24px 18px;
+      text-align: center;
+      border: 1px solid rgba(250, 204, 21, .45);
+      border-radius: var(--radius);
+      color: #fff;
+      background: radial-gradient(ellipse at top, #1f7a43 0%, #14532d 45%, #10251b 100%);
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+    .christmas-countdown .xmas-kicker {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      color: #fef08a;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .christmas-countdown h2 {
+      color: #fff;
+      font-size: clamp(1.45rem, 4vw, 2.1rem);
+      line-height: 1.2;
+      margin: 0 0 7px;
+    }
+    .christmas-countdown .xmas-desc {
+      color: #e5f5e9;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .xmas-countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+      max-width: 620px;
+      margin: 0 auto 14px;
+    }
+    .xmas-unit {
+      padding: 12px 5px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 10px;
+      background: rgba(0,0,0,.2);
+    }
+    .xmas-unit strong {
+      display: block;
+      color: #fef08a;
+      font: 800 clamp(1.5rem, 6vw, 2.5rem)/1.1 var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .xmas-unit span {
+      display: block;
+      margin-top: 5px;
+      color: #f0fdf4;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .christmas-countdown .xmas-date {
+      color: #fef3c7;
+      font-size: 12px;
+    }
+    @media (max-width: 420px) {
+      .christmas-countdown { padding: 20px 10px; border-radius: 0; }
+      .xmas-countdown-grid { gap: 6px; }
+      .xmas-unit { padding: 11px 2px; }
+      .xmas-unit span { font-size: 10px; letter-spacing: 0; }
+    }
+
     /* Master UTC Hero Card */
     .utc-master-card {
       background: var(--card-bg);
@@ -672,6 +749,20 @@
       </p>
     </header>
 
+    <!-- Christmas Countdown feature at the top of the World Clock page -->
+    <section class="christmas-countdown" aria-labelledby="xmas-title">
+      <div class="xmas-kicker">✦ Holiday Countdown ✦</div>
+      <h2 id="xmas-title">🎄 Christmas Countdown 2026 🎅</h2>
+      <p class="xmas-desc">Count down the days, hours, minutes and seconds until Christmas Day.</p>
+      <div class="xmas-countdown-grid" aria-live="off" aria-label="Time remaining until Christmas">
+        <div class="xmas-unit"><strong id="xmas-days">--</strong><span>Days</span></div>
+        <div class="xmas-unit"><strong id="xmas-hours">--</strong><span>Hours</span></div>
+        <div class="xmas-unit"><strong id="xmas-minutes">--</strong><span>Minutes</span></div>
+        <div class="xmas-unit"><strong id="xmas-seconds">--</strong><span>Seconds</span></div>
+      </div>
+      <p class="xmas-date" id="xmas-target-date">Counting down to December 25</p>
+    </section>
+
     <!-- Top Ad Placeholder (Anti-CLS, 728x90) -->
     <aside class="ad-banner-container" aria-label="Top Advertisement">
       <div class="ad-banner-label">[ Future Ad Space ]</div>
@@ -852,6 +943,28 @@
   <script>
     (function () {
       "use strict";
+
+      // Christmas countdown to December 25, rolling to next year after Christmas.
+      function updateChristmasCountdown() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var target = new Date(year, 11, 25, 0, 0, 0, 0);
+        if (now >= target) target = new Date(year + 1, 11, 25, 0, 0, 0, 0);
+        var remaining = Math.max(0, target.getTime() - now.getTime());
+        var totalSeconds = Math.floor(remaining / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor((totalSeconds % 86400) / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+        document.getElementById("xmas-days").textContent = String(days);
+        document.getElementById("xmas-hours").textContent = pad2(hours);
+        document.getElementById("xmas-minutes").textContent = pad2(minutes);
+        document.getElementById("xmas-seconds").textContent = pad2(seconds);
+        document.getElementById("xmas-target-date").textContent =
+          "Counting down to December 25, " + target.getFullYear();
+      }
+      updateChristmasCountdown();
+      setInterval(updateChristmasCountdown, 1000);
 
       // DOM Elements
       var utcClockEl = document.getElementById("master-utc-clock");

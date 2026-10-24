@@ -1815,7 +1815,10 @@
           before === textarea.value ? "Text is already clean." : "Text formatting cleaned.";
       });
 
-      textarea.addEventListener("input", updateAdvancedStats);\n      updateAdvancedStats();\n\n      // Theme Engine
+      textarea.addEventListener("input", updateAdvancedStats);
+      updateAdvancedStats();
+
+      // Theme Engine
       var themeToggle = document.getElementById("theme-toggle");
       var themeIcon = document.getElementById("theme-icon");
       var currentTheme = localStorage.getItem("omnitool_theme") || "dark";

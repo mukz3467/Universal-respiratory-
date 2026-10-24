@@ -7,7 +7,7 @@
   <meta name="description" content="Count down to Christmas Day 2026 with a live timer showing days, hours, minutes and seconds, plus Christmas Eve details and key holiday milestones.">
   <link rel="canonical" href="https://universal-respiratory.vercel.app/christmas-countdown-2026.html">
   <meta name="robots" content="index,follow">
-  <meta name="theme-color" content="#080b0a">
+  <meta name="theme-color" content="#FDFBF7">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Christmas Countdown 2026 – How Many Days Until Christmas?">
   <meta property="og:description" content="See the live countdown to Friday, December 25, 2026. Days, hours, minutes and seconds, updated every second.">
@@ -28,6 +28,9 @@
   }
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many days until Christmas 2026?","acceptedAnswer":{"@type":"Answer","text":"The live counter calculates the remaining days, hours, minutes and seconds from your device clock and updates every second."}},{"@type":"Question","name":"What day is Christmas in 2026?","acceptedAnswer":{"@type":"Answer","text":"Christmas Day falls on Friday, December 25, 2026. Christmas Eve is Thursday, December 24."}},{"@type":"Question","name":"Does the countdown use my local time zone?","acceptedAnswer":{"@type":"Answer","text":"Yes. The timer uses your device’s local time and counts down to midnight at the beginning of December 25, 2026."}},{"@type":"Question","name":"Can I share this Christmas countdown?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the Share countdown or WhatsApp Status button to share the page, or copy the page link."}}]}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{color-scheme:dark;--bg:#080b0a;--panel:#101613;--panel2:#151d18;--line:#2b3930;--white:#f7faf7;--muted:#b4c0b7;--green:#70e1a1;--red:#ff6868;--gold:#f4d58a;--radius:22px}
     *{box-sizing:border-box}
@@ -92,6 +95,53 @@
     .footer a{margin:0 7px}
     @media(max-width:620px){.wrap{width:min(100% - 22px,1080px)}.nav{align-items:flex-start}.navlink{max-width:52%;text-align:right}.hero{margin-top:16px;border-radius:21px}.timer{gap:6px}.unit{border-radius:13px}.unit-label{font-size:.62rem;letter-spacing:.05em}.facts{grid-template-columns:1fr}.milestones{grid-template-columns:repeat(2,minmax(0,1fr))}.section{padding:21px 17px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}.snow-layer{display:none}}
+
+    /* Warm, cozy Christmas theme */
+    :root{color-scheme:light;--bg:#FDFBF7;--panel:#FFFDF8;--panel2:#F5EEE4;--white:#24352D;--muted:#655F56;--green:#1B4D3E;--red:#A22323;--gold:#D4AF37;--line:#E8DCC8;--radius:22px}
+    html{background:var(--bg)}
+    body{background:radial-gradient(ellipse at 50% 0%,#E7EEDB 0%,transparent 48%),var(--bg);color:var(--white);font-family:Inter,system-ui,sans-serif}
+    h1,h2,h3,.brand{font-family:"Playfair Display",Georgia,serif}
+    h1{letter-spacing:-.045em;line-height:1.08}
+    h1 em{color:var(--red);text-shadow:0 2px 18px #A223231A}
+    h2{color:var(--green)}
+    p,.lead{color:var(--muted)}
+    .topbar{background:#FDFBF7E8;border-bottom:1px solid var(--line)}
+    .brand{color:var(--green)}
+    .brand-mark{border-color:#D4AF3755;background:#D4AF371A}
+    a,.navlink{color:var(--green)}
+    a:hover{color:var(--red)}
+    .hero{background:radial-gradient(ellipse at top left,#FFFFFFD9,transparent 65%),linear-gradient(145deg,#FFFDF8,#F4E9D8);border:1px solid #D4AF3780;box-shadow:0 22px 55px #593A1710,inset 0 1px 0 #FFFFFF}
+    .hero:before{background:var(--green);opacity:.10}
+    .hero:after{background:var(--red);opacity:.09}
+    .pill{color:var(--green);background:#1B4D3E0D;border-color:#1B4D3E38}
+    .dot{background:#26845D;box-shadow:0 0 10px #26845D55}
+    .date-line{color:#84651A}
+    .unit{background:#FFFFFFB8;border:1px solid #D4AF374D;box-shadow:0 7px 20px #49351A0A,inset 0 1px 0 #FFFFFF;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .num{font-family:Inter,system-ui,sans-serif;text-shadow:0 2px 14px #D4AF3729}
+    .unit:nth-child(1) .num{color:var(--green);text-shadow:0 2px 16px #1B4D3E22}
+    .unit:nth-child(2) .num{color:var(--red);text-shadow:0 2px 16px #A2232322}
+    .unit:nth-child(3) .num{color:#9A7418}
+    .unit:nth-child(4) .num{color:var(--green)}
+    .unit-label{color:#655F56}
+    .section{background:#FFFFFFC7;border:1px solid #D4AF374A;box-shadow:0 12px 35px #593A1708,inset 0 1px 0 #FFFFFF;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .eyebrow{color:var(--red)}
+    .fact,.mile{background:#F7F0E6E0;border:1px solid #E8DCC8;border-radius:15px}
+    .fact strong{color:var(--green)}
+    .fact span,.mile span{color:var(--muted)}
+    .mile b{color:var(--red)}
+    .track{background:#E9DFCF}
+    #progress{background:linear-gradient(90deg,var(--green),#4C936B,var(--gold))}
+    .btn{color:var(--green);background:#FFFFFFD9;border-color:#D8C8AC;transition:transform 160ms ease,box-shadow 160ms ease}
+    .btn.primary{color:#FFFFFF;background:var(--red);border-color:var(--red);box-shadow:0 5px 15px #A2232325}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 7px 18px #593A1714}
+    .btn:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+    .footer{color:var(--muted);border-top:1px solid var(--line)}
+    .snow-layer{position:fixed;inset:0;z-index:4;overflow:hidden;pointer-events:none;contain:strict;opacity:.72}
+    .snowflake{position:absolute;top:-24px;left:var(--left);color:#FFFFFF;font-size:var(--size);line-height:1;opacity:var(--opacity);text-shadow:0 1px 5px #8A9DAB66;animation:snow-fall var(--duration) linear var(--delay) infinite;will-change:transform}
+    @keyframes snow-fall{from{transform:translate3d(0,-5vh,0)}to{transform:translate3d(var(--drift),110vh,0)}}
+    @media(max-width:620px){.section{backdrop-filter:none;-webkit-backdrop-filter:none}.unit{backdrop-filter:none;-webkit-backdrop-filter:none}.snowflake{text-shadow:none}}
+    @media(prefers-reduced-motion:reduce){.snow-layer{display:none!important}.btn{transition:none}.btn:hover{transform:none}}
+
   </style>
 </head>
 <body>
@@ -199,13 +249,19 @@
       (function createSnow(){
         if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
         const layer=document.getElementById('snow-layer');
-        for(let i=0;i<24;i++){
+        const count=window.matchMedia('(max-width: 600px)').matches?9:18;
+        const fragment=document.createDocumentFragment();
+        for(let i=0;i<count;i++){
           const flake=document.createElement('span');flake.className='snowflake';flake.textContent=i%4===0?'❄':'•';
-          flake.style.left=(i*37%100)+'%';flake.style.setProperty('--size',(8+(i%5)*3)+'px');
-          flake.style.setProperty('--duration',(9+(i%8)*1.7)+'s');flake.style.setProperty('--delay',(-1*(i%13))+'s');
-          flake.style.setProperty('--drift',((i%2?1:-1)*(10+(i%6)*8))+'px');flake.style.setProperty('--opacity',(0.25+(i%5)*0.13).toFixed(2));
-          layer.appendChild(flake);
+          flake.style.setProperty('--left',(Math.random()*100)+'%');
+          flake.style.setProperty('--size',(7+Math.random()*7)+'px');
+          flake.style.setProperty('--duration',(12+Math.random()*10)+'s');
+          flake.style.setProperty('--delay',(-Math.random()*20)+'s');
+          flake.style.setProperty('--drift',Math.round(Math.random()*70-35)+'px');
+          flake.style.setProperty('--opacity',(0.3+Math.random()*0.45).toFixed(2));
+          fragment.appendChild(flake);
         }
+        layer.appendChild(fragment);
       })();
       let displayMode='standard';
       const countdownTarget=new Date(2026,11,25,0,0,0,0);

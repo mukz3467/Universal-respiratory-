@@ -617,7 +617,89 @@
     a.secure-home-btn,a.back-link{font-size:clamp(17px,2.1vw,20px)!important;font-weight:900!important;letter-spacing:-.015em!important;padding:10px 14px!important;line-height:1.35!important}
     a.secure-home-btn span,a.back-link span{font-weight:900!important}
     @media(max-width:480px){a.secure-home-btn,a.back-link{font-size:18px!important;padding:10px 12px!important}}
-</style>
+
+    /* Shared Utilivanta Writing Studio layout: aligned with the Word Counter page */
+    :root {
+      --bg: #f7f8fa;
+      --card-bg: #ffffff;
+      --card-border: #e7e9ee;
+      --card-hover-border: #d7dbe3;
+      --text: #20242c;
+      --text-muted: #777d89;
+      --primary: #20242c;
+      --primary-hover: #393e48;
+      --primary-light: #eef0f3;
+      --accent: #10b981;
+      --success: #10b981;
+      --radius: 14px;
+    }
+    [data-theme="light"] { --bg:#f7f8fa; --card-bg:#fff; --card-border:#e7e9ee; --text:#20242c; --text-muted:#777d89; --primary:#20242c; --primary-hover:#393e48; --primary-light:#eef0f3; }
+    body { background:#f7f8fa; color:#20242c; padding:0; }
+    .sticky-secure-nav { margin:0; padding:10px 24px; background:rgba(255,255,255,.94); border-bottom:1px solid #e7e9ee; }
+    .sticky-nav-inner { max-width:none; }
+    .premium-app-shell { display:grid; grid-template-columns:246px minmax(0,1fr); min-height:calc(100vh - 54px); }
+    .premium-sidebar { background:#fff; border-right:1px solid #e7e9ee; padding:28px 17px; display:flex; flex-direction:column; gap:8px; position:sticky; top:54px; height:calc(100vh - 54px); box-sizing:border-box; }
+    .premium-brand { display:flex; align-items:center; gap:11px; text-decoration:none; color:#17191f; padding:0 9px 30px; }
+    .brand-mark { display:grid; place-items:center; width:40px; height:40px; border-radius:13px; background:#20242c; color:#fff; font-size:23px; font-weight:800; }
+    .premium-brand strong { display:block; font-size:18px; letter-spacing:-.5px; }
+    .premium-brand small { display:block; font-size:9px; letter-spacing:1.8px; color:#888e99; margin-top:3px; }
+    .sidebar-label,.eyebrow { font-size:10px; letter-spacing:1.5px; font-weight:800; color:#8b919c; }
+    .sidebar-label { padding:8px 12px; }
+    .side-link { display:flex; align-items:center; gap:12px; text-decoration:none; color:#686e79; font-size:13px; font-weight:600; padding:12px; border-radius:10px; }
+    .side-link:hover,.side-link.active { background:#f0f1f3; color:#17191f; }
+    .side-link.active { box-shadow:inset 3px 0 #20242c; }
+    .sidebar-pro { margin-top:auto; background:#f6f7f9; border:1px solid #eceef1; border-radius:15px; padding:17px; }
+    .pro-icon { display:grid; place-items:center; width:30px; height:30px; border-radius:9px; background:#20242c; color:#fff; margin-bottom:13px; }
+    .sidebar-pro strong { font-size:13px; }
+    .sidebar-pro p { font-size:11px; line-height:1.6; color:#777d89; margin:7px 0 10px; }
+    .sidebar-pro a { font-size:11px; font-weight:700; color:#242831; text-decoration:none; }
+    .premium-main { min-width:0; }
+    .premium-topbar { min-height:84px; padding:0 34px; background:rgba(255,255,255,.92); border-bottom:1px solid #e7e9ee; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .premium-topbar h2 { font-size:18px; margin:5px 0 0; letter-spacing:-.4px; }
+    .live-dot { display:inline-block; width:7px; height:7px; background:#29b878; border-radius:50%; vertical-align:middle; margin-left:5px; }
+    .topbar-right { display:flex; align-items:center; gap:18px; }
+    .privacy-chip,.top-home { font-size:11px; color:#666d78; text-decoration:none; }
+    .privacy-chip { padding:9px 12px; border:1px solid #e7e9ee; border-radius:30px; background:#fff; }
+    .premium-main .container { max-width:1500px; width:auto; margin:0; padding:28px 34px 60px; }
+    .premium-main header { text-align:left; padding:8px 0 25px; }
+    .premium-main h1 { font-size:clamp(26px,3vw,36px); letter-spacing:-1.2px; margin:10px 0 8px; line-height:1.15; background:none; color:#20242c; -webkit-text-fill-color:initial; }
+    .premium-main .subtitle { margin:0; max-width:850px; font-size:13px; line-height:1.7; color:#777d89; }
+    .premium-main .ad-banner-container { border:1px dashed #dfe2e8; border-radius:12px; background:#fff; }
+    .premium-main .tool-card,.premium-main .seo-section { background:#fff; border:1px solid #e7e9ee; border-radius:16px; box-shadow:0 5px 20px rgba(26,31,44,.025); }
+    .premium-main .tool-card { padding:22px; margin-bottom:20px; }
+    .premium-main #text-input { background:#fbfbfc; color:#20242c; border:1px solid #e6e8ed; border-radius:12px; font-size:15px; line-height:1.8; padding:20px; min-height:240px; }
+    .premium-main .metrics-bar { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 18px; }
+    .premium-main .metric-item { background:#f7f8fa; border:1px solid #e7e9ee; border-radius:10px; padding:9px 12px; color:#686e79; font-size:11px; }
+    .premium-main .metric-item strong { color:#20242c; }
+    .premium-main .btn-action,.premium-main .sample-pill { background:#fff; color:#3d424c; border:1px solid #e4e6eb; border-radius:9px; padding:9px 12px; font-size:11px; font-weight:700; }
+    .premium-main .btn-primary { background:#20242c; color:#fff; border-color:#20242c; }
+    .premium-main .btn-action:hover,.premium-main .sample-pill:hover { background:#f1f2f4; }
+    .premium-main .btn-primary:hover { background:#393e48; color:#fff; }
+    .premium-main .btn-case-grid { gap:10px; }
+    .premium-main .btn-case { background:#fff; border:1px solid #e7e9ee; border-radius:12px; color:#20242c; padding:15px; }
+    .premium-main .btn-case:hover { border-color:#aeb4bf; background:#f8f9fb; }
+    .premium-main .case-desc { color:#858b96; }
+    .premium-main .seo-section { padding:28px; margin-top:20px; }
+    .premium-main footer { color:#777d89; }
+    .premium-main .footer-links a { color:#686e79; }
+    @media(max-width:900px) { .premium-app-shell { grid-template-columns:200px minmax(0,1fr); } .premium-main .container { padding:24px 20px 45px; } .premium-topbar { padding:0 20px; } }
+    @media(max-width:700px) {
+      body { padding:0!important; }
+      .premium-app-shell { display:block; }
+      .premium-sidebar { display:none; }
+      .premium-topbar { min-height:70px; padding:12px 14px; }
+      .topbar-right { gap:8px; }
+      .privacy-chip { display:none; }
+      .premium-main .container { padding:20px 12px 35px; }
+      .premium-main header { padding:10px 4px 18px; }
+      .premium-main .tool-card,.premium-main .seo-section { padding:16px 12px; border-radius:12px; }
+      .premium-main .ad-banner-container { border-radius:0; border-left:0; border-right:0; margin:10px 0; }
+      .premium-main #text-input { min-height:220px; padding:14px; }
+      .premium-main .btn-case { padding:12px 8px; }
+      .premium-main footer { padding:24px 8px 16px; }
+    }
+
+  </style>
 
 
 
@@ -639,7 +721,22 @@
     </div>
   </aside>
 
-  <div class="container">
+  <div class="premium-app-shell">
+    <aside class="premium-sidebar" aria-label="Main navigation">
+      <a class="premium-brand" href="/" aria-label="Utilivanta Hub home"><span class="brand-mark">U</span><span><strong>Utilivanta</strong><small>WRITING STUDIO</small></span></a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <a class="side-link" href="word-counter.html">▤ <span>Word Counter</span></a>
+      <a class="side-link active" href="#case-workspace">Aa <span>Case Converter</span></a>
+      <a class="side-link" href="#case-converter-guide">✧ <span>How to use</span></a>
+      <a class="side-link" href="#case-faq-title">？ <span>FAQs</span></a>
+      <div class="sidebar-pro"><span class="pro-icon">✦</span><strong>Format text faster</strong><p>Convert writing and developer text formats in one focused workspace.</p><a href="/">Explore all tools →</a></div>
+    </aside>
+    <div class="premium-main">
+      <div class="premium-topbar">
+        <div><span class="eyebrow">YOUR WRITING WORKSPACE</span><h2>Case Converter <span class="live-dot"></span></h2></div>
+        <div class="topbar-right"><span class="privacy-chip">🔒 Private &amp; secure</span><a href="/" class="top-home">← Hub Home</a></div>
+      </div>
+      <div class="container">
     <header>
       <h1>Uppercase to Lowercase Converter</h1>
       <p class="subtitle">
@@ -655,7 +752,7 @@
 
     <!-- Main Tool Card: Textarea Strictly at the Top Layer -->
     <main>
-      <section class="tool-card" aria-label="Universal Case Transformation Workspace">
+      <section class="tool-card" id="case-workspace" aria-label="Universal Case Transformation Workspace">
         <!-- 1. Textarea Strictly at Top Layer -->
         <div class="workspace-wrapper">
           <textarea
@@ -822,6 +919,8 @@
       </div>
       <p>© 2026 Utilivanta Tools. Free, open, client-side web utility network. All rights reserved.</p>
     </footer>
+      </div>
+    </div>
   </div>
 
   <div class="toast" id="toast">Transformed!</div>

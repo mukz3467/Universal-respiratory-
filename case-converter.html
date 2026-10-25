@@ -963,7 +963,17 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 .case-panel-status{font-size:13px;color:#6b7280;margin-top:14px}.case-check{display:flex;gap:10px;align-items:center;padding:12px 0;font-size:14px}.case-check input{width:17px;height:17px}
 .case-frequency-table-wrap{width:100%;overflow-x:auto;margin-top:16px;border:1px solid #e5e7eb;border-radius:12px}.case-frequency-table{width:100%;border-collapse:collapse;text-align:left}.case-frequency-table th,.case-frequency-table td{padding:12px 14px;border-bottom:1px solid #e5e7eb}.case-frequency-table th{font-size:12px;text-transform:uppercase;letter-spacing:.04em}.case-frequency-table tr:last-child td{border-bottom:0}
 @media(max-width:600px){.case-analysis-card{padding:14px}.case-analysis-card>strong{font-size:22px}.case-tool-view{margin:14px auto}}
-body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-section-title,body[data-case-view]:not([data-case-view="converter"]) #case-workspace>.btn-case-grid,body[data-case-view]:not([data-case-view="converter"]) #case-workspace .sample-pill-row{display:none!important}</style>
+body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-section-title,body[data-case-view]:not([data-case-view="converter"]) #case-workspace>.btn-case-grid,body[data-case-view]:not([data-case-view="converter"]) #case-workspace .sample-pill-row{display:none!important}.case-transform-menu{margin:5px 0 10px;border-bottom:1px solid var(--premium-line,#e5e7eb);padding:0 0 10px}
+.case-transform-menu summary{display:flex;align-items:center;gap:10px;list-style:none;cursor:pointer;padding:11px 13px;border-radius:10px;color:var(--premium-text,#111827);font-size:13px;font-weight:650}
+.case-transform-menu summary::-webkit-details-marker{display:none}
+.case-transform-menu summary:after{content:"⌄";margin-left:auto;font-size:16px}
+.case-transform-menu[open] summary:after{content:"⌃"}
+.case-transform-submenu{display:grid;grid-template-columns:1fr;gap:5px;padding:5px 0 4px 12px}
+.case-transform-submenu .btn-case{width:100%;min-height:34px;text-align:left;justify-content:flex-start;padding:8px 10px;border-radius:8px;font-size:12px;box-shadow:none}
+.case-transform-submenu .btn-case strong{font-size:12px}
+.case-transform-submenu .btn-case:hover{transform:none}
+#case-workspace .case-section-title,#case-workspace>.btn-case-grid{display:none!important}
+</style>
 
 
 
@@ -991,6 +1001,24 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
       <div class="premium-brand-row"><a class="premium-brand" href="/" aria-label="Utilivanta Hub home"><span class="brand-mark">O</span><span><strong>Utilivanta</strong><small>WRITING STUDIO</small></span></a><button class="drawer-close-btn" id="drawer-close-btn" type="button" aria-label="Close navigation menu">×</button></div>
       <div class="sidebar-label">WORKSPACE</div>
       <a class="side-link active" href="#case-workspace" data-case-view="converter">Aa <span>Case Converter</span></a>
+      <details class="case-transform-menu">
+        <summary>⚡ <span>Select Case Transformation</span></summary>
+        <div class="case-transform-submenu">
+          <button class="btn-case" data-case="upper" type="button">UPPERCASE</button>
+          <button class="btn-case" data-case="lower" type="button">lowercase</button>
+          <button class="btn-case" data-case="sentence" type="button">Sentence case</button>
+          <button class="btn-case" data-case="title" type="button">Title Case</button>
+          <button class="btn-case" data-case="capitalized" type="button">Capitalized Case</button>
+          <button class="btn-case" data-case="alternating" type="button">aLtErNaTiNg cAsE</button>
+          <button class="btn-case" data-case="inverse" type="button">iNVERSE cASE</button>
+          <button class="btn-case" data-case="camel" type="button">camelCase</button>
+          <button class="btn-case" data-case="pascal" type="button">PascalCase</button>
+          <button class="btn-case" data-case="kebab" type="button">kebab-case</button>
+          <button class="btn-case" data-case="snake" type="button">snake_case</button>
+          <button class="btn-case" data-case="constant" type="button">CONSTANT_CASE</button>
+          <button class="btn-case" data-case="clean" type="button">Clean Extra Spaces</button>
+        </div>
+      </details>
       <a class="side-link" href="#view-analyzer" data-case-view="analyzer">◉ <span>Case Analyzer</span></a>
       <a class="side-link" href="#view-find" data-case-view="find">⌕ <span>Find &amp; Replace</span></a>
       <a class="side-link" href="#view-cleaner" data-case-view="cleaner">✧ <span>Text Cleaner</span></a>

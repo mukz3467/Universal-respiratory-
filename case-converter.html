@@ -1623,7 +1623,7 @@ window.addEventListener('resize',()=>{if(window.innerWidth>767)setMobileMenu(fal
       function replaceCaseText(all){
         var needle=document.getElementById("case-find-input").value,repl=document.getElementById("case-replace-input").value,status=document.getElementById("case-find-status");
         if(!needle){status.textContent="Enter text to find first.";return;}
-        if(all){var esc=needle.replace(/[.*+?^${}()|[\]\\]/g,"\\      // THEME ENGINE"),re=new RegExp(esc,"gi"),n=(textInput.value.match(re)||[]).length;textInput.value=textInput.value.replace(re,repl);status.textContent=n+" replacement(s) made.";}
+        if(all){var escaped=needle.split("").map(function(ch){return "\\^$.*+?()[]{}|".indexOf(ch)>=0?"\\"+ch:ch;}).join(""),re=new RegExp(escaped,"gi"),n=(textInput.value.match(re)||[]).length;textInput.value=textInput.value.replace(re,repl);status.textContent=n+" replacement(s) made.";}
         else{var pos=textInput.value.toLocaleLowerCase().indexOf(needle.toLocaleLowerCase());if(pos<0){status.textContent="No match found.";return;}textInput.setRangeText(repl,pos,pos+needle.length,"select");status.textContent="First match replaced.";}
         pushHistory(textInput.value);updateMetrics();refreshCaseInsights();
       }

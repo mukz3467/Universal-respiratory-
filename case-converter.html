@@ -1570,6 +1570,15 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
       pushHistory(textInput.value);
       updateMetrics();
 
+      const menuButton=$('mobile-menu-toggle'),menuOverlay=$('mobile-menu-overlay'),sidebar=$('premium-sidebar'),drawerClose=$('drawer-close-btn');
+function setMobileMenu(open){if(!menuButton||!menuOverlay||!sidebar)return;document.body.classList.toggle('mobile-menu-open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');menuButton.textContent=open?'×':'☰';menuOverlay.setAttribute('aria-hidden',String(!open));}
+if(menuButton){menuButton.addEventListener('click',()=>setMobileMenu(!document.body.classList.contains('mobile-menu-open')));}
+ if(drawerClose){drawerClose.addEventListener('click',()=>setMobileMenu(false));}
+if(menuOverlay){menuOverlay.addEventListener('click',()=>setMobileMenu(false));}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setMobileMenu(false);});
+document.querySelectorAll('.premium-sidebar .side-link').forEach(a=>a.addEventListener('click',()=>setMobileMenu(false)));
+window.addEventListener('resize',()=>{if(window.innerWidth>767)setMobileMenu(false);});
+
       // THEME ENGINE
       var themeToggle = document.getElementById("theme-toggle");
       var themeIcon = document.getElementById("theme-icon");

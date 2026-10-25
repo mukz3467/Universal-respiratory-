@@ -1425,12 +1425,24 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 @media(min-width:768px){.drawer-close-btn{display:none!important}.premium-brand-row{display:contents}}
 @media(prefers-reduced-motion:reduce){.premium-sidebar,.mobile-menu-overlay,.drawer-close-btn{transition:none!important}}
 
+
+/* Floating Bolt-style Hub Home shortcut */
+#hub-home-float{position:fixed;right:22px;bottom:22px;z-index:9999;display:flex;align-items:center;justify-content:center;gap:9px;min-width:66px;height:66px;padding:0 18px;border:2px solid #fff;border-radius:999px;background:linear-gradient(145deg,#20242c,#080a0e);color:#fff;text-decoration:none;font:800 15px/1 system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.28),0 0 0 4px rgba(16,185,129,.15);transition:transform .2s ease,box-shadow .2s ease}
+#hub-home-float .hub-bolt{font-size:28px;line-height:1;color:#34d399;text-shadow:0 0 12px rgba(52,211,153,.4)}
+#hub-home-float .hub-home-label{white-space:nowrap}
+#hub-home-float:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 32px rgba(0,0,0,.3),0 0 0 5px rgba(16,185,129,.22)}
+#hub-home-float:focus-visible{outline:3px solid #34d399;outline-offset:4px}
+@media(max-width:600px){#hub-home-float{right:14px;bottom:16px;min-width:60px;height:60px;padding:0 14px;gap:7px}#hub-home-float .hub-bolt{font-size:25px}#hub-home-float .hub-home-label{font-size:13px}}
+@media(prefers-reduced-motion:reduce){#hub-home-float{transition:none}}
+
 </style>
 
 
 
 </head>
 <body>
+<a id="hub-home-float" href="/" aria-label="Go to Hub Home" title="Go to Hub Home"><span class="hub-bolt" aria-hidden="true">ϟ</span><span class="hub-home-label">Hub Home</span></a>
+
   <!-- Top Sticky Secure Navigation -->
   <aside class="sticky-secure-nav">
     <div class="sticky-nav-inner">

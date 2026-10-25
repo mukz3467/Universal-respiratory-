@@ -43,7 +43,7 @@ The report also shows **“UTC time now” at 5,400 searches/month in Bangladesh
 
 ## Metadata consistency check
 
-The repository's page metadata and social preview previously used the brand name “Utilivanta”, while the README and project brief use “OmniTool Global”. The HTML page titles and social-preview text have now been aligned to “OmniTool Global”. The Word Counter title/description explicitly cover character counting with and without spaces, and the World Clock title/description explicitly cover UTC clock intent. This is a source-repository change; live deployment and Google indexing still need separate verification.
+The repository's page metadata and social preview previously used the brand name “Utilivanta”, while the README and project brief use “OmniTool Global”. The HTML page titles and social-preview text have now been aligned to “OmniTool Global”. The Word Counter title/description explicitly cover character counting with and without spaces, and the World Clock title/description explicitly cover UTC clock intent. Deployment verification on 25 October 2026: Vercel production deployment is READY for commit `f877faba3b14329ab37524d1dd396a398f81fcc6` and lists `https://universal-respiratory.vercel.app/` as an alias. Google indexing status remains unverified and should be checked in Search Console.
 
 
 ## Page-to-keyword map

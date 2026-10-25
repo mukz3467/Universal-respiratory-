@@ -963,7 +963,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 .case-panel-status{font-size:13px;color:#6b7280;margin-top:14px}.case-check{display:flex;gap:10px;align-items:center;padding:12px 0;font-size:14px}.case-check input{width:17px;height:17px}
 .case-frequency-table-wrap{width:100%;overflow-x:auto;margin-top:16px;border:1px solid #e5e7eb;border-radius:12px}.case-frequency-table{width:100%;border-collapse:collapse;text-align:left}.case-frequency-table th,.case-frequency-table td{padding:12px 14px;border-bottom:1px solid #e5e7eb}.case-frequency-table th{font-size:12px;text-transform:uppercase;letter-spacing:.04em}.case-frequency-table tr:last-child td{border-bottom:0}
 @media(max-width:600px){.case-analysis-card{padding:14px}.case-analysis-card>strong{font-size:22px}.case-tool-view{margin:14px auto}}
-</style>
+body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-section-title,body[data-case-view]:not([data-case-view="converter"]) #case-workspace>.btn-case-grid,body[data-case-view]:not([data-case-view="converter"]) #case-workspace .sample-pill-row{display:none!important}</style>
 
 
 
@@ -1611,6 +1611,7 @@ window.addEventListener('resize',()=>{if(window.innerWidth>767)setMobileMenu(fal
         var body=document.getElementById("frequency-rows");if(body)body.innerHTML=keys.length?keys.map(function(k){var safe=k.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});return "<tr><td>"+safe+"</td><td>"+counts[k]+"</td><td>"+(words.length?(counts[k]/words.length*100).toFixed(2):"0.00")+"%</td></tr>";}).join(""):'<tr><td colspan="3">Enter text to calculate frequency.</td></tr>';
       }
       function openCaseView(key){
+        document.body.setAttribute("data-case-view",key);
         casePanels.forEach(function(p){p.hidden=p.getAttribute("data-case-panel")!==key;});
         caseNav.forEach(function(a){var on=a.getAttribute("data-case-view")===key;a.classList.toggle("active",on);if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
         var titles={converter:"Case Converter",analyzer:"Case Analyzer",find:"Find & Replace",cleaner:"Text Cleaner",developer:"Developer Formats",frequency:"Word Frequency",advanced:"Advanced Analysis"};

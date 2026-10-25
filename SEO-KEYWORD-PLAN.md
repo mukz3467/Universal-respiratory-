@@ -1,6 +1,6 @@
 # OmniTool Global — SEO Keyword Research Plan
 
-**Research date:** 24 October 2026  
+**Research date:** 25 October 2026  
 **Website:** https://universal-respiratory.vercel.app/  
 **Repository:** https://github.com/mukz3467/Universal-respiratory-
 
@@ -27,6 +27,24 @@ Google Ads' “competition” metric describes advertiser competition, not the d
 | time zone converter | 1,500,000 | United States, Sep 2026 | [Timeanddate.com Semrush report](https://www.semrush.com/website/timeanddate.com/overview/) |
 
 These are competitor-report estimates, not verified Google Keyword Planner exports for OmniTool. The “time zone converter” figure is included as market context only; target it only if the page genuinely supports time-zone conversion.
+
+## Additional keyword evidence checked on 25 October 2026
+
+A separate Semrush competitor report for **charactercounter.com** lists these September 2026 estimates for the **United States**:
+
+| Keyword | Reported monthly volume | Market / report date | Source |
+|---|---:|---|---|
+| character counter | 201,000 | United States, Sep 2026 | [CharacterCounter.com Semrush report](https://es.semrush.com/website/charactercounter.com/overview/) |
+| character count | 90,500 | United States, Sep 2026 | [CharacterCounter.com Semrush report](https://es.semrush.com/website/charactercounter.com/overview/) |
+| letter counter | 8,100 | United States, Sep 2026 | [CharacterCounter.com Semrush report](https://es.semrush.com/website/charactercounter.com/overview/) |
+| sentence counter | 18,100 | United States, Sep 2026 | [CharacterCounter.com Semrush report](https://es.semrush.com/website/charactercounter.com/overview/) |
+
+The report also shows **“UTC time now” at 5,400 searches/month in Bangladesh** in September 2026 in a [Semrush report for LinklyHQ](https://www.semrush.com/website/linklyhq.com/overview/). This is a broad keyword-volume estimate surfaced in a competitor report, not OmniTool data. These broad figures do **not** establish the exact volume for “character counter with spaces” or “UTC clock”; those exact-match volumes remain unverified. No organic difficulty score was verified for these terms.
+
+## Metadata consistency check
+
+The repository's page metadata and social preview previously used the brand name “Utilivanta”, while the README and project brief use “OmniTool Global”. The HTML page titles and social-preview text have now been aligned to “OmniTool Global”. The Word Counter title/description explicitly cover character counting with and without spaces, and the World Clock title/description explicitly cover UTC clock intent. This is a source-repository change; live deployment and Google indexing still need separate verification.
+
 
 ## Page-to-keyword map
 

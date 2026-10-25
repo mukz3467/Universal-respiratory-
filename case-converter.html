@@ -955,6 +955,14 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 @media(prefers-reduced-motion:reduce){.premium-sidebar,.mobile-menu-overlay,.drawer-close-btn{transition:none!important}}
 
 
+/* Word Counter-style multi-tool workspaces */
+.case-tool-view{max-width:1000px;margin:24px auto}.case-tool-view[hidden]{display:none!important}
+.case-analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:18px 0}
+.case-analysis-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;min-width:0}.case-analysis-card>span{display:block;color:#6b7280;font-size:12px;margin-bottom:9px}.case-analysis-card>strong{font-size:25px;overflow-wrap:anywhere}
+.case-panel-input{display:block;box-sizing:border-box;width:100%;margin:8px 0 18px;padding:13px 14px;border:1px solid #d1d5db;border-radius:10px;background:#fff;color:#111827;font:inherit}
+.case-panel-status{font-size:13px;color:#6b7280;margin-top:14px}.case-check{display:flex;gap:10px;align-items:center;padding:12px 0;font-size:14px}.case-check input{width:17px;height:17px}
+.case-frequency-table-wrap{width:100%;overflow-x:auto;margin-top:16px;border:1px solid #e5e7eb;border-radius:12px}.case-frequency-table{width:100%;border-collapse:collapse;text-align:left}.case-frequency-table th,.case-frequency-table td{padding:12px 14px;border-bottom:1px solid #e5e7eb}.case-frequency-table th{font-size:12px;text-transform:uppercase;letter-spacing:.04em}.case-frequency-table tr:last-child td{border-bottom:0}
+@media(max-width:600px){.case-analysis-card{padding:14px}.case-analysis-card>strong{font-size:22px}.case-tool-view{margin:14px auto}}
 </style>
 
 
@@ -982,11 +990,14 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
     <aside class="premium-sidebar" id="premium-sidebar" aria-label="Main navigation">
       <div class="premium-brand-row"><a class="premium-brand" href="/" aria-label="Utilivanta Hub home"><span class="brand-mark">O</span><span><strong>Utilivanta</strong><small>WRITING STUDIO</small></span></a><button class="drawer-close-btn" id="drawer-close-btn" type="button" aria-label="Close navigation menu">×</button></div>
       <div class="sidebar-label">WORKSPACE</div>
-      <a class="side-link" href="word-counter.html">▤ <span>Word Counter</span></a>
-      <a class="side-link active" href="#case-workspace">Aa <span>Case Converter</span></a>
-      <a class="side-link" href="#case-converter-guide">✧ <span>How to use</span></a>
-      <a class="side-link" href="#case-faq-title">？ <span>FAQs</span></a>
-      <div class="sidebar-pro"><span class="pro-icon">✦</span><strong>Format text faster</strong><p>Convert writing and developer text formats in one focused workspace.</p><a href="/">Explore all tools →</a></div>
+      <a class="side-link active" href="#case-workspace" data-case-view="converter">Aa <span>Case Converter</span></a>
+      <a class="side-link" href="#view-analyzer" data-case-view="analyzer">◉ <span>Case Analyzer</span></a>
+      <a class="side-link" href="#view-find" data-case-view="find">⌕ <span>Find &amp; Replace</span></a>
+      <a class="side-link" href="#view-cleaner" data-case-view="cleaner">✧ <span>Text Cleaner</span></a>
+      <a class="side-link" href="#view-developer" data-case-view="developer">⌘ <span>Developer Formats</span></a>
+      <a class="side-link" href="#view-frequency" data-case-view="frequency">▤ <span>Word Frequency</span></a>
+      <a class="side-link" href="#view-advanced" data-case-view="advanced">◫ <span>Advanced Analysis</span></a>
+      <div class="sidebar-pro"><span class="pro-icon">✦</span><strong>One editor, many tools</strong><p>Switch tools without losing your text.</p><a href="#view-advanced" data-case-view="advanced">Explore analysis →</a></div>
     </aside>
     <div class="premium-main">
       <div class="premium-topbar">
@@ -1126,6 +1137,12 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
         </div>
       </section>
 
+      <section class="case-tool-view" data-case-panel="analyzer" hidden><div class="tool-card"><h2>Case Analyzer</h2><p class="subtitle">Review the text in your shared editor.</p><div class="case-analysis-grid"><article class="case-analysis-card"><span>Uppercase letters</span><strong id="analysis-upper">0</strong></article><article class="case-analysis-card"><span>Lowercase letters</span><strong id="analysis-lower">0</strong></article><article class="case-analysis-card"><span>Title-like words</span><strong id="analysis-title">0</strong></article><article class="case-analysis-card"><span>Mixed-case words</span><strong id="analysis-mixed">0</strong></article></div><div class="case-analysis-card"><h3>Text profile</h3><p id="analysis-profile">Enter text to see its profile.</p></div></div></section>
+      <section class="case-tool-view" data-case-panel="find" hidden><div class="tool-card"><h2>Find &amp; Replace</h2><p class="subtitle">Find matching text and replace one match or all matches.</p><label for="case-find-input">Find text</label><input id="case-find-input" class="case-panel-input" placeholder="Word or phrase"><label for="case-replace-input">Replace with</label><input id="case-replace-input" class="case-panel-input" placeholder="Replacement text"><div class="action-controls-row"><button class="btn-action" id="case-find-next" type="button">Find next</button><button class="btn-action" id="case-replace-one" type="button">Replace next</button><button class="btn-action btn-primary" id="case-replace-all" type="button">Replace all</button></div><p id="case-find-status" class="case-panel-status" role="status">Runs locally in your browser.</p></div></section>
+      <section class="case-tool-view" data-case-panel="cleaner" hidden><div class="tool-card"><h2>Text Cleaner</h2><p class="subtitle">Choose cleanup options and apply them to your text.</p><label class="case-check"><input type="checkbox" id="clean-trim" checked> Trim each line</label><label class="case-check"><input type="checkbox" id="clean-spaces" checked> Collapse repeated spaces and tabs</label><label class="case-check"><input type="checkbox" id="clean-blank" checked> Reduce multiple blank lines</label><label class="case-check"><input type="checkbox" id="clean-quotes"> Normalize curly quotes</label><label class="case-check"><input type="checkbox" id="clean-html"> Remove HTML tags</label><div class="action-controls-row"><button class="btn-action btn-primary" id="case-clean-run" type="button">Clean text</button><button class="btn-action" id="case-clean-undo" type="button">Undo cleanup</button></div><p id="case-clean-status" class="case-panel-status" role="status">Text changes only when you press Clean text.</p></div></section>
+      <section class="case-tool-view" data-case-panel="developer" hidden><div class="tool-card"><h2>Developer Formats</h2><p class="subtitle">Convert text into common variable and identifier styles.</p><div class="btn-case-grid"><button class="btn-case" data-case="camel"><strong>camelCase</strong><span class="case-desc">myVariableName</span></button><button class="btn-case" data-case="pascal"><strong>PascalCase</strong><span class="case-desc">MyClassName</span></button><button class="btn-case" data-case="kebab"><strong>kebab-case</strong><span class="case-desc">my-url-slug</span></button><button class="btn-case" data-case="snake"><strong>snake_case</strong><span class="case-desc">my_variable_name</span></button><button class="btn-case" data-case="constant"><strong>CONSTANT_CASE</strong><span class="case-desc">MAX_RETRY_COUNT</span></button></div></div></section>
+      <section class="case-tool-view" data-case-panel="frequency" hidden><div class="tool-card"><h2>Word Frequency</h2><p class="subtitle">See which words occur most often.</p><div class="case-analysis-grid"><article class="case-analysis-card"><span>Unique words</span><strong id="frequency-unique">0</strong></article><article class="case-analysis-card"><span>Total words</span><strong id="frequency-total">0</strong></article></div><div class="case-frequency-table-wrap"><table class="case-frequency-table"><thead><tr><th>Word</th><th>Count</th><th>Share</th></tr></thead><tbody id="frequency-rows"><tr><td colspan="3">Enter text to calculate frequency.</td></tr></tbody></table></div></div></section>
+      <section class="case-tool-view" data-case-panel="advanced" hidden><div class="tool-card"><h2>Advanced Analysis</h2><p class="subtitle">A concise overview of your current text.</p><div class="case-analysis-grid"><article class="case-analysis-card"><span>Words</span><strong id="advanced-words">0</strong></article><article class="case-analysis-card"><span>Characters</span><strong id="advanced-chars">0</strong></article><article class="case-analysis-card"><span>Sentences</span><strong id="advanced-sentences">0</strong></article><article class="case-analysis-card"><span>Lines</span><strong id="advanced-lines">0</strong></article><article class="case-analysis-card"><span>Average words / sentence</span><strong id="advanced-average">0</strong></article><article class="case-analysis-card"><span>Reading time</span><strong id="advanced-reading">0 min</strong></article></div><p class="case-panel-status">Analysis is performed in your browser.</p></div></section>
       <!-- Bottom Static Anti-CLS Ad Spot -->
       <aside class="ad-banner-container" aria-label="Bottom Advertisement">
         <div class="ad-banner-label">[ Future Ad Space ]</div>
@@ -1579,7 +1596,45 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')setMobileMenu(false)
 document.querySelectorAll('.premium-sidebar .side-link').forEach(a=>a.addEventListener('click',()=>setMobileMenu(false)));
 window.addEventListener('resize',()=>{if(window.innerWidth>767)setMobileMenu(false);});
 
-      // THEME ENGINE
+// Word Counter-style navigation: menu items open separate, functional tool interfaces.
+      var caseNav=Array.prototype.slice.call(document.querySelectorAll("[data-case-view]"));
+      var casePanels=Array.prototype.slice.call(document.querySelectorAll("[data-case-panel]"));
+      function refreshCaseInsights(){
+        var v=textInput.value||"", words=v.match(/[\\p{L}\\p{N}]+/gu)||[], upper=(v.match(/[A-Z]/g)||[]).length, lower=(v.match(/[a-z]/g)||[]).length;
+        var sentences=(v.match(/[^.!?。！？\\n\\r]+[.!?。！？]+|[^.!?。！？\\n\\r]+$/g)||[]).filter(function(s){return s.trim();}).length, lines=v?v.split(/\\r\\n|\\r|\\n/).length:0;
+        function set(id,x){var e=document.getElementById(id);if(e)e.textContent=String(x);}
+        set("analysis-upper",upper);set("analysis-lower",lower);set("analysis-title",words.filter(function(w){return /^[A-Z]/.test(w);}).length);set("analysis-mixed",words.filter(function(w){return /[a-z]/.test(w)&&/[A-Z]/.test(w);}).length);
+        var p=document.getElementById("analysis-profile");if(p)p.textContent=words.length+" words, "+v.length+" characters, "+sentences+" sentences and "+lines+" lines.";
+        set("advanced-words",words.length);set("advanced-chars",v.length);set("advanced-sentences",sentences);set("advanced-lines",lines);set("advanced-average",sentences?(words.length/sentences).toFixed(1):"0");set("advanced-reading",Math.ceil(words.length/200)+" min");
+        var counts={};words.forEach(function(w){var k=w.toLocaleLowerCase();counts[k]=(counts[k]||0)+1;});var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]||a.localeCompare(b);}).slice(0,30);
+        set("frequency-unique",Object.keys(counts).length);set("frequency-total",words.length);
+        var body=document.getElementById("frequency-rows");if(body)body.innerHTML=keys.length?keys.map(function(k){var safe=k.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});return "<tr><td>"+safe+"</td><td>"+counts[k]+"</td><td>"+(words.length?(counts[k]/words.length*100).toFixed(2):"0.00")+"%</td></tr>";}).join(""):'<tr><td colspan="3">Enter text to calculate frequency.</td></tr>';
+      }
+      function openCaseView(key){
+        casePanels.forEach(function(p){p.hidden=p.getAttribute("data-case-panel")!==key;});
+        caseNav.forEach(function(a){var on=a.getAttribute("data-case-view")===key;a.classList.toggle("active",on);if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+        var titles={converter:"Case Converter",analyzer:"Case Analyzer",find:"Find & Replace",cleaner:"Text Cleaner",developer:"Developer Formats",frequency:"Word Frequency",advanced:"Advanced Analysis"};
+        var h=document.querySelector(".premium-topbar h2");if(h)h.innerHTML=(titles[key]||titles.converter)+' <span class="live-dot"></span>';
+        refreshCaseInsights();if(window.innerWidth<=767)setMobileMenu(false);
+        if(key!=="converter"){var p=document.querySelector('[data-case-panel="'+key+'"]');if(p)p.scrollIntoView({behavior:"smooth",block:"start"});}
+      }
+      caseNav.forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();e.stopImmediatePropagation();openCaseView(a.getAttribute("data-case-view"));},true);});
+      textInput.addEventListener("input",refreshCaseInsights);
+      function replaceCaseText(all){
+        var needle=document.getElementById("case-find-input").value,repl=document.getElementById("case-replace-input").value,status=document.getElementById("case-find-status");
+        if(!needle){status.textContent="Enter text to find first.";return;}
+        if(all){var esc=needle.replace(/[.*+?^${}()|[\]\\]/g,"\\      // THEME ENGINE"),re=new RegExp(esc,"gi"),n=(textInput.value.match(re)||[]).length;textInput.value=textInput.value.replace(re,repl);status.textContent=n+" replacement(s) made.";}
+        else{var pos=textInput.value.toLocaleLowerCase().indexOf(needle.toLocaleLowerCase());if(pos<0){status.textContent="No match found.";return;}textInput.setRangeText(repl,pos,pos+needle.length,"select");status.textContent="First match replaced.";}
+        pushHistory(textInput.value);updateMetrics();refreshCaseInsights();
+      }
+      document.getElementById("case-find-next").addEventListener("click",function(){var n=document.getElementById("case-find-input").value,s=document.getElementById("case-find-status");if(!n){s.textContent="Enter text to find first.";return;}var i=textInput.value.toLocaleLowerCase().indexOf(n.toLocaleLowerCase());if(i<0){s.textContent="No match found.";return;}textInput.focus();textInput.setSelectionRange(i,i+n.length);s.textContent="Match selected at character "+(i+1)+".";});
+      document.getElementById("case-replace-one").addEventListener("click",function(){replaceCaseText(false);});
+      document.getElementById("case-replace-all").addEventListener("click",function(){replaceCaseText(true);});
+      document.getElementById("case-clean-run").addEventListener("click",function(){var v=textInput.value;if(document.getElementById("clean-trim").checked)v=v.split(/\\r?\\n/).map(function(x){return x.trim();}).join("\\n");if(document.getElementById("clean-spaces").checked)v=v.replace(/[ \\t]{2,}/g," ");if(document.getElementById("clean-blank").checked)v=v.replace(/\\n{3,}/g,"\\n\\n");if(document.getElementById("clean-quotes").checked)v=v.replace(/[“”]/g,'"').replace(/[‘’]/g,"'");if(document.getElementById("clean-html").checked)v=v.replace(/<[^>]*>/g,"");textInput.value=v;pushHistory(v);updateMetrics();refreshCaseInsights();document.getElementById("case-clean-status").textContent="Cleanup complete. Shared editor updated.";});
+      document.getElementById("case-clean-undo").addEventListener("click",function(){btnUndo.click();});
+      openCaseView("converter");
+      
+            // THEME ENGINE
       var themeToggle = document.getElementById("theme-toggle");
       var themeIcon = document.getElementById("theme-icon");
       var currentTheme = localStorage.getItem("omnitool_theme") || "dark";

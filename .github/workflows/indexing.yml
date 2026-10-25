@@ -118,3 +118,5 @@ jobs:
           echo "This workflow checks crawl readiness and submits the sitemap when valid authorized credentials are configured."
           echo "It cannot send URL Inspection indexing requests. Google's Indexing API is limited to eligible job-posting and livestream pages."
           echo "Sitemap submission is a discovery signal, not an indexing guarantee."
+
+# Manual rerun trigger: submit the sitemap and recheck Googlebot crawl readiness.

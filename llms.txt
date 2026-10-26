@@ -1,0 +1,22 @@
+# Utilivanta Tool
+
+> Utilivanta Tool provides free, browser-based online utilities for text, time, and timing tasks.
+
+## Main pages
+
+- [Home](https://universal-respiratory.vercel.app/): Overview of the available free online tools.
+- [Word Counter](https://universal-respiratory.vercel.app/word-counter.html): Count words, characters, sentences, and paragraphs; estimate reading time.
+- [Case Converter](https://universal-respiratory.vercel.app/case-converter.html): Convert text between uppercase, lowercase, sentence case, title case, and developer-friendly case formats.
+- [World Clock and UTC Clock](https://universal-respiratory.vercel.app/universal-time.html): Check current time and compare time zones.
+- [Online Stopwatch](https://universal-respiratory.vercel.app/stopwatch.html): Track elapsed time and lap splits; use the countdown mode.
+- [Christmas Countdown 2026](https://universal-respiratory.vercel.app/christmas-countdown-2026.html): Countdown page for Christmas 2026.
+
+## Notes
+
+- These pages provide browser-based utility tools.
+- Do not assume the website guarantees search-engine or AI-answer rankings.
+- For current availability and behavior, access the linked page directly.
+
+## Sitemap
+
+- [XML sitemap](https://universal-respiratory.vercel.app/sitemap.xml)

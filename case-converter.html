@@ -974,6 +974,8 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
 .case-transform-submenu .btn-case:hover{transform:none}
 #case-workspace .case-section-title,#case-workspace>.btn-case-grid{display:none!important}
 
+.case-transform-menu[open] .case-transform-submenu{display:grid!important;visibility:visible!important;opacity:1!important;height:auto!important;max-height:none!important;overflow:visible!important}
+.case-transform-menu:not([open]) .case-transform-submenu{display:none!important}
 /* Keep transformation-format section exclusively inside the three-line navigation menu. */
 #case-workspace > .case-section-title,
 #case-workspace > .btn-case-grid { display: none !important; }
@@ -1017,7 +1019,7 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
       <div class="premium-brand-row"><a class="premium-brand" href="/" aria-label="OmniTool Global Hub home"><span class="brand-mark">O</span><span><strong>OmniTool Global</strong><small>WRITING STUDIO</small></span></a><button class="drawer-close-btn" id="drawer-close-btn" type="button" aria-label="Close navigation menu">×</button></div>
       <div class="sidebar-label">WORKSPACE</div>
       <a class="side-link active" href="#case-workspace" data-case-view="converter">Aa <span>Case Converter</span></a>
-      <details class="case-transform-menu">
+      <details class="case-transform-menu" open>
         <summary>⚡ <span>Select Case Transformation</span></summary>
         <div class="case-transform-submenu">
           <button class="btn-case" data-case="upper" type="button">UPPERCASE</button>

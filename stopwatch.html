@@ -561,14 +561,46 @@
 
       // Theme
       var themeToggle = document.getElementById("theme-toggle");
-      var theme = localStorage.getItem("omnitool_theme") || "dark";
+      var theme = localStorage.getItem("omnitool_theme") || "light";
+      function syncThemeButton() {
+        if (!themeToggle) return;
+        themeToggle.textContent = (theme === "light" ? "🌙" : "☀️") + " Theme";
+        themeToggle.setAttribute("aria-label", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
+        themeToggle.setAttribute("title", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
+      }
       document.documentElement.setAttribute("data-theme", theme);
+      syncThemeButton();
       themeToggle.addEventListener("click", function() {
         theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("omnitool_theme", theme);
+        syncThemeButton();
       });
     })();
   </script>
+
+<style id="omnitool-cross-page-theme-contrast">
+/* Shared theme contrast: keep every page readable when the global theme changes. */
+html[data-theme="light"] body{background-color:var(--bg,#f3f4f6);color:var(--text,#111827)}
+html[data-theme="dark"] body{background-color:var(--bg,#090d16);color:var(--text,#f9fafb)}
+html[data-theme="light"] :is(.premium-sidebar,.premium-topbar,.editor-card,.chart-section,.social-counter-card,.seo-section,#focused-tools-workspace,.case-format-card,.format-card,.metric-box,.metric-card,.guide-section,.ad-banner-container,.sticky-secure-nav,.nav-bar,.theme-toggle-btn,.tool-panel,.panel-card,.result-card,.stats-card,.clock-card,.world-clock-card,.country-clock-card,.timezone-card){background-color:var(--card-bg,#fff);color:var(--text,#111827);border-color:var(--card-border,#e5e7eb)}
+html[data-theme="dark"] :is(.premium-sidebar,.premium-topbar,.editor-card,.chart-section,.social-counter-card,.seo-section,#focused-tools-workspace,.case-format-card,.format-card,.metric-box,.metric-card,.guide-section,.ad-banner-container,.sticky-secure-nav,.nav-bar,.theme-toggle-btn,.tool-panel,.panel-card,.result-card,.stats-card,.clock-card,.world-clock-card,.country-clock-card,.timezone-card){background-color:var(--card-bg,#111827);color:var(--text,#f9fafb);border-color:var(--card-border,#374151)}
+html[data-theme="light"] :is(h1,h2,h3,h4,h5,h6,.metric-num,.metric-value,.metric-number,.display,.utc-digital-clock,.clock-time,.clock-value,.subtitle,.guide-section p,.guide-section li,.premium-sidebar a,.premium-topbar a){color:var(--text,#111827)}
+html[data-theme="dark"] :is(h1,h2,h3,h4,h5,h6,.metric-num,.metric-value,.metric-number,.display,.utc-digital-clock,.clock-time,.clock-value,.subtitle,.guide-section p,.guide-section li,.premium-sidebar a,.premium-topbar a){color:var(--text,#f9fafb)}
+html[data-theme="light"] :is(p,li,label,small,.text-muted,.text-secondary,.metric-label,.ad-banner-sub,.footer-links a){color:var(--text-muted,#6b7280)}
+html[data-theme="dark"] :is(p,li,label,small,.text-muted,.text-secondary,.metric-label,.ad-banner-sub,.footer-links a){color:var(--text-muted,#9ca3af)}
+html[data-theme="light"] :is(textarea,input:not([type="checkbox"]):not([type="radio"]),select){background-color:#fff!important;color:#111827!important;border-color:#d1d5db!important}
+html[data-theme="dark"] :is(textarea,input:not([type="checkbox"]):not([type="radio"]),select){background-color:#0b1220!important;color:#f9fafb!important;border-color:#46516a!important}
+html[data-theme="dark"] textarea::placeholder,html[data-theme="dark"] input::placeholder{color:#aab4c5!important;opacity:1}
+html[data-theme="light"] button:not(.tab-btn.active):not(.btn-primary):not(.btn-primary-cd):not(.btn-countdown):not(.is-active):not(.is-selected):not([aria-pressed="true"]){color:#111827}
+html[data-theme="dark"] button:not(.tab-btn.active):not(.btn-primary):not(.btn-primary-cd):not(.btn-countdown):not(.is-active):not(.is-selected):not([aria-pressed="true"]){background-color:#202a3b!important;color:#f9fafb!important;border-color:#4b5870!important}
+html[data-theme="dark"] button:hover{filter:brightness(1.16)}
+html[data-theme="light"] button:hover{filter:brightness(.97)}
+html[data-theme="dark"] :is(.theme-toggle-btn,.mobile-menu-toggle,.drawer-close-btn){background:#202a3b!important;color:#f9fafb!important;border-color:#4b5870!important}
+html[data-theme="light"] :is(.theme-toggle-btn,.mobile-menu-toggle,.drawer-close-btn){background:#fff!important;color:#111827!important;border-color:#d1d5db!important}
+html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-main select){color:#f9fafb!important}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+</style>
+
 </body>
 </html>

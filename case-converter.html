@@ -1574,7 +1574,7 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
       updateMetrics();
 
       const menuButton=$('mobile-menu-toggle'),menuOverlay=$('mobile-menu-overlay'),sidebar=$('premium-sidebar'),drawerClose=$('drawer-close-btn');
-function setMobileMenu(open){if(!menuButton||!menuOverlay||!sidebar)return;document.body.classList.toggle('mobile-menu-open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');menuButton.textContent=open?'×':'☰';menuOverlay.setAttribute('aria-hidden',String(!open));}
+function setMobileMenu(open){if(!menuButton||!menuOverlay||!sidebar)return;document.body.classList.toggle('mobile-menu-open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');menuButton.textContent=open?'×':'☰';menuOverlay.setAttribute('aria-hidden',String(!open));var transformMenu=document.querySelector('.case-transform-menu');if(transformMenu&&open)transformMenu.open=true;}
 if(menuButton){menuButton.addEventListener('click',()=>setMobileMenu(!document.body.classList.contains('mobile-menu-open')));}
  if(drawerClose){drawerClose.addEventListener('click',()=>setMobileMenu(false));}
 if(menuOverlay){menuOverlay.addEventListener('click',()=>setMobileMenu(false));}

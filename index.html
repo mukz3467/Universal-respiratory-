@@ -517,5 +517,47 @@
       links.addEventListener('click',function(e){if(e.target.tagName==='A'){links.classList.remove('open');menu.setAttribute('aria-expanded','false');}});
     })();
   </script>
+
+<style id="utilivanta-single-click-button-style">
+/* Consistent button feedback: controls start neutral; only the most recently clicked button is black. */
+html body button:not(.click-black),
+html body input[type="button"]:not(.click-black),
+html body input[type="submit"]:not(.click-black),
+html body input[type="reset"]:not(.click-black),
+html body [role="button"]:not(.click-black) {
+  background: #f3f4f6 !important;
+  color: #222 !important;
+  border-color: #e5e7eb !important;
+  box-shadow: none !important;
+}
+html body button.click-black,
+html body input[type="button"].click-black,
+html body input[type="submit"].click-black,
+html body input[type="reset"].click-black,
+html body [role="button"].click-black {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.12) !important;
+}
+html body button.click-black *,
+html body [role="button"].click-black * { color: inherit !important; }
+</style>
+<script id="utilivanta-single-click-button-script">
+(function () {
+  if (document.documentElement.dataset.singleClickButtonStyle === 'ready') return;
+  document.documentElement.dataset.singleClickButtonStyle = 'ready';
+  var selector = 'button, input[type="button"], input[type="submit"], input[type="reset"], [role="button"]';
+  document.addEventListener('click', function (event) {
+    var button = event.target && event.target.closest ? event.target.closest(selector) : null;
+    if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
+    document.querySelectorAll(selector + '.click-black').forEach(function (oldButton) {
+      oldButton.classList.remove('click-black');
+    });
+    button.classList.add('click-black');
+  }, true);
+})();
+</script>
+
 </body>
 </html>

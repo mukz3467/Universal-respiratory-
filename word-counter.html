@@ -1476,6 +1476,16 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
       <a class="side-link" href="#btn-clean-text">✧ <span>Text Cleaner</span></a>
       <a class="side-link" href="#keyword-analysis">▤ <span>Word Frequency</span></a>
       <a class="side-link" href="#advanced-analysis">◫ <span>Advanced Analysis</span></a>
+      <a class="side-link extra-tool-link" href="#uv-flow-tool" data-extra-tool="uv-flow-tool">≋ <span>Sentence Flow Checker</span></a>
+      <a class="side-link extra-tool-link" href="#uv-diff-tool" data-extra-tool="uv-diff-tool">⇄ <span>Text Comparison</span></a>
+      <a class="side-link extra-tool-link" href="#uv-typing-tool" data-extra-tool="uv-typing-tool">⌨ <span>Typing Speed Test</span></a>
+      <a class="side-link extra-tool-link" href="#uv-passive-tool" data-extra-tool="uv-passive-tool">✓ <span>Possible Passive Voice Finder</span></a>
+      <a class="side-link extra-tool-link" href="#uv-readability-tool" data-extra-tool="uv-readability-tool">◉ <span>Readability Score Pack</span></a>
+      <a class="side-link extra-tool-link" href="#uv-goal-tool" data-extra-tool="uv-goal-tool">◎ <span>Word Goal Tracker</span></a>
+      <a class="side-link extra-tool-link" href="#uv-cleanup-tool" data-extra-tool="uv-cleanup-tool">≡ <span>Whitespace & Line Cleaner</span></a>
+      <a class="side-link extra-tool-link" href="#uv-case-tool" data-extra-tool="uv-case-tool">Aa <span>Case Converter</span></a>
+      <a class="side-link extra-tool-link" href="#uv-char-tool" data-extra-tool="uv-char-tool">▥ <span>Character Distribution</span></a>
+      <a class="side-link extra-tool-link" href="#uv-history-tool" data-extra-tool="uv-history-tool">◷ <span>Writing Session History</span></a>
 
       <div class="sidebar-pro"><span class="pro-icon">✦</span><strong>Write with clarity</strong><p>Understand your text with live writing insights.</p><a href="#advanced-analysis">Explore analysis →</a></div>
     </aside>
@@ -1619,10 +1629,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
         <section class="focus-tool-panel" data-focus-panel="clean" hidden><h2>Text Cleaner</h2><p class="focus-muted">Select cleanup operations for the shared editor text above.</p><div class="focus-checks"><label><input type="checkbox" id="focus-trim-lines" checked> Trim each line</label><label><input type="checkbox" id="focus-collapse-spaces" checked> Collapse repeated spaces and tabs</label><label><input type="checkbox" id="focus-remove-blank"> Remove blank lines</label><label><input type="checkbox" id="focus-normalize-quotes"> Normalize curly quotes</label></div><button class="focus-action" id="focus-clean-run" type="button">Clean Text</button><p class="focus-status" id="focus-clean-status" role="status"></p></section>
         <section class="focus-tool-panel" data-focus-panel="frequency" hidden><h2>Word Frequency</h2><p class="focus-muted">Common English stop words are excluded from this ranking.</p><div id="focus-frequency-content"></div></section>
         <section class="focus-tool-panel" data-focus-panel="advanced" hidden><h2>Sentence Structure Analysis</h2><div class="focus-metric-grid" id="focus-sentence-metrics"></div><h2 style="margin-top:24px">Readability Metrics</h2><div class="focus-metric-grid" id="focus-readability-metrics"></div><h2 style="margin-top:24px">Writing Goal</h2><div class="focus-row"><label>Target word count<input id="focus-word-goal" type="number" min="1" value="500"></label><div class="focus-metric"><span>Goal progress</span><strong id="focus-goal-percent">0%</strong><progress id="focus-goal-meter" class="focus-progress" max="100" value="0"></progress></div></div><p class="focus-muted">Readability indicators are estimates; formal grade scores require language-aware syllable counting.</p></section>
-      </section>
-
-      <!-- Additional tools now live inside the same primary workspace flow. -->
-<div id="uv-extra-tools" class="workspace-inline-tools" aria-label="Additional writing tools">
+      <div id="uv-extra-tools" class="workspace-inline-tools" aria-label="Additional writing tools">
   
   <div class="uv-tools-grid" id="uv-tools-grid">
     <article class="uv-tool" id="uv-flow-tool"><h3>1. Sentence Flow Checker</h3><p>Review sentence-length variation. This is a readability heuristic, not an AI quality judgment.</p><textarea id="uv-flow-input" placeholder="Paste text to check sentence flow"></textarea><button type="button" id="uv-flow-run">Check sentence flow</button><div class="uv-result" id="uv-flow-result" aria-live="polite">Your sentence analysis will appear here.</div></article>
@@ -1637,6 +1644,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
     <article class="uv-tool" id="uv-daily-tool"><h3>10. Daily Writing Tracker</h3><p>Track words typed in this page by day on this browser. Data stays in local storage and can be cleared.</p><div class="uv-stats"><span class="uv-stat" id="uv-daily-today">Today: 0 words</span><span class="uv-stat" id="uv-daily-week">7-day total: 0 words</span></div><div class="uv-result" id="uv-daily-history" aria-live="polite">Your daily writing activity will appear here.</div><button type="button" id="uv-daily-clear">Clear writing history</button><p class="uv-muted">Privacy note: clearing browser storage or using another device/browser can remove or separate this history.</p></article>
   </div>
 </div>
+      </section>
 
       <!-- Visual Text Analytics & Distribution Charts -->
       <section class="focus-tool-panel" data-focus-panel="case" hidden><h2>Text Cleaner &amp; Case Converter</h2><p class="focus-muted">Actions instantly update the shared editor text.</p><div class="focus-action-grid"><button class="focus-action" data-buffer-action="spaces" type="button">Clear extra spaces</button><button class="focus-action" data-buffer-action="html" type="button">Strip HTML tags</button><button class="focus-action" data-buffer-action="upper" type="button">Convert to UPPERCASE</button><button class="focus-action" data-buffer-action="lower" type="button">Convert to lowercase</button><button class="focus-action" data-buffer-action="title" type="button">Convert to Title Case</button><button class="focus-action" data-buffer-action="sentence" type="button">Sentence case</button></div><p class="focus-status" id="focus-case-status" role="status"></p></section>
@@ -2560,7 +2568,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 
 // Focused feature workspaces: keep the live dashboard visible, show only the selected tool below it.
 (function(){
- const nav=[...document.querySelectorAll('.premium-sidebar .side-link')];
+ const nav=[...document.querySelectorAll('.premium-sidebar .side-link:not(.extra-tool-link)')];
  const editor=document.getElementById('editor-workspace');
  const metrics=document.querySelector('.section-heading');
  const metricGrid=document.querySelector('.metrics-grid-row[aria-label="Live Content Analysis Summary"]');
@@ -2605,7 +2613,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 <script>
 (function(){'use strict';
 const editor=document.getElementById('main-textarea'),workspace=document.getElementById('focused-tools-workspace');if(!editor||!workspace)return;
-const panels=[...workspace.querySelectorAll('[data-focus-panel]')],nav=[...document.querySelectorAll('.premium-sidebar .side-link')],$=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const panels=[...workspace.querySelectorAll('[data-focus-panel]')],nav=[...document.querySelectorAll('.premium-sidebar .side-link:not(.extra-tool-link)')],$=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const menuButton=$('mobile-menu-toggle'),menuOverlay=$('mobile-menu-overlay'),sidebar=$('premium-sidebar'),drawerClose=$('drawer-close-btn');
 function setMobileMenu(open){if(!menuButton||!menuOverlay||!sidebar)return;document.body.classList.toggle('mobile-menu-open',open);menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');menuButton.textContent=open?'×':'☰';menuOverlay.setAttribute('aria-hidden',String(!open));}
@@ -2789,6 +2797,12 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
 #uv-extra-tools{width:100%;max-width:none;margin:18px 0 28px;padding:0;color:var(--text,#111827);background:transparent;border:0;border-radius:0;font-family:var(--font-sans,Arial,sans-serif)}
 #uv-extra-tools *{box-sizing:border-box}
 #uv-extra-tools .uv-tools-intro{color:var(--text-muted,#6b7280);margin:6px 0 20px}
+#premium-sidebar{overflow-y:auto;overflow-x:hidden}
+#premium-sidebar .extra-tool-link{font-size:12px;padding:10px 12px;gap:12px}
+#uv-extra-tools{margin:0 0 20px;width:100%}
+#uv-extra-tools .uv-tools-grid{display:block;width:100%}
+#uv-extra-tools .uv-tool{display:none}
+#uv-extra-tools .uv-tool.is-sidebar-active{display:block}
 #uv-extra-tools .uv-tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start;width:100%}
 #uv-extra-tools .uv-tool{min-width:0;padding:0;border:1px solid var(--card-border,#e5e7eb);border-radius:12px;background:var(--card-bg,#fff);overflow:hidden}
 #uv-extra-tools .uv-tool h3{font-size:15px;line-height:1.35;margin:0;padding:15px 14px;min-height:70px;display:flex;align-items:center;cursor:pointer;position:relative;padding-right:36px}
@@ -2825,6 +2839,21 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
   const words = t => (String(t||'').match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu)||[]);
   const sentences = t => String(t||'').split(/[.!?]+(?:\s|$)/).map(s=>s.trim()).filter(Boolean);
   const syllables = word => {let w=String(word).toLowerCase().replace(/[^a-z]/g,'');if(!w)return 1;if(w.length<=3)return 1;w=w.replace(/e$/,'').replace(/(?:[^laeiouy]es|ed)$/,'');const m=w.match(/[aeiouy]+/g);return Math.max(1,m?m.length:1);};
+  // Sidebar navigation for the 10 extra writing tools.
+  document.querySelectorAll('.extra-tool-link').forEach(link=>link.addEventListener('click',event=>{
+    event.preventDefault();
+    const id=link.dataset.extraTool, card=document.getElementById(id), workspace=document.getElementById('focused-tools-workspace');
+    if(!card||!workspace)return;
+    workspace.hidden=false;
+    workspace.querySelectorAll('[data-focus-panel]').forEach(panel=>panel.hidden=true);
+    document.querySelectorAll('#uv-extra-tools .uv-tool').forEach(tool=>{tool.classList.remove('is-sidebar-active');tool.classList.remove('is-open');const h=tool.querySelector('h3');if(h)h.setAttribute('aria-expanded','false');});
+    card.classList.add('is-sidebar-active','is-open');
+    const heading=card.querySelector('h3');if(heading)heading.setAttribute('aria-expanded','true');
+    document.querySelectorAll('.premium-sidebar .side-link').forEach(item=>{item.classList.toggle('active',item===link);if(item===link)item.setAttribute('aria-current','page');else item.removeAttribute('aria-current');});
+    const welcome=document.querySelector('.dashboard-welcome h2');if(welcome)welcome.textContent=heading?heading.textContent.replace(/^\\d+\\.\\s*/, ''):'Writing Tool';
+    card.scrollIntoView({behavior:'smooth',block:'start'});
+    if(window.innerWidth<=767){document.body.classList.remove('mobile-menu-open');const btn=document.getElementById('mobile-menu-toggle'),overlay=document.getElementById('mobile-menu-overlay');if(btn){btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Open navigation menu');btn.textContent='☰';}if(overlay)overlay.setAttribute('aria-hidden','true');}
+  }));
   // Collapsible tool directory: keep the 10 names visible and open one tool on demand.
   document.querySelectorAll('#uv-extra-tools .uv-tool').forEach((card,index)=>{
     const heading=card.querySelector('h3');

@@ -2772,9 +2772,18 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
 #uv-extra-tools{max-width:1180px;margin:36px auto;padding:clamp(16px,3vw,28px);color:var(--text,#111827);background:var(--card-bg,#fff);border:1px solid var(--card-border,#e5e7eb);border-radius:18px;font-family:var(--font-sans,Arial,sans-serif)}
 #uv-extra-tools *{box-sizing:border-box}
 #uv-extra-tools .uv-tools-intro{color:var(--text-muted,#6b7280);margin:6px 0 20px}
-#uv-extra-tools .uv-tools-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-#uv-extra-tools .uv-tool{min-width:0;padding:18px;border:1px solid var(--card-border,#e5e7eb);border-radius:14px;background:var(--bg,#f8fafc)}
-#uv-extra-tools .uv-tool h3{font-size:17px;line-height:1.35;margin:0 0 8px}
+#uv-extra-tools .uv-tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+#uv-extra-tools .uv-tool{min-width:0;padding:0;border:1px solid var(--card-border,#e5e7eb);border-radius:12px;background:var(--bg,#f8fafc);overflow:hidden}
+#uv-extra-tools .uv-tool h3{font-size:15px;line-height:1.35;margin:0;padding:15px 14px;min-height:70px;display:flex;align-items:center;cursor:pointer;position:relative;padding-right:36px}
+#uv-extra-tools .uv-tool h3:after{content:'+';position:absolute;right:14px;font-size:22px;font-weight:400}
+#uv-extra-tools .uv-tool.is-open h3{background:#111;color:#fff}
+#uv-extra-tools .uv-tool.is-open h3:after{content:'−'}
+#uv-extra-tools .uv-tool:not(.is-open)>:not(h3){display:none!important}
+#uv-extra-tools .uv-tool.is-open{grid-column:1/-1;padding:16px}
+#uv-extra-tools .uv-tool.is-open h3{margin:-16px -16px 14px;padding:15px 14px}
+#uv-extra-tools .uv-tool.is-open h3:after{right:30px}
+#uv-extra-tools .uv-tool p{margin:0 0 12px}
+#uv-extra-tools .uv-tool.is-open textarea,#uv-extra-tools .uv-tool.is-open input,#uv-extra-tools .uv-tool.is-open select{display:block}
 #uv-extra-tools .uv-tool p{font-size:13px;color:var(--text-muted,#6b7280);margin:0 0 12px}
 #uv-extra-tools textarea,#uv-extra-tools input,#uv-extra-tools select{display:block;width:100%;min-width:0;padding:10px 12px;margin:8px 0;border:1px solid var(--card-border,#d1d5db);border-radius:9px;background:var(--card-bg,#fff);color:var(--text,#111827);font:inherit}
 #uv-extra-tools textarea{min-height:100px;resize:vertical}
@@ -2789,11 +2798,12 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
 #uv-extra-tools .uv-limit-track{height:8px;border-radius:20px;background:var(--card-border,#e5e7eb);overflow:hidden;margin:8px 0}
 #uv-extra-tools .uv-limit-fill{height:100%;width:0;background:#10b981;transition:width .15s}
 #uv-extra-tools .uv-limit-fill.over{background:#ef4444}
-@media(max-width:700px){#uv-extra-tools{margin:22px 0;border-radius:0;padding:16px 12px}#uv-extra-tools .uv-tools-grid{grid-template-columns:minmax(0,1fr)}#uv-extra-tools .uv-tool{padding:14px}}
+@media(min-width:701px) and (max-width:980px){#uv-extra-tools .uv-tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#uv-extra-tools{margin:22px 0;border-radius:0;padding:16px 12px}#uv-extra-tools .uv-tools-grid{grid-template-columns:minmax(0,1fr)}#uv-extra-tools .uv-tool h3{min-height:0;padding:14px}#uv-extra-tools .uv-tool.is-open{grid-column:1}}
 </style>
 <section id="uv-extra-tools" aria-labelledby="uv-extra-tools-title">
-  <h2 id="uv-extra-tools-title">10 More Free Writing Tools</h2>
-  <p class="uv-tools-intro">Useful browser-based tools for writers, students and social media creators. Your text is processed on this page; these tools do not send it to an external API.</p>
+  <h2 id="uv-extra-tools-title">More Writing Tools</h2>
+  <p class="uv-tools-intro">Choose a tool below to open it. The tools are arranged in three columns on larger screens and one column on phones. Your text is processed on this page.</p>
   <div class="uv-tools-grid">
     <article class="uv-tool" id="uv-flow-tool"><h3>1. Sentence Flow Checker</h3><p>Review sentence-length variation. This is a readability heuristic, not an AI quality judgment.</p><textarea id="uv-flow-input" placeholder="Paste text to check sentence flow"></textarea><button type="button" id="uv-flow-run">Check sentence flow</button><div class="uv-result" id="uv-flow-result" aria-live="polite">Your sentence analysis will appear here.</div></article>
     <article class="uv-tool" id="uv-diff-tool"><h3>2. Text Comparison</h3><p>Compare two versions and highlight words found only on one side. This is a quick token comparison, not a legal redline.</p><label for="uv-diff-a">Original text</label><textarea id="uv-diff-a" placeholder="Paste original text"></textarea><label for="uv-diff-b">Revised text</label><textarea id="uv-diff-b" placeholder="Paste revised text"></textarea><button type="button" id="uv-diff-run">Compare text</button><div class="uv-result" id="uv-diff-result" aria-live="polite">Comparison results will appear here.</div></article>
@@ -2815,6 +2825,29 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
   const words = t => (String(t||'').match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu)||[]);
   const sentences = t => String(t||'').split(/[.!?]+(?:\s|$)/).map(s=>s.trim()).filter(Boolean);
   const syllables = word => {let w=String(word).toLowerCase().replace(/[^a-z]/g,'');if(!w)return 1;if(w.length<=3)return 1;w=w.replace(/e$/,'').replace(/(?:[^laeiouy]es|ed)$/,'');const m=w.match(/[aeiouy]+/g);return Math.max(1,m?m.length:1);};
+  // Collapsible tool directory: keep the 10 names visible and open one tool on demand.
+  document.querySelectorAll('#uv-extra-tools .uv-tool').forEach((card,index)=>{
+    const heading=card.querySelector('h3');
+    heading.setAttribute('role','button');
+    heading.setAttribute('tabindex','0');
+    heading.setAttribute('aria-expanded','false');
+    heading.setAttribute('aria-controls',card.id+'-content');
+    const body=document.createElement('div');
+    body.id=card.id+'-content';
+    body.className='uv-tool-content';
+    while(heading.nextSibling) body.appendChild(heading.nextSibling);
+    card.appendChild(body);
+    const toggle=()=>{
+      const open=!card.classList.contains('is-open');
+      document.querySelectorAll('#uv-extra-tools .uv-tool.is-open').forEach(other=>{
+        other.classList.remove('is-open');
+        const h=other.querySelector('h3');if(h)h.setAttribute('aria-expanded','false');
+      });
+      if(open){card.classList.add('is-open');heading.setAttribute('aria-expanded','true');}
+    };
+    heading.addEventListener('click',toggle);
+    heading.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});
+  });
   // 1: sentence-flow heuristic
   $('uv-flow-run').addEventListener('click',()=>{
     const list=sentences($('uv-flow-input').value),lens=list.map(s=>words(s).length),total=lens.reduce((a,b)=>a+b,0);

@@ -221,7 +221,7 @@
         <div class="nav-left">
           <span style="color:var(--text-muted); font-size:12px;">/ Stopwatch & Timer</span>
         </div>
-        <button class="theme-toggle-btn" id="theme-toggle">☀️ Theme</button>
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">☀️</button>
       </div>
       <h1>Stop Watch Timer Online</h1>
       <p class="subtitle">Use this free online stopwatch to measure elapsed time, record lap times and split times, or switch to an online countdown timer. The fullscreen stopwatch is useful for studying, workouts, cooking, presentations, and focused work.</p>
@@ -564,7 +564,7 @@
       var theme = localStorage.getItem("omnitool_theme") || "light";
       function syncThemeButton() {
         if (!themeToggle) return;
-        themeToggle.textContent = (theme === "light" ? "🌙" : "☀️") + " Theme";
+        themeToggle.textContent = theme === "light" ? "🌙" : "☀️";
         themeToggle.setAttribute("aria-label", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
         themeToggle.setAttribute("title", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
       }

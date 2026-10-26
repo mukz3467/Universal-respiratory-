@@ -638,5 +638,32 @@ html body [role="button"].click-black * { color: inherit !important; }
 })();
 </script>
 
+
+<style id="utilivanta-stopwatch-final-button-override">
+/* Stopwatch fix: legacy .active/.is-selected/primary styles must not keep old buttons black. */
+html body button:not(.click-black):not(.click-black):not(.click-black),
+html body input[type="button"]:not(.click-black):not(.click-black):not(.click-black),
+html body input[type="submit"]:not(.click-black):not(.click-black):not(.click-black),
+html body input[type="reset"]:not(.click-black):not(.click-black):not(.click-black),
+html body [role="button"]:not(.click-black):not(.click-black):not(.click-black) {
+  background: #f3f4f6 !important;
+  color: #222 !important;
+  border-color: #e5e7eb !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+html body button.click-black,
+html body input[type="button"].click-black,
+html body input[type="submit"].click-black,
+html body input[type="reset"].click-black,
+html body [role="button"].click-black {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.12) !important;
+  filter: none !important;
+}
+</style>
+
 </body>
 </html>

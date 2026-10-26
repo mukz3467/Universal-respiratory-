@@ -2830,6 +2830,24 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
   const extraToolsSection=document.getElementById('uv-extra-tools');
   const extraToolsMenu=document.getElementById('uv-tools-menu-toggle');
   const extraToolsState=document.getElementById('uv-tools-toggle-state');
+  // Move the floating switch directly under body so parent layout/overflow styles cannot clip it.
+  document.body.appendChild(extraToolsMenu);
+  extraToolsMenu.style.position='fixed';
+  extraToolsMenu.style.top='82px';
+  extraToolsMenu.style.right='16px';
+  extraToolsMenu.style.zIndex='99999';
+  extraToolsMenu.style.display='flex';
+  extraToolsMenu.style.visibility='visible';
+  extraToolsMenu.style.pointerEvents='auto';
+  extraToolsMenu.style.padding='11px 14px';
+  extraToolsMenu.style.borderRadius='999px';
+  extraToolsMenu.style.background='#f3f4f6';
+  extraToolsMenu.style.color='#222';
+  extraToolsMenu.style.border='1px solid #e5e7eb';
+  extraToolsMenu.style.fontWeight='800';
+  extraToolsMenu.style.boxShadow='0 8px 24px rgba(15,23,42,.18)';
+  extraToolsMenu.style.whiteSpace='nowrap';
+  if(window.matchMedia('(max-width: 700px)').matches){extraToolsMenu.style.top='74px';extraToolsMenu.style.right='10px';extraToolsMenu.style.padding='9px 12px';extraToolsMenu.style.fontSize='12px';}
   extraToolsMenu.addEventListener('click',()=>{
     const open=extraToolsMenu.getAttribute('aria-expanded')!=='true';
     extraToolsMenu.setAttribute('aria-expanded',String(open));

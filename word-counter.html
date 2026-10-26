@@ -2772,7 +2772,7 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
 #uv-extra-tools{max-width:1180px;margin:36px auto;padding:clamp(16px,3vw,28px);color:var(--text,#111827);background:var(--card-bg,#fff);border:1px solid var(--card-border,#e5e7eb);border-radius:18px;font-family:var(--font-sans,Arial,sans-serif)}
 #uv-extra-tools *{box-sizing:border-box}
 #uv-extra-tools .uv-tools-intro{color:var(--text-muted,#6b7280);margin:6px 0 20px}
-#uv-extra-tools .uv-tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+#uv-extra-tools .uv-tools-grid{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}#uv-extra-tools.uv-menu-open .uv-tools-grid{display:grid}#uv-extra-tools .uv-menu-toggle{display:flex;align-items:center;gap:12px;width:100%;padding:13px 15px;margin:12px 0 16px;border:1px solid var(--card-border,#d1d5db);border-radius:12px;background:var(--bg,#f8fafc);color:var(--text,#111827);font-size:15px;font-weight:700;text-align:left;cursor:pointer}#uv-extra-tools .uv-hamburger{display:inline-flex;flex-direction:column;gap:4px;width:22px;flex-shrink:0}#uv-extra-tools .uv-hamburger span{display:block;width:22px;height:2px;border-radius:2px;background:currentColor}#uv-extra-tools .uv-menu-toggle[aria-expanded="true"]{background:#111;color:#fff;border-color:#111}
 #uv-extra-tools .uv-tool{min-width:0;padding:0;border:1px solid var(--card-border,#e5e7eb);border-radius:12px;background:var(--bg,#f8fafc);overflow:hidden}
 #uv-extra-tools .uv-tool h3{font-size:15px;line-height:1.35;margin:0;padding:15px 14px;min-height:70px;display:flex;align-items:center;cursor:pointer;position:relative;padding-right:36px}
 #uv-extra-tools .uv-tool h3:after{content:'+';position:absolute;right:14px;font-size:22px;font-weight:400}
@@ -2803,8 +2803,9 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
 </style>
 <section id="uv-extra-tools" aria-labelledby="uv-extra-tools-title">
   <h2 id="uv-extra-tools-title">More Writing Tools</h2>
-  <p class="uv-tools-intro">Choose a tool below to open it. The tools are arranged in three columns on larger screens and one column on phones. Your text is processed on this page.</p>
-  <div class="uv-tools-grid">
+  <p class="uv-tools-intro">Tap the three-line menu to show the 10 extra tools. Then choose a tool name to open it.</p>
+  <button type="button" class="uv-menu-toggle" id="uv-tools-menu-toggle" aria-expanded="false" aria-controls="uv-tools-grid"><span class="uv-hamburger" aria-hidden="true"><span></span><span></span><span></span></span><span>More Writing Tools (10)</span></button>
+  <div class="uv-tools-grid" id="uv-tools-grid">
     <article class="uv-tool" id="uv-flow-tool"><h3>1. Sentence Flow Checker</h3><p>Review sentence-length variation. This is a readability heuristic, not an AI quality judgment.</p><textarea id="uv-flow-input" placeholder="Paste text to check sentence flow"></textarea><button type="button" id="uv-flow-run">Check sentence flow</button><div class="uv-result" id="uv-flow-result" aria-live="polite">Your sentence analysis will appear here.</div></article>
     <article class="uv-tool" id="uv-diff-tool"><h3>2. Text Comparison</h3><p>Compare two versions and highlight words found only on one side. This is a quick token comparison, not a legal redline.</p><label for="uv-diff-a">Original text</label><textarea id="uv-diff-a" placeholder="Paste original text"></textarea><label for="uv-diff-b">Revised text</label><textarea id="uv-diff-b" placeholder="Paste revised text"></textarea><button type="button" id="uv-diff-run">Compare text</button><div class="uv-result" id="uv-diff-result" aria-live="polite">Comparison results will appear here.</div></article>
     <article class="uv-tool" id="uv-typing-tool"><h3>3. Typing Speed Test</h3><p>Type the passage as accurately as possible. The timer starts when you begin typing.</p><div class="uv-result" id="uv-typing-passage">Good writing becomes easier when you practice a little every day.</div><textarea id="uv-typing-input" placeholder="Start typing the passage above…" autocomplete="off" autocapitalize="off"></textarea><button type="button" id="uv-typing-reset">Restart test</button><div class="uv-stats"><span class="uv-stat" id="uv-typing-time">Time: 0s</span><span class="uv-stat" id="uv-typing-wpm">Speed: 0 WPM</span><span class="uv-stat" id="uv-typing-accuracy">Accuracy: 100%</span></div><div class="uv-result" id="uv-typing-result" aria-live="polite">Start typing to begin.</div></article>
@@ -2825,6 +2826,20 @@ html[data-theme="dark"] :is(.editor-card textarea,.premium-main input,.premium-m
   const words = t => (String(t||'').match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu)||[]);
   const sentences = t => String(t||'').split(/[.!?]+(?:\s|$)/).map(s=>s.trim()).filter(Boolean);
   const syllables = word => {let w=String(word).toLowerCase().replace(/[^a-z]/g,'');if(!w)return 1;if(w.length<=3)return 1;w=w.replace(/e$/,'').replace(/(?:[^laeiouy]es|ed)$/,'');const m=w.match(/[aeiouy]+/g);return Math.max(1,m?m.length:1);};
+  // Three-line menu hides the extra tool names until requested.
+  const extraToolsSection=document.getElementById('uv-extra-tools');
+  const extraToolsMenu=document.getElementById('uv-tools-menu-toggle');
+  extraToolsMenu.addEventListener('click',()=>{
+    const open=extraToolsMenu.getAttribute('aria-expanded')!=='true';
+    extraToolsMenu.setAttribute('aria-expanded',String(open));
+    extraToolsSection.classList.toggle('uv-menu-open',open);
+    if(!open){
+      document.querySelectorAll('#uv-extra-tools .uv-tool.is-open').forEach(card=>{
+        card.classList.remove('is-open');
+        const h=card.querySelector('h3');if(h)h.setAttribute('aria-expanded','false');
+      });
+    }
+  });
   // Collapsible tool directory: keep the 10 names visible and open one tool on demand.
   document.querySelectorAll('#uv-extra-tools .uv-tool').forEach((card,index)=>{
     const heading=card.querySelector('h3');

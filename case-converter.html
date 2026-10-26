@@ -963,22 +963,18 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
 .case-panel-status{font-size:13px;color:#6b7280;margin-top:14px}.case-check{display:flex;gap:10px;align-items:center;padding:12px 0;font-size:14px}.case-check input{width:17px;height:17px}
 .case-frequency-table-wrap{width:100%;overflow-x:auto;margin-top:16px;border:1px solid #e5e7eb;border-radius:12px}.case-frequency-table{width:100%;border-collapse:collapse;text-align:left}.case-frequency-table th,.case-frequency-table td{padding:12px 14px;border-bottom:1px solid #e5e7eb}.case-frequency-table th{font-size:12px;text-transform:uppercase;letter-spacing:.04em}.case-frequency-table tr:last-child td{border-bottom:0}
 @media(max-width:600px){.case-analysis-card{padding:14px}.case-analysis-card>strong{font-size:22px}.case-tool-view{margin:14px auto}}
-body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-section-title,body[data-case-view]:not([data-case-view="converter"]) #case-workspace>.btn-case-grid,body[data-case-view]:not([data-case-view="converter"]) #case-workspace .sample-pill-row{display:none!important}.case-transform-menu{margin:5px 0 10px;border-bottom:1px solid var(--premium-line,#e5e7eb);padding:0 0 10px}
-.case-transform-menu summary{display:flex;align-items:center;gap:10px;list-style:none;cursor:pointer;padding:11px 13px;border-radius:10px;color:var(--premium-text,#111827);font-size:13px;font-weight:650}
-.case-transform-menu summary::-webkit-details-marker{display:none}
-.case-transform-menu summary:after{content:"⌄";margin-left:auto;font-size:16px}
-.case-transform-menu[open] summary:after{content:"⌃"}
-.case-transform-submenu{display:grid;grid-template-columns:1fr;gap:5px;padding:5px 0 4px 12px}
-.case-transform-submenu .btn-case{width:100%;min-height:34px;text-align:left;justify-content:flex-start;padding:8px 10px;border-radius:8px;font-size:12px;box-shadow:none}
-.case-transform-submenu .btn-case strong{font-size:12px}
-.case-transform-submenu .btn-case:hover{transform:none}
-#case-workspace .case-section-title,#case-workspace>.btn-case-grid{display:none!important}
+body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-format-picker,body[data-case-view]:not([data-case-view="converter"]) #case-workspace .sample-pill-row{display:none!important}
+.case-format-picker{margin:22px 0 10px;padding:18px;border:1px solid var(--card-border,#e5e7eb);border-radius:16px;background:var(--card-bg,#fff)}
+.case-format-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.case-format-heading-row h2{margin:0;color:var(--text,#111827);font-size:18px;font-weight:800}
+.case-format-heading-row p{margin:5px 0 0;color:var(--text-muted,#6b7280);font-size:13px}
+.case-format-grid{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:0}
+.case-format-grid .btn-case{min-width:0;min-height:76px;padding:12px 9px;background:var(--bg,#fff);border:1px solid var(--card-border,#e5e7eb);border-radius:12px;overflow-wrap:anywhere}
+.case-format-grid .btn-case strong{font-size:13px;line-height:1.35}
+.case-format-grid .btn-case .case-desc{font-size:11px;line-height:1.4;overflow-wrap:anywhere}
+.case-format-grid .btn-case:focus-visible{outline:3px solid var(--primary,#0891b2);outline-offset:2px}
+@media(max-width:600px){.case-format-picker{padding:13px;margin-top:18px}.case-format-heading-row h2{font-size:17px}.case-format-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.case-format-grid .btn-case{min-height:72px;padding:10px 6px}}
 
-.case-transform-menu[open] .case-transform-submenu{display:grid!important;visibility:visible!important;opacity:1!important;height:auto!important;max-height:none!important;overflow:visible!important}
-.case-transform-menu:not([open]) .case-transform-submenu{display:none!important}
-/* Keep transformation-format section exclusively inside the three-line navigation menu. */
-#case-workspace > .case-section-title,
-#case-workspace > .btn-case-grid { display: none !important; }
 
 /* Floating Bolt-style Hub Home shortcut */
 #hub-home-float{position:fixed;right:22px;bottom:22px;z-index:9999;display:flex;align-items:center;justify-content:center;gap:9px;min-width:66px;height:66px;padding:0 18px;border:2px solid #fff;border-radius:999px;background:linear-gradient(145deg,#20242c,#080a0e);color:#fff;text-decoration:none;font:800 15px/1 system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.28),0 0 0 4px rgba(16,185,129,.15);transition:transform .2s ease,box-shadow .2s ease}
@@ -1019,24 +1015,7 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
       <div class="premium-brand-row"><a class="premium-brand" href="/" aria-label="OmniTool Global Hub home"><span class="brand-mark">O</span><span><strong>OmniTool Global</strong><small>WRITING STUDIO</small></span></a><button class="drawer-close-btn" id="drawer-close-btn" type="button" aria-label="Close navigation menu">×</button></div>
       <div class="sidebar-label">WORKSPACE</div>
       <a class="side-link active" href="#case-workspace" data-case-view="converter">Aa <span>Case Converter</span></a>
-      <details class="case-transform-menu" open>
-        <summary>⚡ <span>Select Case Transformation</span></summary>
-        <div class="case-transform-submenu">
-          <button class="btn-case" data-case="upper" type="button">UPPERCASE</button>
-          <button class="btn-case" data-case="lower" type="button">lowercase</button>
-          <button class="btn-case" data-case="sentence" type="button">Sentence case</button>
-          <button class="btn-case" data-case="title" type="button">Title Case</button>
-          <button class="btn-case" data-case="capitalized" type="button">Capitalized Case</button>
-          <button class="btn-case" data-case="alternating" type="button">aLtErNaTiNg cAsE</button>
-          <button class="btn-case" data-case="inverse" type="button">iNVERSE cASE</button>
-          <button class="btn-case" data-case="camel" type="button">camelCase</button>
-          <button class="btn-case" data-case="pascal" type="button">PascalCase</button>
-          <button class="btn-case" data-case="kebab" type="button">kebab-case</button>
-          <button class="btn-case" data-case="snake" type="button">snake_case</button>
-          <button class="btn-case" data-case="constant" type="button">CONSTANT_CASE</button>
-          <button class="btn-case" data-case="clean" type="button">Clean Extra Spaces</button>
-        </div>
-      </details>
+
       <a class="side-link" href="#view-analyzer" data-case-view="analyzer">◉ <span>Case Analyzer</span></a>
       <a class="side-link" href="#view-find" data-case-view="find">⌕ <span>Find &amp; Replace</span></a>
       <a class="side-link" href="#view-cleaner" data-case-view="cleaner">✧ <span>Text Cleaner</span></a>
@@ -1047,7 +1026,6 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
     </aside>
     <div class="premium-main">
       <div class="premium-topbar">
-        <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="premium-sidebar">☰</button>
         <div><span class="eyebrow">YOUR WRITING WORKSPACE</span><h2>Case Converter <span class="live-dot"></span></h2></div>
         <div class="topbar-right"><span class="privacy-chip">🔒 Private &amp; secure</span><a href="/" class="top-home">← Hub Home</a></div>
       </div>
@@ -1114,7 +1092,30 @@ body[data-case-view]:not([data-case-view="converter"]) #case-workspace .case-sec
           </div>
         </div>
 
-        <!-- Transformation buttons are available only in the three-line sidebar menu. -->
+        <!-- Visual case-format selector: tap any card to transform the text above. -->
+        <section class="case-format-picker" aria-labelledby="case-format-heading">
+          <div class="case-format-heading-row">
+            <div>
+              <h2 id="case-format-heading">Choose a Text Format</h2>
+              <p>Tap any format to convert your text instantly.</p>
+            </div>
+          </div>
+          <div class="btn-case-grid case-format-grid">
+            <button class="btn-case" data-case="upper" type="button"><strong>UPPERCASE</strong><span class="case-desc">HELLO WORLD</span></button>
+            <button class="btn-case" data-case="lower" type="button"><strong>lowercase</strong><span class="case-desc">hello world</span></button>
+            <button class="btn-case" data-case="sentence" type="button"><strong>Sentence case</strong><span class="case-desc">Hello world.</span></button>
+            <button class="btn-case" data-case="title" type="button"><strong>Title Case</strong><span class="case-desc">Hello World</span></button>
+            <button class="btn-case" data-case="capitalized" type="button"><strong>Capitalized Case</strong><span class="case-desc">Hello World</span></button>
+            <button class="btn-case" data-case="alternating" type="button"><strong>aLtErNaTiNg cAsE</strong><span class="case-desc">hElLo WoRlD</span></button>
+            <button class="btn-case" data-case="inverse" type="button"><strong>iNVERSE cASE</strong><span class="case-desc">hELLO wORLD</span></button>
+            <button class="btn-case" data-case="camel" type="button"><strong>camelCase</strong><span class="case-desc">helloWorld</span></button>
+            <button class="btn-case" data-case="pascal" type="button"><strong>PascalCase</strong><span class="case-desc">HelloWorld</span></button>
+            <button class="btn-case" data-case="kebab" type="button"><strong>kebab-case</strong><span class="case-desc">hello-world</span></button>
+            <button class="btn-case" data-case="snake" type="button"><strong>snake_case</strong><span class="case-desc">hello_world</span></button>
+            <button class="btn-case" data-case="constant" type="button"><strong>CONSTANT_CASE</strong><span class="case-desc">HELLO_WORLD</span></button>
+            <button class="btn-case" data-case="clean" type="button"><strong>Clean Extra Spaces</strong><span class="case-desc">Remove extra spaces</span></button>
+          </div>
+        </section>
 
         <!-- 5. Quick Sample Data -->
         <div class="sample-pill-row">

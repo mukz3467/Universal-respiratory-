@@ -221,7 +221,6 @@
         <div class="nav-left">
           <span style="color:var(--text-muted); font-size:12px;">/ Stopwatch & Timer</span>
         </div>
-        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">☀️</button>
       </div>
       <h1>Stop Watch Timer Online</h1>
       <p class="subtitle">Use this free online stopwatch to measure elapsed time, record lap times and split times, or switch to an online countdown timer. The fullscreen stopwatch is useful for studying, workouts, cooking, presentations, and focused work.</p>
@@ -559,23 +558,9 @@
         document.getElementById("panel-sw").style.display = "none";
       });
 
-      // Theme
-      var themeToggle = document.getElementById("theme-toggle");
+      // Apply the saved site theme without displaying a theme toggle on this page.
       var theme = localStorage.getItem("omnitool_theme") || "light";
-      function syncThemeButton() {
-        if (!themeToggle) return;
-        themeToggle.textContent = theme === "light" ? "🌙" : "☀️";
-        themeToggle.setAttribute("aria-label", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
-        themeToggle.setAttribute("title", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
-      }
       document.documentElement.setAttribute("data-theme", theme);
-      syncThemeButton();
-      themeToggle.addEventListener("click", function() {
-        theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", theme);
-        localStorage.setItem("omnitool_theme", theme);
-        syncThemeButton();
-      });
     })();
   </script>
 
